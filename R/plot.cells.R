@@ -1,0 +1,121 @@
+
+#3.plot.cells----
+plot.cells<-function(input,year=FALSE,interact=FALSE){
+      if(missing(year)){year<-FALSE}
+      if(missing(interact)){interact<-FALSE}
+      if(missing(year)){year<-FALSE}
+      if(missing(interact)){interact<-FALSE}
+      if(missing(year)==FALSE){ if(is.numeric(year)==FALSE & year!=FALSE | is.numeric(year)==FALSE & is.na(year)==TRUE)stop('year is not as.numeric')}
+      if(missing(interact)==FALSE){ if((interact==TRUE|interact==FALSE)==FALSE)stop('interact is not TRUE/FALSE')}
+      if( (is.numeric(year)==FALSE&interact==FALSE)| (missing(year))&missing(interact) | ((year==FALSE)==TRUE&interact==FALSE) | ((year==FALSE)==TRUE&missing(interact)) ){
+            for(c in c(1:length(unique(input[,"YEAR"])))){
+                  iso<-input[which(input[,"YEAR"]==unique(input[,"YEAR"])[c]),]
+                  if(nrow(iso)==0){next}
+                  layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+                  par(mar=c(3,5,3,1))
+                  plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+                  axis(side=1,at=unique(input[,"YEAR"]))
+                  abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
+                  iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
+                  iso[,"YCAL"]<-iso[,"YCAL"]-min(iso[,"YCAL"],na.rm=TRUE)
+                  polygon(c(unique(input[,"YEAR"])[c]-0.5,unique(input[,"YEAR"])[c]+0.5,unique(input[,"YEAR"])[c]+0.5,unique(input[,"YEAR"])[c]-0.5),c(0,0,2,2),col="grey")
+                  for(c in c(1:length(unique(input[,"YEAR"])))){text(unique(input[,"YEAR"])[c],1,paste(length(which(is.na(input[which(input[,"YEAR"]==unique(input[,"YEAR"])[c]),][,"CA"])==FALSE)),sep=""),font=3,cex=0.8)}
+                  par(mar=c(5,5,0,1))
+                  plot(iso[,"XCAL"],iso[,"YCAL"],ylab="Rel. Y-coordinates (micron)",xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
+                  nrcells<-nrow(iso)
+                  iso[,"SQRLENGTH"]<-sqrt(iso[,"CA"])
+                  for(i in c(1:nrcells)){
+                        polygon(c((iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2))
+                                ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
+                        text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}}}
+      if(is.numeric(year)==TRUE&interact==FALSE | is.numeric(year)==TRUE & missing(interact)==TRUE){
+            if(nrow(input[which(input[,"YEAR"]==year),])==0)stop('year is not present in data.frame')
+            iso<-input[which(input[,"YEAR"]==year),]
+            layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+            par(mar=c(3,5,3,1))
+            plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+            axis(side=1,at=unique(input[,"YEAR"]))
+            abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
+            iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
+            iso[,"YCAL"]<-iso[,"YCAL"]-min(iso[,"YCAL"],na.rm=TRUE)
+            polygon(c(year-0.5,year+0.5,year+0.5,year-0.5),c(0,0,2,2),col="grey")
+            for(c in c(1:length(unique(input[,"YEAR"])))){text(unique(input[,"YEAR"])[c],1,paste(length(which(is.na(input[which(input[,"YEAR"]==unique(input[,"YEAR"])[c]),][,"CA"])==FALSE)),sep=""),font=3,cex=0.8)}
+            par(mar=c(5,5,0,1))
+            plot(iso[,"XCAL"],iso[,"YCAL"],ylab="Rel. Y-coordinates (micron)",xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
+            nrcells<-nrow(iso)
+            iso[,"SQRLENGTH"]<-sqrt(iso[,"CA"])
+            for(i in c(1:nrcells)){
+                  polygon(c((iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2))
+                          ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
+                  text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}}
+      if(interact==TRUE){
+            if(is.numeric(year)==FALSE|missing(year)==TRUE){year_select<-unique(input[,"YEAR"])[1]}else{
+                  if(nrow(input[which(input[,"YEAR"]==year),])==0)stop('year is not present in data.frame')
+                  year_select<-year}
+            iso<-input[which(input[,"YEAR"]==year_select),]
+            layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+            par(mar=c(3,5,3,1))
+            plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+            axis(side=1,at=unique(input[,"YEAR"]))
+            abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
+            iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
+            iso[,"YCAL"]<-iso[,"YCAL"]-min(iso[,"YCAL"],na.rm=TRUE)
+            polygon(c(year_select-0.5,year_select+0.5,year_select+0.5,year_select-0.5),c(0,0,2,2),col="grey")
+            for(c in c(1:length(unique(input[,"YEAR"])))){text(unique(input[,"YEAR"])[c],1,paste(length(which(is.na(input[which(input[,"YEAR"]==unique(input[,"YEAR"])[c]),][,"CA"])==FALSE)),sep=""),font=3,cex=0.8)}
+            par(mar=c(5,5,0,1))
+            plot(iso[,"XCAL"],iso[,"YCAL"],ylab="Rel. Y-coordinates (micron)",xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
+            nrcells<-nrow(iso)
+            iso[,"SQRLENGTH"]<-sqrt(iso[,"CA"])
+            for(i in c(1:nrcells)){
+                  polygon(c((iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2))
+                          ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
+                  text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}
+            repeat{
+                  repeat{
+                        option<-readline("SELECT - next [n] / previous [p] / specific year [yyyy] / end [x] : ")
+                        list<-unique(input[,"YEAR"])
+                        if( option != "n" & option != "p" & option != "x" & length(list[which(list==option)])== 0 )print('Option is not available')
+                        if( option != "n" & option != "p" & option != "x" & length(list[which(list==option)])== 0 ){next}
+                        if(option == "n"){
+                              if( is.na(list[which(list==year_select)+1])==TRUE )print('Out of bounds')
+                              if( is.na(list[which(list==year_select)+1])==TRUE ){next}
+                              year_select<-list[which(list==year_select)+1]
+                              print(year_select)
+                              break}
+                        if(option == "p"){
+                              if( identical(list[which(list==year_select)-1],numeric(0))==TRUE )print('Out of bounds')
+                              if( identical(list[which(list==year_select)-1],numeric(0))==TRUE ){next}
+                              year_select<-list[which(list==year_select)-1]
+                              print(year_select)
+                              break
+                        }
+                        if(option=="x"){
+                              year_select<-"x"
+                              print("End plot.cells")
+                              break}
+                        if(length(list[which(list==option)])!=0){
+                              year_select<-option
+                              print(year_select)
+                              break}
+                  }
+                  if(year_select=="x"){break}
+                  year_select<-as.numeric(year_select)
+                  iso<-input[which(input[,"YEAR"]==year_select),]
+                  layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+                  par(mar=c(3,5,3,1))
+                  plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+                  axis(side=1,at=unique(input[,"YEAR"]))
+                  abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
+                  iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
+                  iso[,"YCAL"]<-iso[,"YCAL"]-min(iso[,"YCAL"],na.rm=TRUE)
+                  polygon(c(year_select-0.5,year_select+0.5,year_select+0.5,year_select-0.5),c(0,0,2,2),col="grey")
+                  for(c in c(1:length(unique(input[,"YEAR"])))){text(unique(input[,"YEAR"])[c],1,paste(length(which(is.na(input[which(input[,"YEAR"]==unique(input[,"YEAR"])[c]),][,"CA"])==FALSE)),sep=""),font=3,cex=0.8)}
+                  par(mar=c(5,5,0,1))
+                  plot(iso[,"XCAL"],iso[,"YCAL"],ylab="Rel. Y-coordinates (micron)",xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
+                  nrcells<-nrow(iso)
+                  iso[,"SQRLENGTH"]<-sqrt(iso[,"CA"])
+                  for(i in c(1:nrcells)){
+                        polygon(c((iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2))
+                                ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
+                        text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}
+            }}}
