@@ -1,11 +1,37 @@
 ###FUNCTIONS###
 #1.example.data (SETWD in this function to make the dataset operational)----
-example.data<-function(species=FALSE){
-  setwd("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Example datasets") #for now you need to set the wd
-  if(species!="LOT_PICEA"&species!="SIB_LARIX"&species!="LOW_PINUS"&species!="MOUNT_PINUS")stop('dataset not present')
-  y<-read.table(paste("example.data.txt",sep=""),sep="\t",header=TRUE)
-  y<-y[which(y[,"ID"]==species),]
-  return(y)}
+example.data<-function(species=FALSE, interact = FALSE, path = NULL){
+
+
+      if(!is.null(path) & is.character(path) & interact == F){
+            # interact <- FALSE
+            fullpath <- paste0(path, '/', "example.data.txt") #for now you need to set the wd
+
+
+      } else if(is.null(path) & interact == F){
+            message('Searching for example data in current working directory')
+            if('example.data.txt' %in% list.files()) {
+                  fullpath <- 'example.data.txt'
+            }
+
+
+      } else if(interact == T){
+            temp_path <- choose.dir(default = './',
+                                    caption = 'Choose Folder Containing Example Data')
+
+            if(is.na(temp_path)) stop('Please choose a directory.')
+
+
+            fullpath <- paste0(temp_path,
+                               '/',
+                               'example.data.txt')
+      }
+
+      if(species!="LOT_PICEA"&species!="SIB_LARIX"&species!="LOW_PINUS"&species!="MOUNT_PINUS")stop('dataset not present')
+      y<-read.table(fullpath,sep="\t",header=TRUE)
+      y<-y[which(y[,"ID"]==species),]
+      return(y)}
+
 
 #2.is.raptor----
 is.raptor<-function(data,str=TRUE){
@@ -15,7 +41,7 @@ is.raptor<-function(data,str=TRUE){
   require("gam")
   require("mgcv")
   require("base")
-  
+
   left = function(string, char){substr(string, 1,char)}
   right = function (string, char){substr(string,nchar(string)-(char-1),nchar(string))}
   if(ncol(data)==6){
@@ -91,7 +117,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
       polygon(c((iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2))
               ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
       text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}}
-  if(interact==TRUE){  
+  if(interact==TRUE){
     if(is.numeric(year)==FALSE|missing(year)==TRUE){year_select<-unique(input[,"YEAR"])[1]}else{
       if(nrow(input[which(input[,"YEAR"]==year),])==0)stop('year is not present in data.frame')
       year_select<-year}
@@ -114,7 +140,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
               ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
       text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}
     repeat{
-      repeat{  
+      repeat{
         option<-readline("SELECT - next [n] / previous [p] / specific year [yyyy] / end [x] : ")
         list<-unique(input[,"YEAR"])
         if( option != "n" & option != "p" & option != "x" & length(list[which(list==option)])== 0 )print('Option is not available')
@@ -126,8 +152,8 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
           print(year_select)
           break}
         if(option == "p"){
-          if( identical(list[which(list==year_select)-1],numeric(0))==TRUE )print('Out of bounds')
-          if( identical(list[which(list==year_select)-1],numeric(0))==TRUE ){next}
+          if( identical(list[which(list==year_select)-1],integer(0))==TRUE )print('Out of bounds')
+          if( identical(list[which(list==year_select)-1],integer(0))==TRUE ){next}
           year_select<-list[which(list==year_select)-1]
           print(year_select)
           break
@@ -165,32 +191,32 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
 
 #4.align----
 align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
-  
+
   #year<-2008
   #list<-c("v","v","v","h")
   #interact=FALSE
   #make.plot=FALSE
   #input <- prep(example.data(roxas = TRUE))
   #input<-prep(read.table(files[file],header=TRUE,sep="\t"))
-  
+
   if(missing(year)){year<-FALSE}
   if(missing(interact)){interact<-FALSE}
   if(missing(list)){list<-FALSE}
   if(missing(make.plot)){make.plot<-FALSE}
-  
+
   if(interact==TRUE & list[1]==FALSE){
     if(year==FALSE){
       year<-unique(input[,"YEAR"])
-    }else{  
+    }else{
       if(length(year)==1){
         if(length(which(unique(input[,"YEAR"])==year))==0)stop('year is not present in data.frame')
       }else{
         if(length(which(unique(input[,"YEAR"])==year))!=length(year))stop('not all years are present in data.frame')
       }}
-    
+
     for(i in c(1:length(year))){
       #i<-1
-      iso<-input[which(input[,"YEAR"]==year[i]),]  
+      iso<-input[which(input[,"YEAR"]==year[i]),]
       iso[,"XCAL"]<-iso[,"XCAL"]-(min(iso[,"XCAL"],na.rm=TRUE))+1
       iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
       repeat{
@@ -202,9 +228,9 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
           abline(lm(c(seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],mean(iso[,"YCAL"],na.rm=TRUE))~c(0,mean(iso[,"XCAL"],na.rm=TRUE))),lty=1,col="black")
           text(0-max(iso[,"XCAL"],na.rm=TRUE)*0.01,seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],round(lm(c(seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],mean(iso[,"YCAL"],na.rm=TRUE))~c(0,mean(iso[,"XCAL"],na.rm=TRUE)))$coefficients[2],2),cex=0.8,pos=3)}
         lines(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),1],cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),2],lwd=2,col="grey")
-        text(max(iso[,"XCAL"],na.rm=TRUE),as.numeric(lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[1]+lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[2]*max(iso[,"XCAL"],na.rm=TRUE)),"H",col="grey",pos=3)  
+        text(max(iso[,"XCAL"],na.rm=TRUE),as.numeric(lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[1]+lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[2]*max(iso[,"XCAL"],na.rm=TRUE)),"H",col="grey",pos=3)
         lines(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),1],cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),2],lwd=2,col="grey")
-        text(as.numeric(lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[1]+lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[2]*max(iso[,"YCAL"],na.rm=TRUE)),max(iso[,"YCAL"],na.rm=TRUE),"V",col="grey",pos=4)  
+        text(as.numeric(lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[1]+lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[2]*max(iso[,"YCAL"],na.rm=TRUE)),max(iso[,"YCAL"],na.rm=TRUE),"V",col="grey",pos=4)
         option<-readline("SELECT - align cells to vertical line [v] / horizontal line [h] / slope [x.xx] / end [x] : ")
         output<-matrix(nrow=length(iso[,"XCAL"]),ncol=2)
         colnames(output)<-c("X_CAL","Y_CAL")
@@ -218,7 +244,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
         if(option=="v"){
           model<-lm(iso[,"XCAL"]~iso[,"YCAL"])
           y1<-mean(iso[,"YCAL"],na.rm=TRUE)
-          x1<-mean(iso[,"XCAL"],na.rm=TRUE)  
+          x1<-mean(iso[,"XCAL"],na.rm=TRUE)
           y2<-max(iso[,"YCAL"],na.rm=TRUE)
           x2<-summary(model)$coefficient[1]+summary(model)$coefficient[2]*y2
           r<-y2-y1
@@ -257,7 +283,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
         if(check=="y"){break}
       }
       if(option=="x"){break}
-      
+
       subtract_Y<-min(output[,"Y_CAL"],na.rm=TRUE)
       if(subtract_Y<0){
         output[,"Y_CAL"]<-output[,"Y_CAL"]-subtract_Y
@@ -270,29 +296,29 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
       }else{
         output[,"X_CAL"]<-output[,"X_CAL"]
       }
-      input[which(input[,"YEAR"]==year[i]),"XCAL"]<-output[,"X_CAL"]  
-      input[which(input[,"YEAR"]==year[i]),"YCAL"]<-output[,"Y_CAL"]  
+      input[which(input[,"YEAR"]==year[i]),"XCAL"]<-output[,"X_CAL"]
+      input[which(input[,"YEAR"]==year[i]),"YCAL"]<-output[,"Y_CAL"]
     }
   }
-  
+
   if(interact==TRUE & is.numeric(list)==TRUE)stop('this is not an option')
   if(interact==FALSE){
     if(year[1]==FALSE){
       year<-unique(input[,"YEAR"])
-    }else{  
+    }else{
       if(length(year)==1){
         if(length(which(unique(input[,"YEAR"])==year))==0)stop('year is not present in data.frame')
       }else{
         if(length(which(unique(input[,"YEAR"])==year))!=length(year))stop('not all years are present in data.frame')
       }}
-    
+
     if(list[1]==FALSE){
       for(i in c(1:length(year))){
         #i<-1
-        iso<-input[which(input[,"YEAR"]==year[i]),]  
+        iso<-input[which(input[,"YEAR"]==year[i]),]
         iso[,"XCAL"]<-iso[,"XCAL"]-(min(iso[,"XCAL"],na.rm=TRUE))+1
         iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
-        
+
         if(make.plot==TRUE){
           layout(matrix(c(1),nc=1, byrow = TRUE))
           par(mar=c(5,5,3,1))
@@ -302,11 +328,11 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
             abline(lm(c(seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],mean(iso[,"YCAL"],na.rm=TRUE))~c(0,mean(iso[,"XCAL"],na.rm=TRUE))),lty=1,col="black")
             text(0-max(iso[,"XCAL"],na.rm=TRUE)*0.01,seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],round(lm(c(seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],mean(iso[,"YCAL"],na.rm=TRUE))~c(0,mean(iso[,"XCAL"],na.rm=TRUE)))$coefficients[2],2),cex=0.8,pos=3)}
           lines(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),1],cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),2],lwd=2,col="grey")
-          text(max(iso[,"XCAL"],na.rm=TRUE),as.numeric(lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[1]+lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[2]*max(iso[,"XCAL"],na.rm=TRUE)),"H",col="grey",pos=3)  
+          text(max(iso[,"XCAL"],na.rm=TRUE),as.numeric(lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[1]+lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[2]*max(iso[,"XCAL"],na.rm=TRUE)),"H",col="grey",pos=3)
           lines(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),1],cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),2],lwd=2,col="grey")
-          text(as.numeric(lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[1]+lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[2]*max(iso[,"YCAL"],na.rm=TRUE)),max(iso[,"YCAL"],na.rm=TRUE),"V",col="grey",pos=4)  
+          text(as.numeric(lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[1]+lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[2]*max(iso[,"YCAL"],na.rm=TRUE)),max(iso[,"YCAL"],na.rm=TRUE),"V",col="grey",pos=4)
         }
-        
+
         option<-'h'
         output<-matrix(nrow=length(iso[,"XCAL"]),ncol=2)
         colnames(output)<-c("X_CAL","Y_CAL")
@@ -314,7 +340,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
         if(option!="v"&option!="h"){
           option<-as.numeric(option)
           model<-lm(c(mean(iso[,"YCAL"],na.rm=TRUE)-mean(iso[,"XCAL"],na.rm=TRUE)*option,mean(iso[,"YCAL"],na.rm=TRUE))~c(0,mean(iso[,"XCAL"])))}
-        if(make.plot==TRUE){  
+        if(make.plot==TRUE){
           abline(model,col="red",lwd=2)}
         y_model<-as.numeric(c(model$coefficients[2]*0+model$coefficients[1],model$coefficients[2]*100+model$coefficients[1]))
         change_angle<-atan((y_model[2]-y_model[1])/(100-0))*(180/pi)
@@ -330,7 +356,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
           if(make.plot==TRUE){points(x_new,y_new,pch=16,col="red",cex=1)}
           output[p,"X_CAL"]<-x_new
           output[p,"Y_CAL"]<-y_new}
-        
+
         subtract_Y<-min(output[,"Y_CAL"],na.rm=TRUE)
         if(subtract_Y<0){
           output[,"Y_CAL"]<-output[,"Y_CAL"]-subtract_Y
@@ -343,18 +369,18 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
         }else{
           output[,"X_CAL"]<-output[,"X_CAL"]
         }
-        input[which(input[,"YEAR"]==year[i]),"XCAL"]<-output[,"X_CAL"]  
-        input[which(input[,"YEAR"]==year[i]),"YCAL"]<-output[,"Y_CAL"]  
+        input[which(input[,"YEAR"]==year[i]),"XCAL"]<-output[,"X_CAL"]
+        input[which(input[,"YEAR"]==year[i]),"YCAL"]<-output[,"Y_CAL"]
       }
     }else{
       #if(is.numeric(list)!=TRUE)stop('list is not numeric')
       if(length(list)!=length(year))stop('length of list is not equal to years in data.frame')
       for(i in c(1:length(year))){
         #i<-1
-        iso<-input[which(input[,"YEAR"]==year[i]),]  
+        iso<-input[which(input[,"YEAR"]==year[i]),]
         iso[,"XCAL"]<-iso[,"XCAL"]-(min(iso[,"XCAL"],na.rm=TRUE))+1
         iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
-        
+
         if(make.plot==TRUE){
           layout(matrix(c(1),nc=1, byrow = TRUE))
           par(mar=c(5,5,3,1))
@@ -364,13 +390,13 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
             abline(lm(c(seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],mean(iso[,"YCAL"],na.rm=TRUE))~c(0,mean(iso[,"XCAL"],na.rm=TRUE))),lty=1,col="black")
             text(0-max(iso[,"XCAL"],na.rm=TRUE)*0.01,seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],round(lm(c(seq(from=min(iso[,"YCAL"],na.rm=TRUE),to=max(iso[,"YCAL"],na.rm=TRUE),length.out=10)[c],mean(iso[,"YCAL"],na.rm=TRUE))~c(0,mean(iso[,"XCAL"],na.rm=TRUE)))$coefficients[2],2),cex=0.8,pos=3)}
           lines(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),1],cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),2],lwd=2,col="grey")
-          text(max(iso[,"XCAL"],na.rm=TRUE),as.numeric(lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[1]+lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[2]*max(iso[,"XCAL"],na.rm=TRUE)),"H",col="grey",pos=3)  
+          text(max(iso[,"XCAL"],na.rm=TRUE),as.numeric(lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[1]+lm(iso[,"YCAL"]~iso[,"XCAL"])$coefficients[2]*max(iso[,"XCAL"],na.rm=TRUE)),"H",col="grey",pos=3)
           lines(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),1],cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),2],lwd=2,col="grey")
-          text(as.numeric(lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[1]+lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[2]*max(iso[,"YCAL"],na.rm=TRUE)),max(iso[,"YCAL"],na.rm=TRUE),"V",col="grey",pos=4)  
+          text(as.numeric(lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[1]+lm(iso[,"XCAL"]~iso[,"YCAL"])$coefficients[2]*max(iso[,"YCAL"],na.rm=TRUE)),max(iso[,"YCAL"],na.rm=TRUE),"V",col="grey",pos=4)
         }
         horiz<-cbind(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),1],cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[order(cbind(iso[,"XCAL"],predict(lm(iso[,"YCAL"]~iso[,"XCAL"])))[,1]),2])
         verti<-cbind(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),1],cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[order(cbind(predict(lm(iso[,"XCAL"]~iso[,"YCAL"])),iso[,"YCAL"])[,1]),2])
-        
+
         option<-list[i]
         output<-matrix(nrow=length(iso[,"XCAL"]),ncol=2)
         colnames(output)<-c("X_CAL","Y_CAL")
@@ -380,10 +406,10 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
         if(option=="v"){
           option<-option
           model<-lm(verti[,2]~verti[,1])
-          if(make.plot==TRUE){ abline(model,col="red",lwd=2)} 
+          if(make.plot==TRUE){ abline(model,col="red",lwd=2)}
           model<-lm(iso[,"XCAL"]~iso[,"YCAL"])
           y1<-mean(iso[,"YCAL"],na.rm=TRUE)
-          x1<-mean(iso[,"XCAL"],na.rm=TRUE)  
+          x1<-mean(iso[,"XCAL"],na.rm=TRUE)
           y2<-max(iso[,"YCAL"],na.rm=TRUE)
           x2<-summary(model)$coefficient[1]+summary(model)$coefficient[2]*y2
           r<-y2-y1
@@ -398,8 +424,8 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
         if(option=="h"){
           option<-option
           model<-lm(horiz[,2]~horiz[,1])}
-        
-        if(make.plot==TRUE&option!="v"){  
+
+        if(make.plot==TRUE&option!="v"){
           abline(model,col="red",lwd=2)}
         y_model<-as.numeric(c(model$coefficients[2]*0+model$coefficients[1],model$coefficients[2]*100+model$coefficients[1]))
         change_angle<-atan((y_model[2]-y_model[1])/(100-0))*(180/pi)
@@ -415,7 +441,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
           if(make.plot==TRUE){points(x_new,y_new,pch=16,col="red",cex=1)}
           output[p,"X_CAL"]<-x_new
           output[p,"Y_CAL"]<-y_new}
-        
+
         subtract_Y<-min(output[,"Y_CAL"],na.rm=TRUE)
         if(subtract_Y<0){
           output[,"Y_CAL"]<-output[,"Y_CAL"]-subtract_Y
@@ -428,9 +454,9 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
         }else{
           output[,"X_CAL"]<-output[,"X_CAL"]
         }
-        input[which(input[,"YEAR"]==year[i]),"XCAL"]<-output[,"X_CAL"]  
-        input[which(input[,"YEAR"]==year[i]),"YCAL"]<-output[,"Y_CAL"]  
-      } 
+        input[which(input[,"YEAR"]==year[i]),"XCAL"]<-output[,"X_CAL"]
+        input[which(input[,"YEAR"]==year[i]),"YCAL"]<-output[,"Y_CAL"]
+      }
     }
   }
   return(input)
@@ -442,13 +468,13 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
   #frac.small<-0.5
   #yrs<-FALSE
   #make.plot<-TRUE
-  
+
   if(missing(yrs)){yrs<-unique(input[,"YEAR"])}
   if(missing(frac.small)){frac.small<-0.5}
   if(yrs[1]!="FALSE"&is.numeric(yrs)!=TRUE)stop('year is not present in data.frame')
   if(is.numeric(yrs)==TRUE&length(which(unique(input[,"YEAR"])==yrs))==0)stop('year is not present in data.frame')
   if(yrs[1]=="FALSE"){yrs<-unique(input[,"YEAR"])}
-  
+
   input[,"ROW"]<-NA
   if(is.numeric(frac.small)!=TRUE)stop('frac.small is not numeric')
   fraction_smallest<-frac.small
@@ -460,7 +486,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
     sample<-unique(data_year[,"ID"])
     data_year[,"XCAL"]<-data_year[,"XCAL"]-(min(data_year[,"XCAL"]))+1
     data_year[,"YCAL"]<-data_year[,"YCAL"]-(min(data_year[,"YCAL"]))+1
-    
+
     if(make.plot==TRUE){
       layout(matrix(c(1),nc=1, byrow = TRUE))
       par(mar=c(5,5,3,1))
@@ -481,7 +507,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
     }
     data_year[,"ORIGLENGTH"]<-NA
     for(i in c(1:nrcells)){
-      data_year[i,"ORIGLENGTH"]<-sqrt((data_year[i,"YCAL"]^2)+(data_year[i,"XCAL"]^2))  
+      data_year[i,"ORIGLENGTH"]<-sqrt((data_year[i,"YCAL"]^2)+(data_year[i,"XCAL"]^2))
     }
     data_year[,"ROW"]<-NA
     min_value<-(min(data_year[,"ORIGLENGTH"],na.rm=TRUE))
@@ -497,13 +523,13 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
     data_year[,"ENDLENGTH"]<-NA
     maximum                <-max(data_year[,"XCAL"],na.rm=TRUE)
     for(i in c(1:nrcells)){
-      data_year[i,"ENDLENGTH"]<-sqrt((data_year[i,"YCAL"]^2)+((maximum-data_year[i,"XCAL"])^2))  
+      data_year[i,"ENDLENGTH"]<-sqrt((data_year[i,"YCAL"]^2)+((maximum-data_year[i,"XCAL"])^2))
     }
     end_cell_data<-data_year[which(data_year[,"ENDLENGTH"]==min(data_year[,"ENDLENGTH"],na.rm=TRUE)),]
     end_cell<-end_cell_data[,"CID"]
     data_last<-data_year[which(data_year[,"CID"]==end_cell),]
     length   <-data_last[1,"SQRLENGTH"]/2
-    xmin     <-data_last[1,"XCAL"]+length 
+    xmin     <-data_last[1,"XCAL"]+length
     ymin     <-data_last[1,"YCAL"]-length
     ymax    <-data_last[1,"YCAL"]+length
     selected_last_cells<-data_year[which(data_year[,"YCAL"]<ymax & data_year[,"XCAL"]>xmin & data_year[,"YCAL"]>ymin),]
@@ -515,14 +541,14 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
     for(k in c(1:nrow(data_year))){
       data_last<-data_year[which(data_year[,"CID"]==end_cell),]
       length   <-data_last[1,"SQRLENGTH"]/2
-      xmax     <-data_last[1,"XCAL"]+length*1.1 
+      xmax     <-data_last[1,"XCAL"]+length*1.1
       xmin     <-data_last[1,"XCAL"]-length*1.1
       ymin    <-data_last[1,"YCAL"]-length*1.1
       selected_last_cells<-data_year[which(data_year[,"YCAL"]<ymin & data_year[,"XCAL"]>xmin & data_year[,"XCAL"]<xmax),]
       if(nrow(selected_last_cells)==0){
         break
       }else{
-        selected_last_cells[,"LENGTH_LAST"] <-NA 
+        selected_last_cells[,"LENGTH_LAST"] <-NA
         for(s in c(1:nrow(selected_last_cells))){
           #s<-1
           x1<-data_last[1,"XCAL"]
@@ -548,7 +574,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
     data_isolate<-data_year[which(data_year[,"YCAL"]<cut_off),]
     if(nrow(data_isolate[which(data_isolate[,"ROW"]==1),])==0){
       data_isolate<-data_year}
-    
+
     for (t in c(1:(nrcells))){
       data_select<-data_isolate[which(data_isolate[,"ROW"]==t),]
       x     <-data_select[1,"XCAL"]
@@ -617,21 +643,21 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
     y                      <-data_model[,"YCAL"]
     input_m                  <-data.frame(cbind(x,y))
     colnames(input_m)        <-c("x","y")
-    
+
     list.of.packages <- c("mgcv","gam","base")
     new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
     if(length(new.packages)) install.packages(new.packages)
     require("gam")
     require("mgcv")
     require("base")
-    
-    
+
+
     error.test <- try(gam(y ~ s(x),data=input_m),silent =TRUE)
     if("try-error" %in% class(error.test)){print("no gam applied due to low number of rows")
       data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
       data_years <-data_years[order(data_years$XCAL),]
     }else{
-      
+
       Model                  <-gam(y ~ s(x),data=input_m)
       x                      <-c(0:max(data_year[,"XCAL"],na.rm=TRUE))
       predict                <-predict(Model,newdata=data.frame(x))
@@ -645,7 +671,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       data_isolate[,"BOUNDARY_DOWN"]<-predict
       data_isolate_select      <-data_isolate[which(data_isolate[,"YCAL"]<data_isolate[,"BOUNDARY_UPP"] & data_isolate[,"YCAL"]>data_isolate[,"BOUNDARY_DOWN"]),]
       selected_CID             <-data_isolate_select[,"CID"]
-      
+
       for(j in c(1:length(selected_CID))){
         data_selected <-data_year[which(data_year[,"CID"]==selected_CID[j]),]
         xstart      <-data_selected[1,"XCAL"]-((data_selected[1,"SQRLENGTH"]/2)*1)
@@ -654,12 +680,12 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
         above_cells <-data_isolate[which(data_isolate["XCAL"]>=xstart & data_isolate["XCAL"]<=xend & data_isolate["YCAL"]<=ystart),]
         size        <-data_selected[,"CA"]/4
         above_cells <-above_cells[which(above_cells[,"CA"]>size),]
-        
+
         if(nrow(above_cells)==0){
           data_year[which(data_year[,"CID"]==selected_CID[j]),"ROW"]<-999
         }else{
           select_above_cell     <-above_cells[order(above_cells$YCAL),]
-          data_year[which(data_year[,"CID"]==select_above_cell[1,"CID"]),"ROW"]<-999   
+          data_year[which(data_year[,"CID"]==select_above_cell[1,"CID"]),"ROW"]<-999
         }
       }
       adding_data<-data_year[which(data_year[,"ROW"]==999),]
@@ -674,7 +700,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       data_year[which(data_year[,"CA"]<cutoff_size),"ROW"]<-NA
       data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
       data_years <-data_years[order(data_years$XCAL),]
-      
+
       for (p in c(1:nrow(data_years))){
         data_year[which(data_year[,"CID"]==data_years[p,"CID"]),"ROW"]<-p
       }
@@ -707,9 +733,9 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
         #r<-1
         data_year[which(data_year["ROW"]==row_code[r]),"ROW"]<-r
       }
-      
+
     }
-    
+
     graph<-data_years[which(is.na(data_years[,"ROW"])==FALSE),]
     if(nrow(graph)==0){print("no cells detected")
       break}
@@ -725,7 +751,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
     }
     if(u==1){output<-data_year}else{output<-rbind(output,data_year)}
   }
-  
+
   col_nr<-ncol(output)
   output<-output[,c(-col_nr+2,-col_nr+1,-col_nr)]
   return(output)
@@ -733,7 +759,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
 
 #6.pos.det----
 pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,list=FALSE,yrs=FALSE,make.plot=TRUE){
-  
+
   #input<-first
   #swe = 1.2
   #sle = 3
@@ -749,7 +775,7 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
   #list<-cbind(c(2008,2008,2008),c(1,2,3))
   #list<-FALSE
   #yrs<-FALSE
-  
+
   if(missing(list)==TRUE){list<-FALSE}else{
     list<-list
   }
@@ -800,12 +826,12 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
     if(is.numeric(swe)==FALSE)stop('swe is not numeric')
     search_width_earlywood<-swe
   }
-  
+
   if(missing(yrs)){yrs<-unique(input[,"YEAR"])}
   if(yrs[1]!="FALSE"&is.numeric(yrs)!=TRUE)stop('year is not present in data.frame')
   if(is.numeric(yrs)==TRUE&length(which(unique(input[,"YEAR"])==yrs))==0)stop('year is not present in data.frame')
   if(yrs[1]=="FALSE"){yrs<-unique(input[,"YEAR"])}
-  
+
   #ROW IDENTIFICATION EARLYWOOD----
   input[,"POSITION"]<-NA
   input[,"MARKER"]<-NA
@@ -817,7 +843,7 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
     data_year[,"YCAL"]<-data_year[,"YCAL"]-(min(data_year[,"YCAL"]))+1
     sample<-unique(data_year[,"ID"])
     data_year[,"SQRLENGTH"]<-sqrt(data_year[,"CA"])
-    
+
     if(turn==TRUE){
       rotation<-function(x_data,y_data,x_first,y_first){
         max_y<-max(y_data,na.rm=TRUE)
@@ -858,18 +884,18 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
       XCAL_ORIG<-data_year[,"XCAL"]
       YCAL_ORIG<-data_year[,"YCAL"]
       data_year<-cbind(data_year,XCAL_ORIG,YCAL_ORIG)
-      
+
       input_r<-data_year
       x_first<-as.numeric(as.character(input_r[which(is.na(input_r[,"ROW"])==FALSE),"XCAL"]))
       y_first<-as.numeric(as.character(input_r[which(is.na(input_r[,"ROW"])==FALSE),"YCAL"]))
       x_data <-data_year[,"XCAL"]
       y_data <-data_year[,"YCAL"]
-      
+
       output_new<-rotation(x_data,y_data,x_first,y_first)
       data_year[,"XCAL"]<-output_new[,"X_CAL"]
       data_year[,"YCAL"]<-output_new[,"Y_CAL"]
     }
-    
+
     if(length(which(colnames(data_year)=="ROW"))==1){
       data_year<-data_year
     }else{
@@ -878,10 +904,10 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
       if(is.numeric(list_y)==FALSE)stop('list is not numeric')
       data_year[,"ROW"]<-NA
       for(a in c(1:length(list_y))){
-        data_year[which(data_year[,"CID"]==list_y[a]),"ROW"]<-a   
+        data_year[which(data_year[,"CID"]==list_y[a]),"ROW"]<-a
       }
     }
-    
+
     if(make.plot==TRUE){
       layout(matrix(c(1),nc=1, byrow = TRUE))
       par(mar=c(5,5,3,1))
@@ -899,11 +925,11 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
         }
       }
     }
-    
+
     for(c in c(1:max(data_year[,"ROW"],na.rm=TRUE))){
       CID_row<-data_year[which(data_year[,"ROW"]==c),"CID"]
       data_year[which(data_year[,"CID"]==CID_row),"POSITION"]<-1
-      nrcells<-nrow(data_year) 
+      nrcells<-nrow(data_year)
       for(k in c(1:nrow(data_year))){
         interest<-data_year[which(data_year[,"ROW"]==c & data_year[,"POSITION"]==k),]
         length<- data_year[which(data_year[,"ROW"]==c & data_year[,"POSITION"]==k),"SQRLENGTH"] #we take the length from the first cell as this is most likely the biggest cell
@@ -963,21 +989,21 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
         }
       }
     }
-    
+
     backup<-data_year
     data_year<-backup
-    
+
     #ROW IDENTIFICATION LATEWOOD----
     for (r in c(1:max(data_year[,"ROW"],na.rm=TRUE))){
       data_select<-data_year[which(data_year[,"ROW"]==r),]
-      max_width  <-max(data_select[,"SQRLENGTH"],na.rm=TRUE)  
-      mean_length<-mean(data_select[,"SQRLENGTH"],na.rm=TRUE)   
+      max_width  <-max(data_select[,"SQRLENGTH"],na.rm=TRUE)
+      mean_length<-mean(data_select[,"SQRLENGTH"],na.rm=TRUE)
       last_ID    <-data_select[which(data_select[,"POSITION"]==max(data_select[,"POSITION"],na.rm=TRUE)),]
-      
+
       for (g in c(1:nrow(data_year))){
         run          <-last_ID[,"POSITION"]+g-1
         data_select  <-data_year[which(data_year[,"ROW"]==r),]
-        data_interest<-data_select[which(data_select[,"POSITION"]==run),] 
+        data_interest<-data_select[which(data_select[,"POSITION"]==run),]
         min_length   <-data_interest[,"SQRLENGTH"]
         xmin         <-data_interest[,"XCAL"]-mean_length*search_width_latewood
         xmax         <-data_interest[,"XCAL"]+mean_length*search_width_latewood
@@ -998,8 +1024,8 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
         }else{
           selected_cells[,"LENGTH"]<-NA
           ax         <-data_interest[,"XCAL"]
-          ay         <-data_interest[,"YCAL"] 
-          
+          ay         <-data_interest[,"YCAL"]
+
           #here we exclude cells that are 3 times smaller than the original ones
           cut_off_size<-data_interest[,"CA"]/latewood_cutoff
           selected_cells<-selected_cells[which(selected_cells[,"CA"]>=cut_off_size),]
@@ -1032,27 +1058,27 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
         }
       }
     }
-    
+
     backup<-data_year
     data_year<-backup
-    
+
     list.of.packages <- c("mgcv","gam","base")
     new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
     if(length(new.packages)) install.packages(new.packages)
     require("gam")
     require("mgcv")
     require("base")
-    
+
     #FINAL GAMM FIT FOR THE CELL POSITION (WITH PADDING OF 0.5 micron)----
     #error.test <- try(gam(y ~ s(x),data=input_m),silent =TRUE)
     #if("try-error" %in% class(error.test)){print("no gam applied due to low number of rows")
     #  data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
     #  data_years <-data_years[order(data_years$XCAL),]
-    
+
     for (r in c(1:max(data_year[,"ROW"],na.rm=TRUE))){
       data_select<-data_year[which(data_year[,"ROW"]==r),]
       if(length(data_select[,"POSITION"])<=3){
-        next 
+        next
       }else{
         x                      <-data_select[,"XCAL"]
         y                      <-data_select[,"YCAL"]
@@ -1060,7 +1086,7 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
         y_new                  <-(c(y,(y-0.5),(y+0.5)))#padding the cells
         input_m                  <-data.frame(cbind(y_new,x_new))
         colnames(input_m)        <-c("y","x")
-        Model                  <-gam(x ~ s(y),data=input_m)    
+        Model                  <-gam(x ~ s(y),data=input_m)
         y                      <-c(min(data_select[,"YCAL"],na.rm=TRUE):max(data_select[,"YCAL"],na.rm=TRUE))
         predict                <-predict(Model,newdata=data.frame(y))
         mean_width             <-mean(data_select[,"SQRLENGTH"],na.rm=TRUE)
@@ -1078,10 +1104,10 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
         data_year[which(data_year[,"CID"]%in% selection_CID),"ROW"]<-r
       }
     }
-    
+
     backup<-data_year
     data_year<-backup
-    
+
     #mistake when little rows are present
     row_code<-sort(unique(data_year[,"ROW",]))
     for(j in c(1:length(row_code))){
@@ -1089,7 +1115,7 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
       selected_data                  <-data_year[which(data_year[,"ROW"]==row_code[j]),]
       selected_data                  <-selected_data[order(selected_data$YCAL),]
       selected_data[,"DISTANCE"]     <-NA
-      
+
       for(k in c(1:nrow(selected_data))){
         one<-selected_data[k,]
         two<-selected_data[(k+1),]
@@ -1116,9 +1142,9 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
           break
         }else{
           selected_data[k,"TIMES"]<- two/one
-        } 
+        }
       }
-      
+
       if(suppressWarnings(max(selected_data[,"TIMES"],na.rm=TRUE))=="-Inf"){
         data_year[which(data_year[,"ROW"]==row_code[j]),"ROW"]<-NA
       }else{
@@ -1134,17 +1160,17 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
         }
       }
     }
-    
+
     backup<-data_year
     data_year<-backup
-    
+
     #ROWS WITH LESS THEN 0.60 PERCENTAGE OF THE TOTAL AMOUNT OF CELLS SHOULD BE EXCLUDED-----
     row_code<-sort(unique(data_year[,"ROW",]))
     if(length(row_code)==0){
-      data_year[,"POSITION"]<-NA 
+      data_year[,"POSITION"]<-NA
     }else{
-      cut_off<-max(data_year[,"POSITION"],na.rm=TRUE)*percentage_max_nr_cells 
-      for (r in c(1:length(row_code))){ 
+      cut_off<-max(data_year[,"POSITION"],na.rm=TRUE)*percentage_max_nr_cells
+      for (r in c(1:length(row_code))){
         selected_data<-data_year[which(data_year[,"ROW"]==row_code[r]),]
         if(nrow(selected_data)<cut_off){
           data_year[which(data_year[,"ROW"]==row_code[r]),"MARKER"]<-7
@@ -1157,18 +1183,18 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
           data_year[which(data_year[,"ROW"]==row_code[r]),"ROW"]<-row_code[r]
         }
       }}
-    
+
     #ALL CELLS AND ROWS ARE RENUMBERED FOR THE FINAL OUTPUT----
     data_year[,"POSITION"]<-NA
     row_code<-sort(unique(data_year[,"ROW",]))
     if(length(row_code)!=0){
-      for (r in c(1:length(row_code))){ 
+      for (r in c(1:length(row_code))){
         isolated_data<-data_year[which(data_year[,"ROW"]==row_code[r]),]
         CID<-isolated_data[order(isolated_data$YCAL),"CID"]
         data_year[which(data_year[,"CID"]%in%CID),"ROW"]<-r
         data_year[which(data_year[,"CID"]%in%CID),"POSITION"]<-c(1:nrow(isolated_data))
       }}
-    
+
     if(make.plot==TRUE){
       for(q in c(1:nrow(data_year))){
         text(data_year[q,"XCAL"],data_year[q,"YCAL"],data_year[q,"POSITION"],cex=0.5,col="black")}}
@@ -1192,23 +1218,26 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
 
 #7.write.output----
 write.output<-function(input,location=c("D:\\Documents"),flip=FALSE){
-  
+      time_start <- Sys.time()
+
+
+
   #input<-output
   if(missing(flip)){flip<-FALSE}
   if(flip!=TRUE&flip!=FALSE)stop('flip need to be TRUE/FALSE')
-  
+
     if(missing(location)){location<-FALSE}
   sample<-unique(input[,"ID"])
   if(location!=FALSE){
     setwd(location)
     pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
-  
+
   years<-unique(input[,"YEAR"])
   for(u in c(1:length(years)) ){
-    #u<-1  
+    #u<-1
     data_year<-input[which(input[,"YEAR"]==years[u]),]
     year<-years[u]
-    
+
     if(flip==FALSE){
       plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
            ylim=c(0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01,max(data_year[,"YCAL"],na.rm=TRUE)),
@@ -1218,9 +1247,9 @@ write.output<-function(input,location=c("D:\\Documents"),flip=FALSE){
            ylim=c(max(data_year[,"YCAL"],na.rm=TRUE),0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01),
            main=paste(sample," - ",as.character(year)," - Rows: ",max(data_year[,"ROW"],na.rm=TRUE),sep=""),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2,col="white")
     }
-    
+
     data_year[,"SQRLENGTH"] <-sqrt(data_year[,"CA"])
-    
+
     nrcells<-nrow(data_year)
     rows<-max(unique(data_year[,"ROW"])[which(is.na(unique(data_year[,"ROW"]))==FALSE)])
     #col_code<-rep(c("orange","blue","red","green","purple"),ceiling(rows/5))
@@ -1232,7 +1261,7 @@ write.output<-function(input,location=c("D:\\Documents"),flip=FALSE){
       y     <-data_year[i,"YCAL"]
       x_cor<-c((x-length),(x+length),(x+length),(x-length))
       y_cor<-c((y+length),(y+length),(y-length),(y-length))
-      
+
       if(is.na(data_year[i,"ROW"])==TRUE){
         polygon(x_cor,y_cor)
       }else{
@@ -1258,7 +1287,7 @@ write.output<-function(input,location=c("D:\\Documents"),flip=FALSE){
     name<-paste(sample,"-",as.character(year),sep="")
     assign(name,data_year)
   }
-  
+
   if(length(years)==1){
     output_all_years<-get(paste(sample,"-",as.character(years[1]),sep=""))
   }else{
@@ -1268,8 +1297,10 @@ write.output<-function(input,location=c("D:\\Documents"),flip=FALSE){
     }
   }
   if(location!=FALSE){
-    write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t") 
+    write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
     dev.off()}
+  print(Sys.time() - time_start)
+
   return(output_all_years)
 }
 
@@ -1280,8 +1311,8 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
   #location = c("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Test-Georg")
   #files = c("17_3_15_A_a_Output_Cells.txt")
   #swe = 0.5
-  #sle = 3 
-  #ec = 1.75 
+  #sle = 3
+  #ec = 1.75
   #swl = 0.25
   #sll = 5
   #lc = 5
@@ -1293,7 +1324,7 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
   #make.plot<-TRUE
   #list<-FALSE
   ###
-  
+
   if(missing(flip)){flip<-FALSE}
   if(flip!=TRUE&flip!=FALSE)stop('flip need to be TRUE/FALSE')
   if(missing(interact)){interact<-FALSE}
@@ -1309,7 +1340,7 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
   if(missing(prof.co)){prof.co<-6}
   if(missing(max.cells)){max.cells<-0.5}
   if(missing(list)){list<-FALSE}
-  
+
   setwd(location)
   if(missing(files)){
     left                <- function(string, char){
@@ -1320,10 +1351,10 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
     files<-list.files(path = location)[which(right(list.files(path = location),3)=="txt")]
   }else{
     for(h in c(1:length(files))){
-      if(length(which(list.files(path = location)==files[h]))==0)stop(paste(files[h],' is not present in setwd()',sep="")) 
-    }  
+      if(length(which(list.files(path = location)==files[h]))==0)stop(paste(files[h],' is not present in setwd()',sep=""))
+    }
   }
-  
+
   a.<-interact
   b.<-make.plot
   c.<-list
@@ -1337,7 +1368,7 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
   k.<-lc
   l.<-prof.co
   m.<-max.cells
-  
+
   for(file in c(1:length(files))){
     file<-1
     interact<-a.
@@ -1358,7 +1389,7 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
     h.<-ec
     swl<-i.
     i.<-swl
-    sll<-j.  
+    sll<-j.
     j.<-sll
     lc<-k.
     k.<-lc
@@ -1366,28 +1397,28 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
     l.<-prof.co
     max.cells<-m.
     m.<-max.cells
-    
+
     input<-is.raptor(read.table(files[file],header=TRUE,sep="\t"))
-    
+
     if(a.==TRUE){c.<-FALSE}
     if(missing(list)){c.<-FALSE}
     if(interact==FALSE & list!=FALSE){
       c.<-list[which(list[,1]==unique(input[,"ID"])),2]}
-    
+
     sample<-unique(input[,"ID"])
     if(b.==TRUE&a.==FALSE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
     output1<-align(input,interact=a.,make.plot=b.,list=c.,year=FALSE)
     if(b.==TRUE&a.==TRUE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
     output2<-first.cell(output1, frac.small = d., yrs = FALSE, make.plot = b.)
-    output3<-pos.det(output2, swe = f., sle = g., ec = h., swl = i., sll = j., lc = k.,  
+    output3<-pos.det(output2, swe = f., sle = g., ec = h., swl = i., sll = j., lc = k.,
                      prof.co = l., max.cells = m., yrs = FALSE , aligning = e. , make.plot = b.)
-    
+
     years<-unique(output3[,"YEAR"])
     for(u in c(1:length(years)) ){
       data_year<-output3[which(output3[,"YEAR"]==years[u]),]
       year<-years[u]
       if(b.==TRUE){
-        
+
         if(flip==FALSE){
           plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
                ylim=c(0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01,max(data_year[,"YCAL"],na.rm=TRUE)),
@@ -1404,14 +1435,14 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
        #col_code<-rep(c("orange","blue","red","green","purple"),ceiling(rows/5))
        #col_code<-rep(c("#FFA500 ","#FF3300","#C71585","#191970 ","#20B2AA ","#00CC33","#006633"),ceiling(rows/7))
       col_code<-rep(c("#FFA500","#FF3300","#C71585","#191970","#20B2AA","#00CC33","#006633"),ceiling(rows/7))
-      
+
       for(i in c(1:nrcells)){
         length<-data_year[i,"SQRLENGTH"]/2
         x     <-data_year[i,"XCAL"]
         y     <-data_year[i,"YCAL"]
         x_cor<-c((x-length),(x+length),(x+length),(x-length))
         y_cor<-c((y+length),(y+length),(y-length),(y-length))
-        
+
         if(b.==TRUE){
           if(is.na(data_year[i,"ROW"])==TRUE){
             polygon(x_cor,y_cor)
@@ -1440,7 +1471,7 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
       name<-paste(sample,"-",as.character(year),sep="")
       assign(name,data_year)
     }
-    
+
     if(length(years)==1){
       output_all_years<-get(paste(sample,"-",as.character(years[1]),sep=""))
     }else{
@@ -1450,7 +1481,7 @@ batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,
       }
     }
     if(is.character(location)==TRUE){
-      write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t") 
+      write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
       if(b.==TRUE){dev.off()}
     }
   }

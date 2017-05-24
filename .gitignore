@@ -2,3 +2,8 @@ packrat/lib*/
 .Rproj.user
 
 *.docx
+packrat/src/
+packrat/
+
+*.pdf
+*output.txt

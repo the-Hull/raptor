@@ -25,8 +25,9 @@ Description: Performs wood cell anatomical data analyses on spatially explicit
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-URL:
-BugReports:
+URL: 
+BugReports: 
 Repository: CRAN
 Date: 2017-05-07 20:00:00
 RoxygenNote: 6.0.1
+Suggests: testthat
