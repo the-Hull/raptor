@@ -1,4 +1,20 @@
-
+#' @title Data visualization
+#'
+#' @description This function uses \code{\link{is.raptor}} files to create a two panel \code{\link{plot}} including; 1) a schematic overview of the ring width sequence and 2) a scheme representing the size and position of the cells of a specific year, highlighted in the ring width sequence.
+#' @param input an \code{\link{is.raptor}} file.
+#' @param year a numerical value specifying the year of interest. Default starts with the first year and plots the other years in sequence.
+#' @param interact a logical flag. If \code{\link{TRUE}}, the user will have the options to select the plot of the previous or successive ring (default = \code{\link{FALSE}}).
+#' @details This graphical interface aids in exploring the cell position and cell size. The upper \code{\link{plot}} provides and overview of the available years within the \code{\link{data.frame}}. Grey shading indicates the year that is presented in the lower panel. The italic number in the upper panel presents the amount of cells within the selected year. The lower panel shows the position of the cells with their unique "CID". XCAL and YCAL positions are standardized to the minimum occurring coordinates. Within the lower panel, the grey boxes represent the cells, derived from the lumen area ("CA") assuming a square shape. When "interact = \code{\link{TRUE}}", \code{\link{readline}} messages will be presented with multiple options to create new \code{\link{plot}} while moving along the years; including selecting the previous, next year or selecting a specific year. Stopping the interact function is done by typing "x". Make sure that this function is switched off before continuing with other functions.
+#' @import
+#' @export
+#' @usage plot.cells(input,year=FALSE,interact=FALSE)
+#' @examples
+#' #plotting example data
+#' input<-example.data(species="LOT_PICEA")
+#' input<-is.raptor(input, str=TRUE)
+#' plot.cells(input, interact=TRUE)
+#' 2010
+#' x
 #3.plot.cells----
 plot.cells<-function(input,year=FALSE,interact=FALSE){
       if(missing(year)){year<-FALSE}
@@ -83,8 +99,8 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
                               print(year_select)
                               break}
                         if(option == "p"){
-                              if( identical(list[which(list==year_select)-1],numeric(0))==TRUE )print('Out of bounds')
-                              if( identical(list[which(list==year_select)-1],numeric(0))==TRUE ){next}
+                              if( identical(list[which(list==year_select)-1],integer(0))==TRUE )print('Out of bounds')
+                              if( identical(list[which(list==year_select)-1],integer(0))==TRUE ){next}
                               year_select<-list[which(list==year_select)-1]
                               print(year_select)
                               break

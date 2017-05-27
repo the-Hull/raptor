@@ -1,5 +1,24 @@
-
-#8.batch.mode----
+#' @title Automatic rows and position detection
+#'
+#' @description Batch mode applying all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably applied within \code{\link{align}}.
+#' @param location a text string containing the location the input files are present and where the output pdf and txt file should be stored. See \code{\link{setwd}} for formatting. Location should provide \code{\link{as.character}}.
+#' @param files a list of files which need to be analysed (default = all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.
+#' @param interact a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. In that case the user will have to select among the options (along the horizontal axis, along the vertical axis, manually define the degree of reorientation based on a set of slopes overlaid on the plot). If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).
+#' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
+#' @param aligning logical flag indicating whether a second alignment has to be performed based upon the cells detected within \code{\link{first.cell}} (default = \code{\link{TRUE}}).
+#' @param list a \code{\link{data.frame}} with the individual "ID" and in sequence the slopes as described in \code{\link{pos.det}}. Cannot be activated when interact = \code{\link{TRUE}}.
+#' @param frac.small a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).
+#' @param flip logical flag indicating whether to plot the data with earlywood downwards (default; flip = \code{\link{FALSE}}) or upwards (flip = \code{\link{TRUE}}).
+#' @param ... see \code{\link{pos.det}}.
+#' @details This function aids in applying all described functions on a large dataset, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a pdf. Additionally output text files are written. All output files are exported into the location specified as the location.
+#' @import
+#' mgcv
+#' gam
+#' @export
+#' @return Plots the detected radial files and writes output according the the \code{\link{is.raptor}} format.
+#' @usage batch.mode(location = c("."), files = c(". .txt" , ". .txt"),
+#'            swe = 0.5, sle = 3 , ec = 1.75 , swl = 0.25, sll = 5, lc = 5,
+#'            prof.co =  6, max.cells = 0.5, aligning = TRUE, list = FALSE, flip = FALSE)
 batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,aligning=TRUE,frac.small=0.5,swe=0.5,sle=3,
                      ec=3,swl=0.5,sll=5,lc=10,prof.co=6,max.cells=0.5,list=FALSE,flip=FALSE){
       #test

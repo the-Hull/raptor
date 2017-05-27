@@ -1,5 +1,23 @@
-
-#5.first.cell----
+#' @title Detection of the first cells
+#'
+#' @description This functions uses a  \code{\link{is.raptor}} file (preferably obtained from \code{\link{align}}) and adds a column with the first cell detected within a row (or the start of a radial file). The number indicates to which radial file the first cell belongs to (counting from left to right). All cells with \code{\link{NA}} are not first row cells and are not included in further analyses.
+#' @param input an \code{\link{is.raptor}} file.
+#' @param frac.small a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).
+#' @param yrs either a vector providing the year(s) of interest or \code{\link{FALSE}} to select all years included in input (default = \code{\link{FALSE}}).
+#' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
+#' @details The first row of cells is detected using a local search algorithm. Initially the first cell is detected (green box when make.plot = \code{\link{TRUE}}), after which the algorithm searches until the last cell (red box when make.plot = \code{\link{TRUE}}). Numbers within the graph indicate the row numbers that have been detected. The output adds a line of rows to the input data which indicates the first row cells. The frac.small option helps to filter out unrealistically small cells.
+#' @import
+#' mgcv
+#' gam
+#' @export
+#' @return An \code{\link{is.raptor}} file with an added column describing the first cells.
+#' @usage first.cell(input, frac.small = 0.5, yrs = c(2008,2009), make.plot = TRUE)
+#' @examples
+#' #first row detection example
+#' input<-is.raptor(example.data(species="LOT_PICEA"), str = FALSE)
+#' input<-input[which(input[,"YEAR"]>2006 & input[,"YEAR"]<2011),]
+#' aligned<-align(input,list=c(0.04,0.04,0,0))
+#' first<-first.cell(aligned, frac.small = 0.5, yrs = FALSE, make.plot = TRUE)
 first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       #input<-input
       #frac.small<-0.5

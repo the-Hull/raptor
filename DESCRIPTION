@@ -1,8 +1,10 @@
 Package: RAPTOR
 Type: Package
 Title: Row And Position of Tracheid Organizer in R
-Version: 0.0.9000
-Author@R: as.person(c('Richard L. Peters [aut, cre,cph]', 
+Version: 0.0.9
+Date: 25/05/2017 10:00:00
+Author@R: as.person(c('Richard L. Peters [aut, cre,cph]',
+    'Alexander Hurley [ctr]'
     'Daniel Balanzategui [ctr]',
     'Angela Luisa Prendin [crt]', 
     'Georg von Arx [aut]',
@@ -14,20 +16,20 @@ Maintainer: Richard L. Peters <richardlouispeters3@hotmail.com>
 Depends: R (>= 3.2.0)
 Imports: gam, 
     mgcv
-Description: Performs wood cell anatomical data analyses on spatially explicit 
-    xylem (tracheids) datasets derived from wood thin sections. The package 
-    includes functions for visualisation, detection and alignment of continuous
-    tracheid radial file (defined as rows) and individual tracheid position
-    within an annual ring of coniferous species. This package is designed to be
-    used with elaborate cell output, e.g. as provided with 
-    ROXAS (von Arx & Carrer 2014). The package has been validated for Picea
-    abies, Larix Siberica, Pinus cembra and Pinus sylvestris.
+Description:      Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) datasets 
+                  derived from wood anatomical thin sections. The package includes functions for the visualisation, 
+                  alignment and detection of continuous tracheid radial file (defines as rows) and tracheid position 
+                  within an annual ring of coniferous species. This package is designed to use elaborate cell output, 
+                  like provided with ROXAS (von Arx & Carrer, 2014). The package has been validated for Picea abies, 
+                  Larix Siberica, Pinus cembra and Pinus sylvestris.
 License: GPL (>= 2)
+NeedsCompilation: No
 Encoding: UTF-8
 LazyData: true
-URL: 
-BugReports: 
+Depends: R (>= 3.0), base
+Imports: gam, mgcv
 Repository: CRAN
-Date: 2017-05-07 20:00:00
+References:       von Arx, G., & Carrer, M. (2014) ROXAS - A new tool to build centuries-long tracheid-lumen chronologies 
+                  in conifers. Dendrochronologia 32, 290-293.
 RoxygenNote: 6.0.1
 Suggests: testthat
