@@ -2,12 +2,12 @@
 #'
 #' @description Generating final output graphs and files for the row and position detection. Input data should be provided as produced by \code{\link{pos.det}}.
 #' @param input a \code{\link{data.frame}} produced by \code{\link{pos.det}}.
-#' @param location an optional text string containing the location where the output .pdf and .txt file should be stored. See \code{\link{setwd}} for formatting. Location should provide \code{\link{as.character}}.
-#' @param flip logical flag indicating whether to plot the data with earlywood downwards (default; flip = \code{\link{FALSE}}) or upwards (flip = \code{\link{TRUE}}).
-#' @details Function that aids in graphing the output and writing output tables. The \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each row. The output table provides the standard output table with two additional lines containing the "ROW" number and "POSITION" within the row. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz and DeSoto, 2015) or link the output to xylogenesis data (cf. Rathgeber et al., 2011).
+#' @param location an optional character string containing the location where the output .pdf and .txt file should be stored. See \code{\link{setwd}} for formatting. Location should provide \code{\link{as.character}}.
+#' @param flip logical flag indicating in which direction to plot the cells, i.e. with earlywood at the bottom (default; flip = \code{\link{FALSE}}) or at the top (flip = \code{\link{TRUE}}).
+#' @details Function that aids in graphing the output and writing output tables. The \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each radial file. The output table provides the standard output table with two additional columns containing the "ROW" number and "POSITION" within the row. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz and DeSoto, 2015) or link the output to xylogenesis data (cf. Rathgeber et al., 2011).
 #' @export
 #' @return Plots the detected radial files and writes output according the the \code{\link{is.raptor}} format.
-#' @usage write.output(input, location = c("C:\\Documents"), flip = FALSE)
+#' @usage write.output(input, location = c("./"), flip = FALSE)
 #' @references de la Cruz, M., and DeSoto, L. (2015) tgram: Functions to compute and plot tracheidograms. CRAN: https://cran.r-project.org/web/packages/tgram/tgram.pdf.\cr
 #' \cr
 #' Rathgeber, C.B.K., Longuetaud, F., Mothe, F., Cuny, H., Le Moguedec, G. (2011) Phenology of wood formation: Data processing, analysis and visualisation using R (package CAVIAR). Dendrochronologia 29, 139-149.
@@ -44,7 +44,10 @@
 #'           SIB_LARIX[,"ROW"]==row_id[j]), "ROW"]<-j
 #' }}
 #' View(SIB_LARIX)
-write.output<-function(input,location=c("D:\\Documents"),flip=FALSE){
+write.output<-function(input,location=c("./"),flip=FALSE){
+
+      time_start <- Sys.time()
+      outlist <- list()
 
       #input<-output
       if(missing(flip)){flip<-FALSE}
@@ -124,4 +127,5 @@ write.output<-function(input,location=c("D:\\Documents"),flip=FALSE){
             write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
             dev.off()}
       return(output_all_years)
+      print(Sys.time() - time_start)
 }

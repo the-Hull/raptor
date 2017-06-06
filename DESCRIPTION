@@ -17,10 +17,10 @@ Depends: R (>= 3.2.0)
 Imports: gam, 
     mgcv
 Description:      Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) datasets 
-                  derived from wood anatomical thin sections. The package includes functions for the visualisation, 
-                  alignment and detection of continuous tracheid radial file (defines as rows) and tracheid position 
-                  within an annual ring of coniferous species. This package is designed to use elaborate cell output, 
-                  like provided with ROXAS (von Arx & Carrer, 2014). The package has been validated for Picea abies, 
+                  derived from thin sections of woody tissue. The package includes functions for visualisation, 
+                  detection and alignment of continuous tracheid radial file (defined as rows) and individual tracheid position 
+                  within an annual ring of coniferous species. This package is designed to be used with elaborate cell output, 
+                  e.g. as provided with ROXAS (von Arx & Carrer, 2014). The package has been validated for Picea abies, 
                   Larix Siberica, Pinus cembra and Pinus sylvestris.
 License: GPL (>= 2)
 NeedsCompilation: No

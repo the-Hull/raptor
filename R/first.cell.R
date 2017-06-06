@@ -1,11 +1,11 @@
 #' @title Detection of the first cells
 #'
-#' @description This functions uses a  \code{\link{is.raptor}} file (preferably obtained from \code{\link{align}}) and adds a column with the first cell detected within a row (or the start of a radial file). The number indicates to which radial file the first cell belongs to (counting from left to right). All cells with \code{\link{NA}} are not first row cells and are not included in further analyses.
+#' @description This function uses an \code{\link{is.raptor}} file (preferably obtained from \code{\link{align}}) and adds a column with the first cell detected within a radial file (i.e. first cell formed in the growing season). The value indicates to which radial file the first cell belongs to (counting from left to right). All cells with \code{\link{NA}} are not considered as first row cells and are excluded in further analyses.
 #' @param input an \code{\link{is.raptor}} file.
-#' @param frac.small a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).
-#' @param yrs either a vector providing the year(s) of interest or \code{\link{FALSE}} to select all years included in input (default = \code{\link{FALSE}}).
+#' @param frac.small a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimum threshold used to exclude cells in the first row that are too small (default = 0.5).
+#' @param yrs either a numeric vector providing the year(s) of interest or \code{\link{FALSE}} to select all years included in input (default = \code{\link{FALSE}}).
 #' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
-#' @details The first row of cells is detected using a local search algorithm. Initially the first cell is detected (green box when make.plot = \code{\link{TRUE}}), after which the algorithm searches until the last cell (red box when make.plot = \code{\link{TRUE}}). Numbers within the graph indicate the row numbers that have been detected. The output adds a line of rows to the input data which indicates the first row cells. The frac.small option helps to filter out unrealistically small cells.
+#' @details The first row of cells is detected using a local search algorithm, where the first cell is indicated by a green box when make.plot = \code{\link{TRUE}}, and the last by a red box. Values within the graph indicate the row numbers that have been detected. The output adds an additional column to the input data which indicates the first row cells. The frac.small option allows filtering out unrealistically small cells.
 #' @import
 #' mgcv
 #' gam
