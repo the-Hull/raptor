@@ -5,9 +5,8 @@
 #' @param year a numerical value specifying the year of interest. Default starts with the first year and plots the other years in sequence.
 #' @param interact a logical flag. If \code{\link{TRUE}}, the user can interactively cycle through plots of annual rings (default = \code{\link{FALSE}}).
 #' @details This graphical interface aids in exploring the cell position and cell size. The upper \code{\link{plot}} provides and overview of the available years within the \code{\link{data.frame}}. Grey shading indicates the year that is presented in the lower panel. The italic value in the upper panel presents the number of cells within the selected year. The lower panel shows the position of the cells with their unique "CID". XCAL and YCAL positions are standardized to the minimum occurring coordinates. Within the lower panel, the grey boxes represent the cells, derived from the lumen area ("CA") assuming a square shape. When "interact = \code{\link{TRUE}}", \code{\link{readline}} messages will be presented with multiple options to create new \code{\link{plot}} while moving along the years (including selecting the previous, next year or selecting a specific year). Stopping the interact function is done by typing "x". Terminate this function before continuing with other functions.
-#' @import
 #' @export
-#' @usage plot.cells(input,year=FALSE,interact=FALSE)
+#' @usage plot_cells(input,year=FALSE,interact=FALSE)
 #' @examples
 #' #plotting example data
 #' input<-example.data(species="LOT_PICEA")
@@ -16,7 +15,9 @@
 #' 2010
 #' x
 #3.plot.cells----
-plot.cells<-function(input,year=FALSE,interact=FALSE){
+plot_cells<-function(input,year=FALSE,interact=FALSE){
+      opar <- par()
+      requireNamespace('base')
       if(missing(year)){year<-FALSE}
       if(missing(interact)){interact<-FALSE}
       if(missing(year)){year<-FALSE}
@@ -27,7 +28,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
             for(c in c(1:length(unique(input[,"YEAR"])))){
                   iso<-input[which(input[,"YEAR"]==unique(input[,"YEAR"])[c]),]
                   if(nrow(iso)==0){next}
-                  layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+                  layout(matrix(c(1,2,2,2),ncol = 1, byrow = TRUE))
                   par(mar=c(3,5,3,1))
                   plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
                   axis(side=1,at=unique(input[,"YEAR"]))
@@ -47,7 +48,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
       if(is.numeric(year)==TRUE&interact==FALSE | is.numeric(year)==TRUE & missing(interact)==TRUE){
             if(nrow(input[which(input[,"YEAR"]==year),])==0)stop('year is not present in data.frame')
             iso<-input[which(input[,"YEAR"]==year),]
-            layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+            layout(matrix(c(1,2,2,2),ncol=1, byrow = TRUE))
             par(mar=c(3,5,3,1))
             plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
             axis(side=1,at=unique(input[,"YEAR"]))
@@ -69,7 +70,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
                   if(nrow(input[which(input[,"YEAR"]==year),])==0)stop('year is not present in data.frame')
                   year_select<-year}
             iso<-input[which(input[,"YEAR"]==year_select),]
-            layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+            layout(matrix(c(1,2,2,2),ncol = 1, byrow = TRUE))
             par(mar=c(3,5,3,1))
             plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
             axis(side=1,at=unique(input[,"YEAR"]))
@@ -117,7 +118,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
                   if(year_select=="x"){break}
                   year_select<-as.numeric(year_select)
                   iso<-input[which(input[,"YEAR"]==year_select),]
-                  layout(matrix(c(1,2,2,2),nc=1, byrow = TRUE))
+                  layout(matrix(c(1,2,2,2),ncol=1, byrow = TRUE))
                   par(mar=c(3,5,3,1))
                   plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
                   axis(side=1,at=unique(input[,"YEAR"]))
@@ -134,4 +135,6 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
                         polygon(c((iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"XCAL"]-iso[i,"SQRLENGTH"]/2))
                                 ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
                         text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}
-            }}}
+            }}
+      par <- opar
+}

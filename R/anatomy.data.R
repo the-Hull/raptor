@@ -24,5 +24,5 @@
 #' #viewing anatomy data
 #' View(anatomy.data)
 #' @keywords dataset, wood anatomy, lumean area, cell wall thickness
-#' @export
-NULL
+
+"anatomy.data"

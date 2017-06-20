@@ -15,13 +15,22 @@
 #' @param yrs either a vector providing the year(s) of interest or \code{\link{FALSE}} to select all years included in input (default = \code{\link{FALSE}}).
 #' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
 #' @details After the identification of the first cells (with \code{\link{first.cell}}) within a radial file, this function assigns remaining cells to a corresponding radial file based on various search criteria. A local search algorithm is applied which searches cells above a specified target cell (n; starts with first cell of the radial file detected by \code{\link{first.cell}}). First the "earlywood" search process projects a search area from the selected cell with a specific width (x-axis) and length (y-axis). The search length and width is based on the length of the target cell (l_n) determined with size of the cell (where l_n= \code{\link{sqrt}}(CA_n) ) and multiplied by a factor (sle = search length earlywood, for the search length and swe = search width earlywood, for the search width). This initial search grid is presented in "orange"(if make.plot = \code{\link{TRUE}}), where the width can be adjusted by changing swe and the length by sle. When no cells are detected (last detected cells are indicated with orange circles), caused in most cases by the small size of latewood cells, a second search grid is established with an altered length and width (sll = search length latewood and swl = search width latewood; presented in "red" if make.plot = \code{\link{TRUE}}; last detected cell are indicates with red circles). Due to smaller fragments of erroneously detected cells, for both search grids a cut-off value is added where the next cell should not be smaller than the lumen area of the target cell (CA_n) times a factor (ec = earlywood cut off and lc = latewood cut off). Finally, a flexible spline is fitted through the selected cells within a row to detect missing cells. Once all cells are detected (last cell is indicated with a red square), the distance between the cells is analysed and depending upon a profile cut-off factor (prof.co) the row is omitted, if the distance difference between n+1 and n+2 times prof.co is bigger than the distance of n and n+1 (which could present a gap often caused by resin ducts; omitted rows are indicated with a "+" symbol). Also, rows that have less cells then the maximum cell count times a factor (max.cells) are removed, as the row might be incomplete (omitted rows are indicated with a "x" symbol).
-#' @import
-#' mgcv
-#' gam
+#' @import mgcv
 #' @export
 #' @return An \code{\link{is.raptor}} file with an added column describing the position within the radial file.
-#' @usage pos.det(input, swe = 0.5, sle = 3, ec = 1.75 , swl = 0.25, sll = 5, lc = 5,
-#'         prof.co = 6, max.cells = 0.5, yrs = FALSE, aligning = TRUE, make.plot = TRUE)
+#' @usage pos.det(input,
+#' swe = 0.5,
+#' sle = 3,
+#' ec = 1.75 ,
+#' swl = 0.25,
+#' sll = 5,
+#' lc = 5,
+#' prof.co = 6,
+#' max.cells = 0.5,
+#' list=FALSE,
+#' yrs = FALSE,
+#' aligning = TRUE,
+#' make.plot = TRUE)
 #' @examples
 #' #example of position detection
 #' input<-is.raptor(example.data(species="MOUNT_PINUS"), str = FALSE)
@@ -29,7 +38,8 @@
 #' first<-first.cell(aligned, frac.small = 0.2, yrs = FALSE, make.plot = FALSE)
 #' output<-pos.det(first, swe = 0.7, sle = 3, ec = 1.75, swl = 0.5, sll = 5, lc = 10,
 #'                 prof.co = 1.7, max.cells = 0.7, yrs = FALSE, aligning = FALSE, make.plot = TRUE)
-pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,list=FALSE,yrs=FALSE,make.plot=TRUE){
+pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,prof.co =6,
+                  max.cells = 0.5,list = FALSE,yrs = FALSE, aligning=TRUE,make.plot=TRUE){
 
       #input<-first
       #swe = 1.2
@@ -180,7 +190,7 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
             }
 
             if(make.plot==TRUE){
-                  layout(matrix(c(1),nc=1, byrow = TRUE))
+                  layout(matrix(c(1),ncol=1, byrow = TRUE))
                   par(mar=c(5,5,3,1))
                   plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",main=paste(sample,as.character(year),sep=" - "),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
                   nrcells<-nrow(data_year)
@@ -333,12 +343,12 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
             backup<-data_year
             data_year<-backup
 
-            list.of.packages <- c("mgcv","gam","base")
-            new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-            if(length(new.packages)) install.packages(new.packages)
-            require("gam")
-            require("mgcv")
-            require("base")
+            # list.of.packages <- c("mgcv","gam","base")
+            # new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+            # if(length(new.packages)) install.packages(new.packages)
+            # require("gam")
+            # require("mgcv")
+            # require("base")
 
             #FINAL GAMM FIT FOR THE CELL POSITION (WITH PADDING OF 0.5 micron)----
             #error.test <- try(gam(y ~ s(x),data=input_m),silent =TRUE)
@@ -357,9 +367,9 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
                         y_new                  <-(c(y,(y-0.5),(y+0.5)))#padding the cells
                         input_m                  <-data.frame(cbind(y_new,x_new))
                         colnames(input_m)        <-c("y","x")
-                        Model                  <-gam(x ~ s(y),data=input_m)
+                        Model                  <-mgcv::gam(x ~ mgcv::s(y),data=input_m)
                         y                      <-c(min(data_select[,"YCAL"],na.rm=TRUE):max(data_select[,"YCAL"],na.rm=TRUE))
-                        predict                <-predict(Model,newdata=data.frame(y))
+                        predict                <-mgcv::predict.gam(Model,newdata=data.frame(y))
                         mean_width             <-mean(data_select[,"SQRLENGTH"],na.rm=TRUE)
                         #if(make.plot==TRUE){#lines((predict),y,lty=1)
                         #  lines((as.numeric(predict)+mean_width*gam_width),y,lty=2)
@@ -367,7 +377,7 @@ pos.det<-function(input,swe,sle,ec,swl,sll,lc,prof.co,max.cells,aligning=TRUE,li
                         #}
                         data_na                <-data_year[which(is.na(data_year[,"ROW"])==TRUE),]
                         y                      <-data_na[,"YCAL"]
-                        value                  <-predict(Model,newdata=data.frame(y))
+                        value                  <-mgcv::predict.gam(Model,newdata=data.frame(y))
                         upper                  <-value+mean_width*gam_width
                         lower                  <-value-mean_width*gam_width
                         selection_cells        <-cbind(data_na[,"CID"],data_na[,"XCAL"],upper,lower)

@@ -7,10 +7,9 @@
 #' @param list a \code{\link{vector}} of numeric values indicating the rotation slope for each year.
 #' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
 #' @details Correct alignment of cells/tracheids is important for detecting the first cells and assigning cells to a radial file. This function provides the option to align your cell data (XCAL and YCAL). This function provides and interactive procedure to improve the alignment by presenting a crosshair with slopes with which the sample should be rotated. Proper alignment is obtain when the first cells are approximately aligned on a horizontal line and the upward cells are propagated vertically. Either interactively or with predefined slopes, the user can rotate the sample orientation. An automatic option is also available where a simple linear regression is fitted through all points to adjust the rotation. The plot shows the original position of the cells (black dots) and lines that can be selected to rotate the sample. After correction the new position of the cells is presented (red dots).
-#' @import
 #' @export
 #' @return An aligned \code{\link{is.raptor}} file.
-#' @usage align(input, year = FALSE, interact = TRUE, list = FALSE, make.plot = TRUE)
+#' @usage align(input, year = FALSE, list = FALSE, interact = TRUE, make.plot = TRUE)
 #' @examples
 #' #rotating example data
 #' input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
@@ -18,8 +17,8 @@
 #' 0.1
 #' y
 align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
-      input<-read.table("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Manuscript 08-05-2017\\Nieuwe map\\example.data.txt",header=TRUE,sep="\t")
-      input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
+      # input<-read.table("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Manuscript 08-05-2017\\Nieuwe map\\example.data.txt",header=TRUE,sep="\t")
+      # input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
       #year<-2008
       #list<-c("v","v","v","h")
       #interact=FALSE
@@ -48,7 +47,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                   iso[,"XCAL"]<-iso[,"XCAL"]-(min(iso[,"XCAL"],na.rm=TRUE))+1
                   iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
                   repeat{
-                        layout(matrix(c(1),nc=1, byrow = TRUE))
+                        layout(matrix(c(1),ncol = 1, byrow = TRUE))
                         par(mar=c(5,5,3,1))
                         plot(0,0,ylab="Y-coordinates (micron)",xlab="X-coordinates (micron)",xlim=c(0-max(iso[,"XCAL"],na.rm=TRUE)*0.01,max(iso[,"XCAL"],na.rm=TRUE)),ylim=c(0,max(iso[,"YCAL"],na.rm=TRUE)),col="white",main=paste(unique(iso[,"ID"]),unique(iso[,"YEAR"]),sep=" - "))
                         points(iso[,"XCAL"],iso[,"YCAL"],pch=16,cex=0.5)
@@ -64,10 +63,10 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                         colnames(output)<-c("X_CAL","Y_CAL")
                         #still need to tranfors it to a horizontal line
                         if(option!="x"&option!="v"&option!="h"& is.na(suppressWarnings(as.numeric(option)))==TRUE){
-                              print('Option is not available')
+                              message('Option is not available')
                               next}
                         if(option=="x"){
-                              print("end align")
+                              message("end align")
                               break}
                         if(option=="v"){
                               model<-lm(iso[,"XCAL"]~iso[,"YCAL"])
@@ -105,7 +104,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                               output[p,"Y_CAL"]<-y_new}
                         check<-readline("SELECT - is alignment correct yes [y] / no [n] : ")
                         if(check!="y"&check!="n"){
-                              print('should be Y/N')
+                              message('should be Y/N')
                               next}
                         if(check=="n"){next}
                         if(check=="y"){break}
@@ -148,7 +147,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                         iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
 
                         if(make.plot==TRUE){
-                              layout(matrix(c(1),nc=1, byrow = TRUE))
+                              layout(matrix(c(1),ncol = 1, byrow = TRUE))
                               par(mar=c(5,5,3,1))
                               plot(0,0,ylab="Y-coordinates (micron)",xlab="X-coordinates (micron)",xlim=c(0-max(iso[,"XCAL"],na.rm=TRUE)*0.01,max(iso[,"XCAL"],na.rm=TRUE)),ylim=c(0,max(iso[,"YCAL"],na.rm=TRUE)),col="white",main=paste(unique(iso[,"ID"]),unique(iso[,"YEAR"]),sep=" - "))
                               points(iso[,"XCAL"],iso[,"YCAL"],pch=16,cex=0.5)
@@ -210,7 +209,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                         iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
 
                         if(make.plot==TRUE){
-                              layout(matrix(c(1),nc=1, byrow = TRUE))
+                              layout(matrix(c(1),ncol = 1, byrow = TRUE))
                               par(mar=c(5,5,3,1))
                               plot(0,0,ylab="Y-coordinates (micron)",xlab="X-coordinates (micron)",xlim=c(0-max(iso[,"XCAL"],na.rm=TRUE)*0.01,max(iso[,"XCAL"],na.rm=TRUE)),ylim=c(0,max(iso[,"YCAL"],na.rm=TRUE)),col="white",main=paste(unique(iso[,"ID"]),unique(iso[,"YEAR"]),sep=" - "))
                               points(iso[,"XCAL"],iso[,"YCAL"],pch=16,cex=0.5)

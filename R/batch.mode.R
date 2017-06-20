@@ -10,16 +10,40 @@
 #' @param frac.small a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).
 #' @param flip logical flag indicating whether to plot the data with earlywood downwards (default; flip = \code{\link{FALSE}}) or upwards (flip = \code{\link{TRUE}}).
 #' @param ... see \code{\link{pos.det}} for arguments.
-#' @details This function aids in applying all described functions on a large dataset composed of multiple of multiple files, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a .pdf file. Additionally, output text files are written. All output files are exported into the directory specified in the location argument.
-#' @import
-#' mgcv
-#' gam
+#' @param swe a numeric value that is multiplied by the square-rooted cell lumen area (l) of the target cell and used to determine the width of the rectangular search area which locates the next earlywood cell in the row (default = 0.5).
+#' @param sle a numeric value that is multiplied by the square rooted cell lumen area (l) of the target cell to determine the length of the rectangle search area which locates the next earlywood cell in the row (default = 3).
+#' @param ec threshold ratio between the lumen area of two consecutive earlywood cells to determine the end of the earlywood search (default = 1.75). The default setting indicates that the earlywood search ends when the next cell lumen area is at least 1.75 times smaller than the target cell.
+#' @param swl a numeric value that is multiplied by the square rooted cell lumen area (l) of the target cell to determine the width of the rectangle search area which locates the next latewood cell in the row (default = 0.25).
+#' @param sll a numeric value that is multiplied by the square rooted cell lumen area (l) of the target cell to determine the length of the rectangle search area which locates the next earlywood cell in the row (default = 5).
+#' @param lc threshold ratio between the lumen area of two consecutive latewood cells to determine the end of the radial file (default = 10). The default setting indicates that the latewood search ends when the next cell lumen area is at least 10 times smaller than the target cell.
+#' @param prof.co threshold ratio between the distance to the previous and consecutive cell to determine if the row (or radial file) should be excluded (default = 6).
+#' @param max.cells threshold proportion of the maximum number of cells to determine if the radial file has to be excluded (default = 0.6).
+#' @details This function aids in applying all described functions on a large dataset composed of multiple files, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a .pdf file. Additionally, output text files are written. All output files are exported into the directory specified in the location argument.
+#' @import mgcv
 #' @export
-#' @return Plots the detected radial files and writes output according the the \code{\link{is.raptor}} format.
-#' @usage batch.mode(location = c("."), files = c(". .txt" , ". .txt"),
-#'            interact = TRUE, make.plot = FALSE, aligning = TRUE, list = FALSE, fac.small = 0.5, flip = FALSE, ...)
-batch.mode<-function(location=c("..."),files=FALSE,interact=TRUE,make.plot=TRUE,aligning=TRUE,frac.small=0.5,swe=0.5,sle=3,
-                     ec=3,swl=0.5,sll=5,lc=10,prof.co=6,max.cells=0.5,list=FALSE,flip=FALSE){
+#' @return Plots the detected radial files and writes output according the the
+#' \code{\link{is.raptor}} format.
+#' @usage batch.mode(location = c("."), files = FALSE,
+#'            interact = TRUE, make.plot = TRUE,
+#'            aligning = TRUE, frac.small=0.5, swe=0.5, sle=3,
+#' ec=3, swl=0.5, sll=5, lc=10, prof.co=6, max.cells=0.5,
+#' list = FALSE, flip = FALSE)
+batch.mode<-function(location=c("."),
+                     files=FALSE,
+                     interact=TRUE,
+                     make.plot=TRUE,
+                     aligning=TRUE,
+                     frac.small=0.5,
+                     swe=0.5,
+                     sle=3,
+                     ec=3,
+                     swl=0.5,
+                     sll=5,
+                     lc=10,
+                     prof.co=6,
+                     max.cells=0.5,
+                     list=FALSE,
+                     flip=FALSE){
       #test
       #location = c("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Test-Georg")
       #files = c("17_3_15_A_a_Output_Cells.txt")

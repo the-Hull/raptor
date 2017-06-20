@@ -3,19 +3,19 @@ Type: Package
 Title: Row And Position of Tracheid Organizer in R
 Version: 0.0.9
 Date: 25/05/2017 10:00:00
-Author@R: as.person(c('Richard L. Peters [aut, cre,cph]',
-    'Alexander Hurley [ctr]'
-    'Daniel Balanzategui [ctr]',
-    'Angela Luisa Prendin [crt]', 
-    'Georg von Arx [aut]',
-    'Henri E. Cuny [ctr]',
-    'Jesper Bjoerklund [ctr]',
-    'David C. Frank [ctr]',
-    'Patrick Fonti [ths,ctr.fnd]'))
+Authors@R: c(
+      person('Richard L. Peters', role =  c('aut', 'cre', 'cph'), email = 'richardlouispeters3@hotmail.com'),
+      person('Alexander Hurley', role =  c('ctr')),
+      person('Daniel Balanzategui', role =  c('ctr')),
+      person('Angela Luisa Prendin', role = 'ctr'), 
+      person('Georg von Arx', role = 'ctr'),
+      person('Henri E. Cuny', role = 'ctr'),
+      person('Jesper Bjoerklund', role = 'ctr'),
+      person('David C. Frank', role = 'ctr'),
+      person('Patrick Fonti', role = c('ths','ctr','fnd')))
 Maintainer: Richard L. Peters <richardlouispeters3@hotmail.com>
 Depends: R (>= 3.2.0)
-Imports: gam, 
-    mgcv
+Imports: gam,mgcv
 Description:      Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) datasets 
                   derived from thin sections of woody tissue. The package includes functions for visualisation, 
                   detection and alignment of continuous tracheid radial file (defined as rows) and individual tracheid position 
@@ -23,7 +23,7 @@ Description:      Performs wood cell anatomical data analyses on spatially expli
                   e.g. as provided with ROXAS (von Arx & Carrer, 2014). The package has been validated for Picea abies, 
                   Larix Siberica, Pinus cembra and Pinus sylvestris.
 License: GPL (>= 2)
-NeedsCompilation: No
+NeedsCompilation: no
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.0), base

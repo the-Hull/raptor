@@ -7,3 +7,6 @@ packrat/
 
 *.pdf
 *output.txt
+
+manuscript/
+out/
