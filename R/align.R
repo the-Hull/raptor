@@ -31,6 +31,9 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
       #input <- prep(example.data(roxas = TRUE))
       #input<-prep(read.table(files[file],header=TRUE,sep="\t"))
 
+      opar <- graphics::par(no.readonly=T)
+      on.exit(graphics::par(opar))
+
       if(missing(year)){year<-FALSE}
       if(missing(interact)){interact<-FALSE}
       if(missing(list)){list<-FALSE}

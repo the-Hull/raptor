@@ -41,6 +41,9 @@
 pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,prof.co =6,
                   max.cells = 0.5,list = FALSE,yrs = FALSE, aligning=TRUE,make.plot=TRUE){
 
+      opar <- graphics::par(no.readonly=T)
+      on.exit(graphics::par(opar))
+
       #input<-first
       #swe = 1.2
       #sle = 3
@@ -367,7 +370,8 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                         y_new                  <-(c(y,(y-0.5),(y+0.5)))#padding the cells
                         input_m                  <-data.frame(cbind(y_new,x_new))
                         colnames(input_m)        <-c("y","x")
-                        Model                  <-mgcv::gam(x ~ mgcv::s(y),data=input_m)
+                        s=mgcv:::s
+                        Model                  <-mgcv::gam(x ~ s(y),data=input_m)
                         y                      <-c(min(data_select[,"YCAL"],na.rm=TRUE):max(data_select[,"YCAL"],na.rm=TRUE))
                         predict                <-mgcv::predict.gam(Model,newdata=data.frame(y))
                         mean_width             <-mean(data_select[,"SQRLENGTH"],na.rm=TRUE)

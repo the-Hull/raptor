@@ -27,7 +27,6 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
 
       opar <- graphics::par(no.readonly=T)
       on.exit(graphics::par(opar))
-      #
 
       if(missing(yrs)){yrs<-unique(input[,"YEAR"])}
       if(missing(frac.small)){frac.small<-0.5}
@@ -40,7 +39,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       fraction_smallest<-frac.small
       data<-input
       for(u in c(1:length(yrs))){
-            #u<-1
+            #u<-7
             year<-yrs[u]
             data_year<-data[which(data[,"YEAR"]==year),]
             sample<-unique(data_year[,"ID"])
@@ -155,21 +154,21 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         if(nrow(isolate)<10){
                               isolate<-isolate
                         }else{
-                              isolate<-isolate[c(1:10),]
+                              isolate<-isolate #[c(1:10),]
                         }
                         isolate[,"DISTANCE"]<-NA
                         xorig<-data_select[,"XCAL"]
                         yorig<-data_select[,"YCAL"]
+
                         for(p in c(1:nrow(isolate))){
                               isolate[p,"DISTANCE"]<-sqrt((2*((isolate[p,"XCAL"]-xorig)^2))+((isolate[p,"YCAL"]-yorig)^2))
                         }
                         if(nrow(isolate)>3){
                               isolate<-isolate[order(isolate$DISTANCE),]
                               isolate<-isolate[c(1:3),]
-                        }else{
+                         }else{
                               isolate<-isolate[order(isolate$DISTANCE),]
                         }
-                        isolate     <-isolate[order(isolate$XCAL),]
                         first_select<-isolate[1,"CID"]
                         xstart      <-isolate[1,"XCAL"]-((isolate[1,"SQRLENGTH"]/2)*1)
                         xend        <-isolate[1,"XCAL"]+((isolate[1,"SQRLENGTH"]/2)*1)
@@ -177,12 +176,25 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         above_cells <-data_isolate[which(data_isolate["XCAL"]>=xstart & data_isolate["XCAL"]<=xend & data_isolate["YCAL"]<=ystart),]
                         size        <-data_isolate[which(data_isolate[,"CID"]==first_select),"CA"]/4
                         above_cells <-above_cells[which(above_cells[,"CA"]>size),]
+
                         if(nrow(above_cells)==0){
                               final_select<-first_select
-                        }else{
+                              }else{
+
+                        for(qz in c(1:nrow(data_year))){
                               select_above_cell     <-above_cells[order(above_cells$YCAL),]
-                              final_select          <-select_above_cell[1,"CID"]
-                        }
+                              test        <-select_above_cell[1,"CID"]
+                              xstart      <-data_isolate[which(data_isolate[,"CID"]==test),"XCAL"]-((data_isolate[which(data_isolate[,"CID"]==test),"SQRLENGTH"]/2)*1)
+                              xend        <-data_isolate[which(data_isolate[,"CID"]==test),"XCAL"]+((data_isolate[which(data_isolate[,"CID"]==test),"SQRLENGTH"]/2)*1)
+                              ystart      <-data_isolate[which(data_isolate[,"CID"]==test),"YCAL"]-(data_isolate[which(data_isolate[,"CID"]==test),"SQRLENGTH"]/2)
+                              above_cells <-data_isolate[which(data_isolate["XCAL"]>=xstart & data_isolate["XCAL"]<=xend & data_isolate["YCAL"]<=ystart),]
+                              if(nrow(above_cells)==0){
+                                    final_select<-select_above_cell[1,"CID"]
+                                    break
+                                    }
+                              }
+                              }
+
                         data_year[which(data_year[,"CID"]==final_select),"ROW"]<-t+1
                         data_isolate[which(data_isolate[,"CID"]==final_select),"ROW"]<-t+1
                         data_one<-data_year[which(data_year[,"ROW"]==t+1),]
@@ -211,16 +223,14 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             # # require("mgcv")
             # # require("base")
 
-
-
-
-            error.test <- try(mgcv::gam(y ~ mgcv::s(x),data=input_m),silent =TRUE)
+            s=mgcv:::s
+            error.test <- try(mgcv::gam(y ~ s(x),data=input_m),silent =TRUE)
             if("try-error" %in% class(error.test)){print("no gam applied due to low number of rows")
                   data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
                   data_years <-data_years[order(data_years$XCAL),]
             }else{
-
-                  Model                  <-mgcv::gam(y ~ mgcv::s(x),data=input_m)
+                  s=mgcv:::s
+                  Model                  <-mgcv::gam(y ~ s(x),data=input_m)
                   x                      <-c(0:max(data_year[,"XCAL"],na.rm=TRUE))
                   predict                <-mgcv::predict.gam(Model,newdata=data.frame(x))
                   data_isolate[,"BOUNDARY_UPP"] <-NA
@@ -257,7 +267,6 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         y     <-adding_data[c,"YCAL"]
                         x_cor<-c((x-length),(x+length),(x+length),(x-length))
                         y_cor<-c((y+length),(y+length),(y-length),(y-length))
-                        #graphics::polygon(x_cor,y_cor,border="blue")
                   }
                   data_year[which(data_year[,"CA"]<cutoff_size),"ROW"]<-NA
                   data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
@@ -281,7 +290,8 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   y                      <-data_model[,"YCAL"]
                   input_m                  <-data.frame(cbind(x,y))
                   colnames(input_m)        <-c("x","y")
-                  Model                  <-mgcv::gam(y ~ mgcv::s(x),data=input_m)
+                  s=mgcv:::s
+                  Model                  <-mgcv::gam(y ~ s(x),data=input_m)
                   x                      <-c(1:(max(data_model[,"XCAL"],na.rm=TRUE)))
                   predict                <-mgcv::predict.gam(Model,newdata=data.frame(x))
                   x                      <-(data_model[,"XCAL"])
@@ -297,7 +307,6 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   }
 
             }
-
             graph<-data_years[which(is.na(data_years[,"ROW"])==FALSE),]
             if(nrow(graph)==0){print("no cells detected")
                   break}

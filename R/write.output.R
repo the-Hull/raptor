@@ -46,6 +46,9 @@
 #' }
 write.output<-function(input,location=c("./"),flip=FALSE){
 
+      opar <- graphics::par(no.readonly=T)
+      on.exit(graphics::par(opar))
+
       time_start <- Sys.time()
       outlist <- list()
 

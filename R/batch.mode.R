@@ -169,8 +169,6 @@ batch.mode<-function(location=c("."),
                   data_year[,"SQRLENGTH"] <-sqrt(data_year[,"CA"])
                   nrcells<-nrow(data_year)
                   rows<-max(unique(data_year[,"ROW"])[which(is.na(unique(data_year[,"ROW"]))==FALSE)])
-                  #col_code<-rep(c("orange","blue","red","green","purple"),ceiling(rows/5))
-                  #col_code<-rep(c("#FFA500 ","#FF3300","#C71585","#191970 ","#20B2AA ","#00CC33","#006633"),ceiling(rows/7))
                   col_code<-rep(c("#FFA500","#FF3300","#C71585","#191970","#20B2AA","#00CC33","#006633"),ceiling(rows/7))
 
                   for(i in c(1:nrcells)){

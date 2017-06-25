@@ -12,6 +12,7 @@
 #' str(input)
 example.data<-function(species=FALSE){
       if(species!="LOT_PICEA"&species!="SIB_LARIX"&species!="LOW_PINUS"&species!="MOUNT_PINUS")stop('dataset not present')
+      #y<-anatomy.data
       y<-RAPTOR::anatomy.data
       y<-y[which(y[,"ID"]==species),]
       return(y)}
