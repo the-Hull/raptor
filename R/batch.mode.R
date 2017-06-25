@@ -19,7 +19,7 @@
 #' @param prof.co threshold ratio between the distance to the previous and consecutive cell to determine if the row (or radial file) should be excluded (default = 6).
 #' @param max.cells threshold proportion of the maximum number of cells to determine if the radial file has to be excluded (default = 0.6).
 #' @details This function aids in applying all described functions on a large dataset composed of multiple files, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a .pdf file. Additionally, output text files are written. All output files are exported into the directory specified in the location argument.
-#' @import mgcv
+#' @import graphics
 #' @export
 #' @return Plots the detected radial files and writes output according the the
 #' \code{\link{is.raptor}} format.
@@ -157,11 +157,11 @@ batch.mode<-function(location=c("."),
                   if(b.==TRUE){
 
                         if(flip==FALSE){
-                              plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
+                              graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
                                    ylim=c(0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01,max(data_year[,"YCAL"],na.rm=TRUE)),
                                    main=paste(sample," - ",as.character(year)," - Rows: ",max(data_year[,"ROW"],na.rm=TRUE),sep=""),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2,col="white")}
                         if(flip==TRUE){
-                              plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
+                              graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
                                    ylim=c(max(data_year[,"YCAL"],na.rm=TRUE),0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01),
                                    main=paste(sample," - ",as.character(year)," - Rows: ",max(data_year[,"ROW"],na.rm=TRUE),sep=""),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2,col="white")
                         }
@@ -182,13 +182,13 @@ batch.mode<-function(location=c("."),
 
                         if(b.==TRUE){
                               if(is.na(data_year[i,"ROW"])==TRUE){
-                                    polygon(x_cor,y_cor)
+                                    graphics::polygon(x_cor,y_cor)
                               }else{
-                                    polygon(x_cor,y_cor,col=col_code[data_year[i,"ROW"]])
+                                    graphics::polygon(x_cor,y_cor,col=col_code[data_year[i,"ROW"]])
                               }
                               if(is.na(data_year[i,"ROW"])==FALSE){
                                     label_point<-data_year[i,"POSITION"]
-                                    text(x,y,label=label_point,col='black',cex=0.5)
+                                    graphics::text(x,y,label=label_point,col='black',cex=0.5)
                               }else{
                                     next
                               }
@@ -201,7 +201,7 @@ batch.mode<-function(location=c("."),
                         length<-first_cells[i,"SQRLENGTH"]/1.2
                         label_point<-first_cells[i,"ROW"]
                         if(b.==TRUE){
-                              text(x,y-length,label=label_point,col='black',cex=0.8,font=2)}
+                              graphics::text(x,y-length,label=label_point,col='black',cex=0.8,font=2)}
                   }
                   a<-which(colnames(data_year)=="SQRLENGTH")
                   data_year<-data_year[,-a]

@@ -190,9 +190,9 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
             }
 
             if(make.plot==TRUE){
-                  layout(matrix(c(1),ncol=1, byrow = TRUE))
-                  par(mar=c(5,5,3,1))
-                  plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",main=paste(sample,as.character(year),sep=" - "),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
+                  graphics::layout(matrix(c(1),ncol=1, byrow = TRUE))
+                  graphics::par(mar=c(5,5,3,1))
+                  graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",main=paste(sample,as.character(year),sep=" - "),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
                   nrcells<-nrow(data_year)
                   if(make.plot==TRUE){
                         for(i in c(1:nrcells)){
@@ -201,7 +201,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                               y     <-data_year[i,"YCAL"]
                               x_cor<-c((x-length),(x+length),(x+length),(x-length))
                               y_cor<-c((y+length),(y+length),(y-length),(y-length))
-                              polygon(x_cor,y_cor,col="grey")
+                              graphics::polygon(x_cor,y_cor,col="grey")
                               #text(x,y,data_year[i,"ROW"])
                         }
                   }
@@ -226,8 +226,8 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                               data_year[which(data_year[,"ROW"]==c & data_year[,"POSITION"]==k),"MARKER"]<-1
                               MARK1<-data_year[which(data_year$MARKER==1),]
                               if(make.plot==TRUE){
-                                    points(MARK1$XCAL,MARK1$YCAL, pch=16, col="orange",cex=1.3)
-                                    points(MARK1$XCAL,MARK1$YCAL, pch=1, col="black",cex=1.3)
+                                    graphics::points(MARK1$XCAL,MARK1$YCAL, pch=16, col="orange",cex=1.3)
+                                    graphics::points(MARK1$XCAL,MARK1$YCAL, pch=1, col="black",cex=1.3)
                               }
                               break
                         }else{
@@ -241,8 +241,8 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                                           data_year[which(data_year[,"ROW"]==c & data_year[,"POSITION"]==k),"MARKER"]<-2
                                           MARK2<-data_year[which(data_year$MARKER==2),]
                                           if(make.plot==TRUE){
-                                                points(MARK2$XCAL,MARK2$YCAL, pch=16, col="orange",cex=1.3)
-                                                points(MARK2$XCAL,MARK2$YCAL, pch=1, col="black",cex=1.3)
+                                                graphics::points(MARK2$XCAL,MARK2$YCAL, pch=16, col="orange",cex=1.3)
+                                                graphics::points(MARK2$XCAL,MARK2$YCAL, pch=1, col="black",cex=1.3)
                                           }
                                     }
                                     break
@@ -298,8 +298,8 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                               data_year[which(data_year[,"POSITION"]==run & data_year[,"ROW"]==r ),"MARKER"]<-3
                               MARK3<-data_year[which(data_year$MARKER==3),]
                               if(make.plot==TRUE){
-                                    points(MARK3$XCAL,MARK3$YCAL, pch=16, col="red",cex=1.3)
-                                    points(MARK3$XCAL,MARK3$YCAL, pch=1, col="black",cex=1.3)
+                                    graphics::points(MARK3$XCAL,MARK3$YCAL, pch=16, col="red",cex=1.3)
+                                    graphics::points(MARK3$XCAL,MARK3$YCAL, pch=1, col="black",cex=1.3)
                               }
                               break
                         }else{
@@ -314,8 +314,8 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                                     data_year[which(data_year[,"POSITION"]==run & data_year[,"ROW"]==r ),"MARKER"]<-4
                                     MARK4<-data_year[which(data_year$MARKER==4),]
                                     if(make.plot==TRUE){
-                                          points(MARK4$XCAL,MARK4$YCAL, pch=16, col="red",cex=1.3)
-                                          points(MARK4$XCAL,MARK4$YCAL, pch=1, col="black",cex=1.3)
+                                          graphics::points(MARK4$XCAL,MARK4$YCAL, pch=16, col="red",cex=1.3)
+                                          graphics::points(MARK4$XCAL,MARK4$YCAL, pch=1, col="black",cex=1.3)
                                     }
                                     break
                               }else{
@@ -405,8 +405,8 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                               data_year[which(data_year$CID==one$CID),"MARKER"]<-5
                               MARK5<-data_year[which(data_year$MARKER==5),]
                               if(make.plot==TRUE){
-                                    points(MARK5$XCAL,MARK5$YCAL, pch=15, col="red",cex=1.3)
-                                    points(MARK5$XCAL,MARK5$YCAL, pch=0, col="black",cex=1.3)
+                                    graphics::points(MARK5$XCAL,MARK5$YCAL, pch=15, col="red",cex=1.3)
+                                    graphics::points(MARK5$XCAL,MARK5$YCAL, pch=0, col="black",cex=1.3)
                               }
                               break
                         }else{

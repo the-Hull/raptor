@@ -21,6 +21,6 @@ This datasets can be applied as an example to test functions provided in this pa
 \examples{
 #loading example data
 input<-example.data(species="LOT_PICEA")
-View(input)
+input
 str(input)
 }

@@ -7,6 +7,9 @@
 #' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
 #' @details The first row of cells is detected using a local search algorithm, where the first cell is indicated by a green box when make.plot = \code{\link{TRUE}}, and the last by a red box. Values within the graph indicate the row numbers that have been detected. The output adds an additional column to the input data which indicates the first row cells. The frac.small option allows filtering out unrealistically small cells.
 #' @import mgcv
+#' stats
+#' graphics
+#' grDevices
 #' @export
 #' @return An \code{\link{is.raptor}} file with an added column describing the first cells.
 #' @usage first.cell(input, frac.small, yrs, make.plot = TRUE)
@@ -21,6 +24,10 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       #frac.small<-0.5
       #yrs<-FALSE
       #make.plot<-TRUE
+
+      opar <- graphics::par(no.readonly=T)
+      on.exit(graphics::par(opar))
+      #
 
       if(missing(yrs)){yrs<-unique(input[,"YEAR"])}
       if(missing(frac.small)){frac.small<-0.5}
@@ -41,9 +48,9 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             data_year[,"YCAL"]<-data_year[,"YCAL"]-(min(data_year[,"YCAL"]))+1
 
             if(make.plot==TRUE){
-                  layout(matrix(c(1),ncol=1, byrow = TRUE))
-                  par(mar=c(5,5,3,1))
-                  plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",main=paste(sample,as.character(year),sep=" - "),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
+                  graphics::layout(matrix(c(1),ncol=1, byrow = TRUE))
+                  graphics::par(mar=c(5,5,3,1))
+                  graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",main=paste(sample,as.character(year),sep=" - "),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2)
             }
             data_year[,"SQRLENGTH"]<-sqrt(data_year[,"CA"])
             data_year[which(is.na(data_year[,"XCAL"])==TRUE),"XCAL"]<-0
@@ -56,7 +63,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         y     <-data_year[i,"YCAL"]
                         x_cor<-c((x-length),(x+length),(x+length),(x-length))
                         y_cor<-c((y+length),(y+length),(y-length),(y-length))
-                        polygon(x_cor,y_cor,col="grey")}
+                        graphics::polygon(x_cor,y_cor,col="grey")}
             }
             data_year[,"ORIGLENGTH"]<-NA
             for(i in c(1:nrcells)){
@@ -72,7 +79,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             if(make.plot==TRUE){
                   x_cor<-c((x-length),(x+length),(x+length),(x-length))
                   y_cor<-c((y+length),(y+length),(y-length),(y-length))
-                  polygon(x_cor,y_cor,border="green")}
+                  graphics::polygon(x_cor,y_cor,border="green")}
             data_year[,"ENDLENGTH"]<-NA
             maximum                <-max(data_year[,"XCAL"],na.rm=TRUE)
             for(i in c(1:nrcells)){
@@ -122,7 +129,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             y     <-data_last[1,"YCAL"]
             x_cor<-c((x-length),(x+length),(x+length),(x-length))
             y_cor<-c((y+length),(y+length),(y-length),(y-length))
-            if(make.plot==TRUE){polygon(x_cor,y_cor,border="red")}
+            if(make.plot==TRUE){graphics::polygon(x_cor,y_cor,border="red")}
             cut_off     <-max(data_year[,"YCAL"],na.rm=TRUE)-((max(data_year[,"YCAL"],na.rm=TRUE)-min(data_year[,"YCAL"],na.rm=TRUE))/3)
             data_isolate<-data_year[which(data_year[,"YCAL"]<cut_off),]
             if(nrow(data_isolate[which(data_isolate[,"ROW"]==1),])==0){
@@ -250,7 +257,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         y     <-adding_data[c,"YCAL"]
                         x_cor<-c((x-length),(x+length),(x+length),(x-length))
                         y_cor<-c((y+length),(y+length),(y-length),(y-length))
-                        #polygon(x_cor,y_cor,border="blue")
+                        #graphics::polygon(x_cor,y_cor,border="blue")
                   }
                   data_year[which(data_year[,"CA"]<cutoff_size),"ROW"]<-NA
                   data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
@@ -302,12 +309,14 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   x_cor<-c((x-length),(x+length),(x+length),(x-length))
                   y_cor<-c((y+length),(y+length),(y-length),(y-length))
                   if(make.plot==TRUE){
-                        text(x,y,c,cex=0.8)}
+                        graphics::text(x,y,c,cex=0.8)}
             }
             if(u==1){output<-data_year}else{output<-rbind(output,data_year)}
       }
 
       col_nr<-ncol(output)
       output<-output[,c(-col_nr+2,-col_nr+1,-col_nr)]
+
+
       return(output)
 }

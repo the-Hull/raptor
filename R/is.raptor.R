@@ -11,14 +11,14 @@
 #' #validating example data
 #' input<-example.data(species="LOT_PICEA")
 #' input<-is.raptor(input, str=TRUE)
-#' View(input)
+#' input
 is.raptor<-function(data,str=TRUE){
-      list.of.packages <- c("mgcv","gam","base")
-      new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-      if(length(new.packages)) install.packages(new.packages)
-      requireNamespace("gam")
-      requireNamespace("mgcv")
-      requireNamespace("base")
+      # list.of.packages <- c("mgcv","gam","base")
+      # new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+      # if(length(new.packages)) install.packages(new.packages)
+      # requireNamespace("gam")
+      # requireNamespace("mgcv")
+      # requireNamespace("base")
 
       left = function(string, char){substr(string, 1,char)}
       right = function (string, char){substr(string,nchar(string)-(char-1),nchar(string))}

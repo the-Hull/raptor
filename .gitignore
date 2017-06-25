@@ -10,3 +10,6 @@ packrat/
 
 manuscript/
 out/
+
+*.Rdata
+.Rhistory

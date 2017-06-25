@@ -24,7 +24,7 @@ To prevent errors occurring in the other reported functions, it is advised to ru
 #validating example data
 input<-example.data(species="LOT_PICEA")
 input<-is.raptor(input, str=TRUE)
-View(input)
+input
 }
 \seealso{
 \code{\link{anatomy.data}}

@@ -2,7 +2,7 @@
 ^\.Rprofile$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^manuscript/
+^manuscript
 ^out/
 ^.*\.gitignore$
 ^.*\.Rhistory$
@@ -10,3 +10,4 @@
 ^tests/
 ^deprecated
 ^out/
+^checklog.txt

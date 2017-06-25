@@ -23,6 +23,7 @@ Generating final output graphs and files for the row and position detection. Inp
 Function that aids in graphing the output and writing output tables. The \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each radial file. The output table provides the standard output table with two additional columns containing the "ROW" number and "POSITION" within the row. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz and DeSoto, 2015) or link the output to xylogenesis data (cf. Rathgeber et al., 2011).
 }
 \examples{
+\dontrun{
 #example to write output
 input<-is.raptor(example.data(species="SIB_LARIX"), str = FALSE)
 aligned<-align(input)
@@ -35,7 +36,6 @@ sib_larix<-write.output(output)
 corrections<-data.frame(year=c(2010,2010,2010,2009,2009,2009,2009,2008,2008,
                         2008,2008,2008,2008,2007,2007,2007),
                         row=c(19,15,9,6,11,14,17,5,6,14,17,24,15,2,8,14))
-View(corrections)
 for(i in c(1:nrow(corrections))){
 sib_larix[which(sib_larix[,"YEAR"]==corrections[i,1]  &
           sib_larix[,"ROW"]==corrections[i,2] ),"POSITION"]<-rep(NA,length(sib_larix[
@@ -54,7 +54,7 @@ for(j in c(1:length(row_id))){
 SIB_LARIX[which(SIB_LARIX[,"YEAR"]==unique(SIB_LARIX[,"YEAR"])[i] &
           SIB_LARIX[,"ROW"]==row_id[j]), "ROW"]<-j
 }}
-View(SIB_LARIX)
+}
 }
 \references{
 de la Cruz, M., and DeSoto, L. (2015) tgram: Functions to compute and plot tracheidograms. CRAN: https://cran.r-project.org/web/packages/tgram/tgram.pdf.\cr

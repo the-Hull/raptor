@@ -20,10 +20,11 @@ This function uses \code{\link{is.raptor}} files to create a two panel \code{\li
 This graphical interface aids in exploring the cell position and cell size. The upper \code{\link{plot}} provides and overview of the available years within the \code{\link{data.frame}}. Grey shading indicates the year that is presented in the lower panel. The italic value in the upper panel presents the number of cells within the selected year. The lower panel shows the position of the cells with their unique "CID". XCAL and YCAL positions are standardized to the minimum occurring coordinates. Within the lower panel, the grey boxes represent the cells, derived from the lumen area ("CA") assuming a square shape. When "interact = \code{\link{TRUE}}", \code{\link{readline}} messages will be presented with multiple options to create new \code{\link{plot}} while moving along the years (including selecting the previous, next year or selecting a specific year). Stopping the interact function is done by typing "x". Terminate this function before continuing with other functions.
 }
 \examples{
+\dontrun{
 #plotting example data
 input<-example.data(species="LOT_PICEA")
 input<-is.raptor(input, str=TRUE)
-plot.cells(input, interact=TRUE)
-2010
-x
+plot_cells(input, interact=TRUE)
+#2010
+#x}
 }
