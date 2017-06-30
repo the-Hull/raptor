@@ -33,6 +33,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       if(yrs[1]!="FALSE"&is.numeric(yrs)!=TRUE)stop('year is not present in data.frame')
       if(is.numeric(yrs)==TRUE&length(which(unique(input[,"YEAR"])==yrs))==0)stop('year is not present in data.frame')
       if(yrs[1]=="FALSE"){yrs<-unique(input[,"YEAR"])}
+      if(missing(make.plot)){make.plot<-FALSE}
 
       input[,"ROW"]<-NA
       if(is.numeric(frac.small)!=TRUE)stop('frac.small is not numeric')

@@ -8,18 +8,21 @@
 #' @import graphics
 #' grDevices
 #' @export
-#' @usage plot_cells(input,year=FALSE,interact=FALSE)
+#' @usage plot.cells(input,year=FALSE,interact=FALSE)
 #' @examples
 #' \dontrun{
 #' #plotting example data
 #' input<-example.data(species="LOT_PICEA")
 #' input<-is.raptor(input, str=TRUE)
-#' plot_cells(input, interact=TRUE)
+#' plot.cells(input, interact=TRUE)
 #' #2010
 #' #x}
 #3.plot.cells----
-plot_cells<-function(input,year=FALSE,interact=FALSE){
-      opar <- graphics::par()
+plot.cells<-function(input,year=FALSE,interact=FALSE){
+
+      opar <- graphics::par(no.readonly=T)
+      on.exit(graphics::par(opar))
+
       requireNamespace('base')
       if(missing(year)){year<-FALSE}
       if(missing(interact)){interact<-FALSE}
@@ -139,5 +142,4 @@ plot_cells<-function(input,year=FALSE,interact=FALSE){
                                 ,c((iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]+iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2),(iso[i,"YCAL"]-iso[i,"SQRLENGTH"]/2)),col="grey")
                         graphics::text(iso[i,"XCAL"],iso[i,"YCAL"],iso[i,"CID"],cex=0.8)}
             }}
-      graphics::par(opar)
 }

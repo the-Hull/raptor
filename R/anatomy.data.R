@@ -24,4 +24,4 @@
 #' #viewing anatomy data
 #' anatomy.data
 #' @keywords dataset, wood anatomy, lumean area, cell wall thickness
-"anatomy.data"
+NULL
