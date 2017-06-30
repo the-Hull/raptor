@@ -4,19 +4,9 @@
 \alias{pos.det}
 \title{Determining the cell position}
 \usage{
-pos.det(input,
-swe = 0.5,
-sle = 3,
-ec = 1.75 ,
-swl = 0.25,
-sll = 5,
-lc = 5,
-prof.co = 6,
-max.cells = 0.5,
-list=FALSE,
-yrs = FALSE,
-aligning = TRUE,
-make.plot = TRUE)
+pos.det(input, swe = 0.5, sle = 3, ec = 1.75 , swl = 0.25, sll = 5, lc = 5,
+        prof.co = 6, max.cells = 0.5, list=FALSE, yrs = FALSE,
+        aligning = TRUE, make.plot = TRUE)
 }
 \arguments{
 \item{input}{an input file as produced by \code{\link{first.cell}}.}

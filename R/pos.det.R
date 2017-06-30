@@ -18,19 +18,9 @@
 #' @import mgcv
 #' @export
 #' @return An \code{\link{is.raptor}} file with an added column describing the position within the radial file.
-#' @usage pos.det(input,
-#' swe = 0.5,
-#' sle = 3,
-#' ec = 1.75 ,
-#' swl = 0.25,
-#' sll = 5,
-#' lc = 5,
-#' prof.co = 6,
-#' max.cells = 0.5,
-#' list=FALSE,
-#' yrs = FALSE,
-#' aligning = TRUE,
-#' make.plot = TRUE)
+#' @usage pos.det(input, swe = 0.5, sle = 3, ec = 1.75 , swl = 0.25, sll = 5, lc = 5,
+#'         prof.co = 6, max.cells = 0.5, list=FALSE, yrs = FALSE,
+#'         aligning = TRUE, make.plot = TRUE)
 #' @examples
 #' #example of position detection
 #' input<-is.raptor(example.data(species="MOUNT_PINUS"), str = FALSE)
