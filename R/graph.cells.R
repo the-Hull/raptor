@@ -8,17 +8,17 @@
 #' @import graphics
 #' grDevices
 #' @export
-#' @usage plot.cells(input,year=FALSE,interact=FALSE)
+#' @usage graph.cells(input,year=FALSE,interact=FALSE)
 #' @examples
 #' \dontrun{
 #' #plotting example data
 #' input<-example.data(species="LOT_PICEA")
 #' input<-is.raptor(input, str=TRUE)
-#' plot.cells(input, interact=TRUE)
+#' graph.cells(input, interact=TRUE)
 #' #2010
 #' #x}
-#3.plot.cells----
-plot.cells<-function(input,year=FALSE,interact=FALSE){
+#3.graph.cells----
+graph.cells<-function(input,year=FALSE,interact=FALSE){
 
       opar <- graphics::par(no.readonly=T)
       on.exit(graphics::par(opar))
@@ -36,7 +36,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
                   if(nrow(iso)==0){next}
                   graphics::layout(matrix(c(1,2,2,2),ncol = 1, byrow = TRUE))
                   graphics::par(mar=c(3,5,3,1))
-                  graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+                  graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("graph.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
                   axis(side=1,at=unique(input[,"YEAR"]))
                   abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
                   iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
@@ -56,7 +56,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
             iso<-input[which(input[,"YEAR"]==year),]
             graphics::layout(matrix(c(1,2,2,2),ncol=1, byrow = TRUE))
             graphics::par(mar=c(3,5,3,1))
-            graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+            graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("graph.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
             axis(side=1,at=unique(input[,"YEAR"]))
             abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
             iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
@@ -78,7 +78,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
             iso<-input[which(input[,"YEAR"]==year_select),]
             graphics::layout(matrix(c(1,2,2,2),ncol = 1, byrow = TRUE))
             graphics::par(mar=c(3,5,3,1))
-            graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+            graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("graph.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
             axis(side=1,at=unique(input[,"YEAR"]))
             abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
             iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
@@ -114,7 +114,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
                         }
                         if(option=="x"){
                               year_select<-"x"
-                              print("End plot.cells")
+                              print("End graph.cells")
                               break}
                         if(length(list[which(list==option)])!=0){
                               year_select<-option
@@ -126,7 +126,7 @@ plot.cells<-function(input,year=FALSE,interact=FALSE){
                   iso<-input[which(input[,"YEAR"]==year_select),]
                   graphics::layout(matrix(c(1,2,2,2),ncol=1, byrow = TRUE))
                   graphics::par(mar=c(3,5,3,1))
-                  graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("plot.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
+                  graphics::plot(unique(input[,"YEAR"]),rep(1,length(unique(input[,"YEAR"]))),yaxt="n",xaxt="n",ylab="Years",xlab="",col="white",main=paste("graph.cells: ",unique(input[,"ID"]),sep=""),xlim=c(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5))
                   axis(side=1,at=unique(input[,"YEAR"]))
                   abline(v=seq(min(unique(input[,"YEAR"]),na.rm=TRUE)-0.5,max(unique(input[,"YEAR"]),na.rm=TRUE)+0.5,1))
                   iso[,"XCAL"]<-iso[,"XCAL"]-min(iso[,"XCAL"],na.rm=TRUE)
