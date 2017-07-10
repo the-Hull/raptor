@@ -16,11 +16,8 @@
 #' @usage align(input, year = FALSE, list = FALSE, interact = TRUE, make.plot = TRUE)
 #' @examples
 #' #rotating example data
-#' \dontrun{input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
-#' input<-align(input, year=2007, list=FALSE,interact=TRUE, make.plot=TRUE)
-#' 0.1
-#' y}
-
+#' input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
+#' input<-align(input, year=2007, list=FALSE,interact=FALSE, make.plot=TRUE)
 align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
       # input<-read.table("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Manuscript 08-05-2017\\Nieuwe map\\example.data.txt",header=TRUE,sep="\t")
       # input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)

@@ -5,7 +5,6 @@
 #' ii) Siberian larch (\emph{Larix siberica}) from Siberia, Russia (2007-2010),
 #' iii) Stone pine (\emph{Pinus cembra}) from the Dolomite mountains, Italy (2007-2010), and
 #' iv) Scots pine (\emph{Pinus sylvestris}) from the eastern lowlands, Germany (2007-2010).
-#' The image includes multiple annual rings for the years (with a common overlap from 2007 until 2010).
 #' @usage anatomy.data
 #' @format Provides a \code{\link{data.frame}} with 18838 rows and 7 columns containing data on:
 #'
