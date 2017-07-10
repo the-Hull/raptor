@@ -28,8 +28,6 @@ Correct alignment of cells/tracheids is important for detecting the first cells 
 }
 \examples{
 #rotating example data
-\dontrun{input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
-input<-align(input, year=2007, list=FALSE,interact=TRUE, make.plot=TRUE)
-0.1
-y}
+input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
+input<-align(input, year=2007, list=FALSE,interact=FALSE, make.plot=TRUE)
 }
