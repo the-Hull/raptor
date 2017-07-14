@@ -1,6 +1,5 @@
 packrat/lib*/
 .Rproj.user
-.Rhistory
 
 *.docx
 packrat/src/
@@ -13,4 +12,4 @@ manuscript/
 out/
 
 *.Rdata
-
+.Rhistory
