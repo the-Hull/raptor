@@ -11,3 +11,4 @@
 ^deprecated
 ^out/
 ^checklog.txt
+cran-comments.md
