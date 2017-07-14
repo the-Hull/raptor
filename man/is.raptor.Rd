@@ -7,7 +7,7 @@
 is.raptor(data, str = TRUE)
 }
 \arguments{
-\item{data}{a \code{\link{data.frame}} where tracheids are ordered in rows and the columns contain the variable sample id, cell id, year, tracheid lumen area, x coordinates and y coordinates. The name of the columns (\code{\link{colnames}}) have to either be named as " ID","CID","YEAR","CA","XCAL" and "YCAL" or properly ordered.}
+\item{data}{a \code{\link{data.frame}} where tracheids are ordered in rows and the columns contain the variables; sample id, cell id, year, tracheid lumen area, x coordinates and y coordinates. The name of the columns (\code{\link{colnames}}) have to either be named as "ID","CID","YEAR","CA","XCAL" and "YCAL" or properly ordered.}
 
 \item{str}{a logical flag. If \code{\link{TRUE}} the structure of the data will be printed (default = \code{\link{FALSE}}).}
 }
@@ -15,10 +15,10 @@ is.raptor(data, str = TRUE)
 A \code{\link{data.frame}} in the appropriate format for other functionalities.
 }
 \description{
-Testing if the structure of the input matches the requirements for the RAPTOR functions. The input has to be presented in a \code{\link{data.frame}} composed by column with 1) sample id \emph{<\code{\link{as.character}}/\code{\link{as.factor}}>}, 2) tracheid id \emph{<\code{\link{as.integer}}>}, 3) tree-ring year \emph{<\code{\link{as.numeric}}>}, 4) lumen size \emph{<\code{\link{as.numeric}}>}, 5) the x coordinate of the cell \emph{<\code{\link{as.numeric}}>} and 6) the y coordinate of the cell \emph{<\code{\link{as.numeric}}>}. The ring is oriented in order to have the latewood cells on the upper section of the image. For this function either the order or the number of columns have to be respected or the following column names have to be present within the \code{\link{data.frame}}: "ID" = sample id, "CID" = tracheid id, "YEAR" = year, "CA" = lumen size (micron), "XCAL" = x coordinate, "YCAL" = y coordinate. Additionally, at least 50 tracheid's (or cells) have to be present in each year.
+Testing if the structure of the input matches the requirements for the RAPTOR functions. The input has to be presented in a \code{\link{data.frame}} including the following columns; 1) sample id \emph{<\code{\link{as.character}}/\code{\link{as.factor}}>}, 2) tracheid id \emph{<\code{\link{as.integer}}>}, 3) tree-ring year \emph{<\code{\link{as.numeric}}>}, 4) lumen size \emph{<\code{\link{as.numeric}}>}, 5) x-coordinate of the cell \emph{<\code{\link{as.numeric}}>} and 6) y-coordinate of the cell \emph{<\code{\link{as.numeric}}>}. The anatomical data should be oriented with the latewood cells on the upper section of the image. For this function either the order or the columns has to be respected or the following column names have to be present within the \code{\link{data.frame}}: "ID" = sample id, "CID" = tracheid id, "YEAR" = year, "CA" = lumen size (micron), "XCAL" = x coordinate, "YCAL" = y coordinate. Additionally, at least 50 tracheid's (or cells) have to be present in each year.
 }
 \details{
-To prevent errors occurring in the other reported functions, it is advised to run this function for checking the data structure and preparing it for further analyses. This function also installs all required packages (gam, mgcv) to run the RAPTOR functions.
+To prevent errors occurring in the other reported functions, it is advised to run this function for checking the data structure and preparing it for further analyses.
 }
 \examples{
 #validating example data

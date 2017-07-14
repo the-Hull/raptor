@@ -7,21 +7,21 @@
 batch.mode(location = c("."), files = FALSE,
            interact = TRUE, make.plot = TRUE,
            aligning = TRUE, frac.small=0.5, swe=0.5, sle=3,
-ec=3, swl=0.5, sll=5, lc=10, prof.co=6, max.cells=0.5,
-list = FALSE, flip = FALSE)
+           ec=3, swl=0.5, sll=5, lc=10, prof.co=6, max.cells=0.5,
+           list = FALSE, flip = FALSE)
 }
 \arguments{
 \item{location}{a character string containing the location of input files and where the outputs (.pdf and .txt files) should be stored. See \code{\link{setwd}} for formatting.}
 
 \item{files}{a vector of files for the analyses (default = all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.}
 
-\item{interact}{a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. In that case the user will have to select among the options (along the horizontal axis, along the vertical axis, manually define the degree of reorientation based on a set of slopes overlaid on the plot). If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).}
+\item{interact}{a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. See \code{\link{align}} for rotation options. If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).}
 
 \item{make.plot}{logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).}
 
 \item{aligning}{logical flag indicating whether a second alignment has to be performed based upon the cells detected within \code{\link{first.cell}} (default = \code{\link{TRUE}}).}
 
-\item{frac.small}{a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).}
+\item{frac.small}{a numeric value (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).}
 
 \item{swe}{a numeric value that is multiplied by the square-rooted cell lumen area (l) of the target cell and used to determine the width of the rectangular search area which locates the next earlywood cell in the row (default = 0.5).}
 
@@ -47,10 +47,10 @@ list = FALSE, flip = FALSE)
 }
 \value{
 Plots the detected radial files and writes output according the the
-\code{\link{is.raptor}} format.
+\code{\link{write.output}} format.
 }
 \description{
-Batch mode applying all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably applied within \code{\link{align}}.
+Batch.mode applies all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used within this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably adjusted with \code{\link{align}}.
 }
 \details{
 This function aids in applying all described functions on a large dataset composed of multiple files, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a .pdf file. Additionally, output text files are written. All output files are exported into the directory specified in the location argument.

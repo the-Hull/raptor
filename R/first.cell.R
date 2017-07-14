@@ -1,11 +1,11 @@
 #' @title Detection of the first cells
 #'
-#' @description This function uses an \code{\link{is.raptor}} file (preferably obtained from \code{\link{align}}) and adds a column with the first cell detected within a radial file (i.e. first cell formed in the growing season). The value indicates to which radial file the first cell belongs to (counting from left to right). All cells with \code{\link{NA}} are not considered as first row cells and are excluded in further analyses.
+#' @description This function uses an \code{\link{is.raptor}} file (preferably obtained from \code{\link{align}}) and adds a column with the first cells detected within radial files (i.e. first cell formed in the growing season). The value indicates to which radial file the first cell belongs to (counting from left to right). All cells with \code{\link{NA}} are not considered as first row cells and are excluded in further analyses.
 #' @param input an \code{\link{is.raptor}} file.
-#' @param frac.small a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimum threshold used to exclude cells in the first row that are too small (default = 0.5).
+#' @param frac.small a numeric value (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimum threshold used to exclude cells in the first row that are too small (default = 0.5).
 #' @param yrs either a numeric vector providing the year(s) of interest or \code{\link{FALSE}} to select all years included in input (default = \code{\link{FALSE}}).
 #' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
-#' @details The first row of cells is detected using a local search algorithm, where the first cell is indicated by a green box when make.plot = \code{\link{TRUE}}, and the last by a red box. Values within the graph indicate the row numbers that have been detected. The output adds an additional column to the input data which indicates the first row cells. The frac.small option allows filtering out unrealistically small cells.
+#' @details The first row of cells is detected by using a local search algorithm, where the first cell is indicated by a green box when make.plot = \code{\link{TRUE}}, and the last by a red box. Values within the graph indicate the row numbers that have been detected. The output adds a column to the input data which indicates the first row of cells. The frac.small argument allows the user to filter out unrealistically small cells.
 #' @import mgcv
 #' stats
 #' graphics
@@ -27,20 +27,20 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
 
       opar <- graphics::par(no.readonly=T)
       on.exit(graphics::par(opar))
-      #
 
       if(missing(yrs)){yrs<-unique(input[,"YEAR"])}
       if(missing(frac.small)){frac.small<-0.5}
       if(yrs[1]!="FALSE"&is.numeric(yrs)!=TRUE)stop('year is not present in data.frame')
       if(is.numeric(yrs)==TRUE&length(which(unique(input[,"YEAR"])==yrs))==0)stop('year is not present in data.frame')
       if(yrs[1]=="FALSE"){yrs<-unique(input[,"YEAR"])}
+      if(missing(make.plot)){make.plot<-FALSE}
 
       input[,"ROW"]<-NA
       if(is.numeric(frac.small)!=TRUE)stop('frac.small is not numeric')
       fraction_smallest<-frac.small
       data<-input
       for(u in c(1:length(yrs))){
-            #u<-1
+            #u<-7
             year<-yrs[u]
             data_year<-data[which(data[,"YEAR"]==year),]
             sample<-unique(data_year[,"ID"])
@@ -155,21 +155,21 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         if(nrow(isolate)<10){
                               isolate<-isolate
                         }else{
-                              isolate<-isolate[c(1:10),]
+                              isolate<-isolate #[c(1:10),]
                         }
                         isolate[,"DISTANCE"]<-NA
                         xorig<-data_select[,"XCAL"]
                         yorig<-data_select[,"YCAL"]
+
                         for(p in c(1:nrow(isolate))){
                               isolate[p,"DISTANCE"]<-sqrt((2*((isolate[p,"XCAL"]-xorig)^2))+((isolate[p,"YCAL"]-yorig)^2))
                         }
                         if(nrow(isolate)>3){
                               isolate<-isolate[order(isolate$DISTANCE),]
                               isolate<-isolate[c(1:3),]
-                        }else{
+                         }else{
                               isolate<-isolate[order(isolate$DISTANCE),]
                         }
-                        isolate     <-isolate[order(isolate$XCAL),]
                         first_select<-isolate[1,"CID"]
                         xstart      <-isolate[1,"XCAL"]-((isolate[1,"SQRLENGTH"]/2)*1)
                         xend        <-isolate[1,"XCAL"]+((isolate[1,"SQRLENGTH"]/2)*1)
@@ -177,12 +177,25 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         above_cells <-data_isolate[which(data_isolate["XCAL"]>=xstart & data_isolate["XCAL"]<=xend & data_isolate["YCAL"]<=ystart),]
                         size        <-data_isolate[which(data_isolate[,"CID"]==first_select),"CA"]/4
                         above_cells <-above_cells[which(above_cells[,"CA"]>size),]
+
                         if(nrow(above_cells)==0){
                               final_select<-first_select
-                        }else{
+                              }else{
+
+                        for(qz in c(1:nrow(data_year))){
                               select_above_cell     <-above_cells[order(above_cells$YCAL),]
-                              final_select          <-select_above_cell[1,"CID"]
-                        }
+                              test        <-select_above_cell[1,"CID"]
+                              xstart      <-data_isolate[which(data_isolate[,"CID"]==test),"XCAL"]-((data_isolate[which(data_isolate[,"CID"]==test),"SQRLENGTH"]/2)*1)
+                              xend        <-data_isolate[which(data_isolate[,"CID"]==test),"XCAL"]+((data_isolate[which(data_isolate[,"CID"]==test),"SQRLENGTH"]/2)*1)
+                              ystart      <-data_isolate[which(data_isolate[,"CID"]==test),"YCAL"]-(data_isolate[which(data_isolate[,"CID"]==test),"SQRLENGTH"]/2)
+                              above_cells <-data_isolate[which(data_isolate["XCAL"]>=xstart & data_isolate["XCAL"]<=xend & data_isolate["YCAL"]<=ystart),]
+                              if(nrow(above_cells)==0){
+                                    final_select<-select_above_cell[1,"CID"]
+                                    break
+                                    }
+                              }
+                              }
+
                         data_year[which(data_year[,"CID"]==final_select),"ROW"]<-t+1
                         data_isolate[which(data_isolate[,"CID"]==final_select),"ROW"]<-t+1
                         data_one<-data_year[which(data_year[,"ROW"]==t+1),]
@@ -211,16 +224,14 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             # # require("mgcv")
             # # require("base")
 
-
-
-
-            error.test <- try(mgcv::gam(y ~ mgcv::s(x),data=input_m),silent =TRUE)
+            s=mgcv:::s
+            error.test <- try(mgcv::gam(y ~ s(x),data=input_m),silent =TRUE)
             if("try-error" %in% class(error.test)){print("no gam applied due to low number of rows")
                   data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
                   data_years <-data_years[order(data_years$XCAL),]
             }else{
-
-                  Model                  <-mgcv::gam(y ~ mgcv::s(x),data=input_m)
+                  s=mgcv:::s
+                  Model                  <-mgcv::gam(y ~ s(x),data=input_m)
                   x                      <-c(0:max(data_year[,"XCAL"],na.rm=TRUE))
                   predict                <-mgcv::predict.gam(Model,newdata=data.frame(x))
                   data_isolate[,"BOUNDARY_UPP"] <-NA
@@ -257,7 +268,6 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         y     <-adding_data[c,"YCAL"]
                         x_cor<-c((x-length),(x+length),(x+length),(x-length))
                         y_cor<-c((y+length),(y+length),(y-length),(y-length))
-                        #graphics::polygon(x_cor,y_cor,border="blue")
                   }
                   data_year[which(data_year[,"CA"]<cutoff_size),"ROW"]<-NA
                   data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
@@ -281,7 +291,8 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   y                      <-data_model[,"YCAL"]
                   input_m                  <-data.frame(cbind(x,y))
                   colnames(input_m)        <-c("x","y")
-                  Model                  <-mgcv::gam(y ~ mgcv::s(x),data=input_m)
+                  s=mgcv:::s
+                  Model                  <-mgcv::gam(y ~ s(x),data=input_m)
                   x                      <-c(1:(max(data_model[,"XCAL"],na.rm=TRUE)))
                   predict                <-mgcv::predict.gam(Model,newdata=data.frame(x))
                   x                      <-(data_model[,"XCAL"])
@@ -297,7 +308,6 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   }
 
             }
-
             graph<-data_years[which(is.na(data_years[,"ROW"])==FALSE),]
             if(nrow(graph)==0){print("no cells detected")
                   break}

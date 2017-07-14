@@ -1,15 +1,13 @@
 #' @title Automatic rows and position detection
 #'
-#' @description Batch mode applying all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably applied within \code{\link{align}}.
+#' @description Batch.mode applies all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used within this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably adjusted with \code{\link{align}}.
 #' @param location a character string containing the location of input files and where the outputs (.pdf and .txt files) should be stored. See \code{\link{setwd}} for formatting.
 #' @param files a vector of files for the analyses (default = all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.
-#' @param interact a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. In that case the user will have to select among the options (along the horizontal axis, along the vertical axis, manually define the degree of reorientation based on a set of slopes overlaid on the plot). If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).
+#' @param interact a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. See \code{\link{align}} for rotation options. If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).
 #' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
 #' @param aligning logical flag indicating whether a second alignment has to be performed based upon the cells detected within \code{\link{first.cell}} (default = \code{\link{TRUE}}).
 #' @param list a \code{\link{data.frame}} with the individual "ID" and in sequence the slopes as described in \code{\link{pos.det}}. Cannot be activated when interact = \code{\link{TRUE}}.
-#' @param frac.small a numeric (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).
-#' @param flip logical flag indicating whether to plot the data with earlywood downwards (default; flip = \code{\link{FALSE}}) or upwards (flip = \code{\link{TRUE}}).
-#' @param ... see \code{\link{pos.det}} for arguments.
+#' @param frac.small a numeric value (between 0 and 1) that is multiplied by the average cell lumen size of the ring, determining the minimal threshold used to filter out too small first row tracheids (default = 0.5).
 #' @param swe a numeric value that is multiplied by the square-rooted cell lumen area (l) of the target cell and used to determine the width of the rectangular search area which locates the next earlywood cell in the row (default = 0.5).
 #' @param sle a numeric value that is multiplied by the square rooted cell lumen area (l) of the target cell to determine the length of the rectangle search area which locates the next earlywood cell in the row (default = 3).
 #' @param ec threshold ratio between the lumen area of two consecutive earlywood cells to determine the end of the earlywood search (default = 1.75). The default setting indicates that the earlywood search ends when the next cell lumen area is at least 1.75 times smaller than the target cell.
@@ -18,16 +16,18 @@
 #' @param lc threshold ratio between the lumen area of two consecutive latewood cells to determine the end of the radial file (default = 10). The default setting indicates that the latewood search ends when the next cell lumen area is at least 10 times smaller than the target cell.
 #' @param prof.co threshold ratio between the distance to the previous and consecutive cell to determine if the row (or radial file) should be excluded (default = 6).
 #' @param max.cells threshold proportion of the maximum number of cells to determine if the radial file has to be excluded (default = 0.6).
+#' @param flip logical flag indicating whether to plot the data with earlywood downwards (default; flip = \code{\link{FALSE}}) or upwards (flip = \code{\link{TRUE}}).
+#' @param ... see \code{\link{pos.det}} for arguments.
 #' @details This function aids in applying all described functions on a large dataset composed of multiple files, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a .pdf file. Additionally, output text files are written. All output files are exported into the directory specified in the location argument.
 #' @import graphics
 #' @export
 #' @return Plots the detected radial files and writes output according the the
-#' \code{\link{is.raptor}} format.
+#' \code{\link{write.output}} format.
 #' @usage batch.mode(location = c("."), files = FALSE,
 #'            interact = TRUE, make.plot = TRUE,
 #'            aligning = TRUE, frac.small=0.5, swe=0.5, sle=3,
-#' ec=3, swl=0.5, sll=5, lc=10, prof.co=6, max.cells=0.5,
-#' list = FALSE, flip = FALSE)
+#'            ec=3, swl=0.5, sll=5, lc=10, prof.co=6, max.cells=0.5,
+#'            list = FALSE, flip = FALSE)
 batch.mode<-function(location=c("."),
                      files=FALSE,
                      interact=TRUE,
@@ -135,7 +135,7 @@ batch.mode<-function(location=c("."),
             max.cells<-m.
             m.<-max.cells
 
-            input<-is.raptor(read.table(files[file],header=TRUE,sep="\t"))
+            input<-RAPTOR::is.raptor(read.table(files[file],header=TRUE,sep="\t"))
 
             if(a.==TRUE){c.<-FALSE}
             if(missing(list)){c.<-FALSE}
@@ -144,10 +144,10 @@ batch.mode<-function(location=c("."),
 
             sample<-unique(input[,"ID"])
             if(b.==TRUE&a.==FALSE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
-            output1<-align(input,interact=a.,make.plot=b.,list=c.,year=FALSE)
+            output1<-RAPTOR::align(input,interact=a.,make.plot=b.,list=c.,year=FALSE)
             if(b.==TRUE&a.==TRUE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
-            output2<-first.cell(output1, frac.small = d., yrs = FALSE, make.plot = b.)
-            output3<-pos.det(output2, swe = f., sle = g., ec = h., swl = i., sll = j., lc = k.,
+            output2<-RAPTOR::first.cell(output1, frac.small = d., yrs = FALSE, make.plot = b.)
+            output3<-RAPTOR::pos.det(output2, swe = f., sle = g., ec = h., swl = i., sll = j., lc = k.,
                              prof.co = l., max.cells = m., yrs = FALSE , aligning = e. , make.plot = b.)
 
             years<-unique(output3[,"YEAR"])
@@ -169,8 +169,6 @@ batch.mode<-function(location=c("."),
                   data_year[,"SQRLENGTH"] <-sqrt(data_year[,"CA"])
                   nrcells<-nrow(data_year)
                   rows<-max(unique(data_year[,"ROW"])[which(is.na(unique(data_year[,"ROW"]))==FALSE)])
-                  #col_code<-rep(c("orange","blue","red","green","purple"),ceiling(rows/5))
-                  #col_code<-rep(c("#FFA500 ","#FF3300","#C71585","#191970 ","#20B2AA ","#00CC33","#006633"),ceiling(rows/7))
                   col_code<-rep(c("#FFA500","#FF3300","#C71585","#191970","#20B2AA","#00CC33","#006633"),ceiling(rows/7))
 
                   for(i in c(1:nrcells)){

@@ -4,19 +4,9 @@
 \alias{pos.det}
 \title{Determining the cell position}
 \usage{
-pos.det(input,
-swe = 0.5,
-sle = 3,
-ec = 1.75 ,
-swl = 0.25,
-sll = 5,
-lc = 5,
-prof.co = 6,
-max.cells = 0.5,
-list=FALSE,
-yrs = FALSE,
-aligning = TRUE,
-make.plot = TRUE)
+pos.det(input, swe = 0.5, sle = 3, ec = 1.75 , swl = 0.25, sll = 5, lc = 5,
+        prof.co = 6, max.cells = 0.5, list=FALSE, yrs = FALSE,
+        aligning = TRUE, make.plot = TRUE)
 }
 \arguments{
 \item{input}{an input file as produced by \code{\link{first.cell}}.}
@@ -39,7 +29,7 @@ make.plot = TRUE)
 
 \item{list}{a \code{\link{data.frame}} of "CID" (unique cell ID) from cells which should be considered as first row cells. Should be filled if \code{\link{first.cell}} output is not used as input. The vector should be ordered to years and present specific "CID" which is considered the first cell.}
 
-\item{yrs}{either a vector providing the year(s) of interest or \code{\link{FALSE}} to select all years included in input (default = \code{\link{FALSE}}).}
+\item{yrs}{either a vector providing the year(s) of interest or \code{\link{FALSE}} to select all years included in the input file (default = \code{\link{FALSE}}).}
 
 \item{aligning}{logical flag indicating whether a second alignment has to be performed based upon the cells detected within \code{\link{first.cell}} (default = \code{\link{TRUE}}).}
 
@@ -49,7 +39,7 @@ make.plot = TRUE)
 An \code{\link{is.raptor}} file with an added column describing the position within the radial file.
 }
 \description{
-Returns a \code{\link{data.frame}}, i.e. the same as produced by \code{\link{first.cell}}, but with added columns showing the ROW and POSITION which indicate the radial files number (ROW, from left to right) and radial cell position (from earlywood to latewood) of each tracheid. \code{\link{NA}} is assigned to cells not belonging to recognized radial files. A MARKER column is added to indicate the last detected cell in the earlywood search (indicated with 1), latewood search (2), the last detected cell (3), rows that are removed due to gaps (4, see prof.co) and rows that are removed due to limited amount of cells (5, see max.cells).
+Returns a \code{\link{data.frame}}, similar as produced by \code{\link{first.cell}}, but with added columns providing ROW and POSITION which indicate the radial files number (ROW, from left to right) and radial cell position (from earlywood to latewood) of each tracheid. \code{\link{NA}} is assigned to cells not belonging to recognized radial files. A MARKER column is added to indicate the last detected cell in the earlywood search (indicated with 1), latewood search (2), the last detected cell (3), rows that are removed due to gaps (4, see prof.co) and rows that are removed due to limited amount of cells (5, see max.cells).
 }
 \details{
 After the identification of the first cells (with \code{\link{first.cell}}) within a radial file, this function assigns remaining cells to a corresponding radial file based on various search criteria. A local search algorithm is applied which searches cells above a specified target cell (n; starts with first cell of the radial file detected by \code{\link{first.cell}}). First the "earlywood" search process projects a search area from the selected cell with a specific width (x-axis) and length (y-axis). The search length and width is based on the length of the target cell (l_n) determined with size of the cell (where l_n= \code{\link{sqrt}}(CA_n) ) and multiplied by a factor (sle = search length earlywood, for the search length and swe = search width earlywood, for the search width). This initial search grid is presented in "orange"(if make.plot = \code{\link{TRUE}}), where the width can be adjusted by changing swe and the length by sle. When no cells are detected (last detected cells are indicated with orange circles), caused in most cases by the small size of latewood cells, a second search grid is established with an altered length and width (sll = search length latewood and swl = search width latewood; presented in "red" if make.plot = \code{\link{TRUE}}; last detected cell are indicates with red circles). Due to smaller fragments of erroneously detected cells, for both search grids a cut-off value is added where the next cell should not be smaller than the lumen area of the target cell (CA_n) times a factor (ec = earlywood cut off and lc = latewood cut off). Finally, a flexible spline is fitted through the selected cells within a row to detect missing cells. Once all cells are detected (last cell is indicated with a red square), the distance between the cells is analysed and depending upon a profile cut-off factor (prof.co) the row is omitted, if the distance difference between n+1 and n+2 times prof.co is bigger than the distance of n and n+1 (which could present a gap often caused by resin ducts; omitted rows are indicated with a "+" symbol). Also, rows that have less cells then the maximum cell count times a factor (max.cells) are removed, as the row might be incomplete (omitted rows are indicated with a "x" symbol).

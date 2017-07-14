@@ -14,16 +14,15 @@ write.output(input, location = c("./"), flip = FALSE)
 \item{flip}{logical flag indicating in which direction to plot the cells, i.e. with earlywood at the bottom (default; flip = \code{\link{FALSE}}) or at the top (flip = \code{\link{TRUE}}).}
 }
 \value{
-Plots the detected radial files and writes output according the the \code{\link{is.raptor}} format.
+Plots the detected radial files and writes output according to the \code{\link{is.raptor}} format.
 }
 \description{
 Generating final output graphs and files for the row and position detection. Input data should be provided as produced by \code{\link{pos.det}}.
 }
 \details{
-Function that aids in graphing the output and writing output tables. The \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each radial file. The output table provides the standard output table with two additional columns containing the "ROW" number and "POSITION" within the row. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz and DeSoto, 2015) or link the output to xylogenesis data (cf. Rathgeber et al., 2011).
+Function that aids in graphing the output and writing output tables. The generated \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each radial file. The output table provides the standard output table with three additional columns containing; the "ROW" number and "POSITION" within the row and the "MARKER" column (cf. \code{\link{pos.det}}. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz & DeSoto, 2015) and link the output to xylogenesis data (cf. Rathgeber et al., 2011).
 }
 \examples{
-\dontrun{
 #example to write output
 input<-is.raptor(example.data(species="SIB_LARIX"), str = FALSE)
 aligned<-align(input)
@@ -55,9 +54,8 @@ SIB_LARIX[which(SIB_LARIX[,"YEAR"]==unique(SIB_LARIX[,"YEAR"])[i] &
           SIB_LARIX[,"ROW"]==row_id[j]), "ROW"]<-j
 }}
 }
-}
 \references{
-de la Cruz, M., and DeSoto, L. (2015) tgram: Functions to compute and plot tracheidograms. CRAN: https://cran.r-project.org/web/packages/tgram/tgram.pdf.\cr
+de la Cruz, M., & DeSoto, L. (2015) tgram: Functions to compute and plot tracheidograms. CRAN: https://cran.r-project.org/web/packages/tgram/tgram.pdf.\cr
 \cr
-Rathgeber, C.B.K., Longuetaud, F., Mothe, F., Cuny, H., Le Moguedec, G. (2011) Phenology of wood formation: Data processing, analysis and visualisation using R (package CAVIAR). Dendrochronologia 29, 139-149.
+Rathgeber, C.B.K., Longuetaud, F., Mothe, F., Cuny, H., & Le Moguedec, G. (2011) Phenology of wood formation: Data processing, analysis and visualisation using R (package CAVIAR). Dendrochronologia 29, 139-149.
 }
