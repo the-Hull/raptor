@@ -2,3 +2,12 @@
 ^\.Rprofile$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^manuscript
+^out/
+^.*\.gitignore$
+^.*\.Rhistory$
+^.*\.README.md
+^tests/
+^deprecated
+^out/
+^checklog.txt

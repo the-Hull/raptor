@@ -1,5 +1,6 @@
 packrat/lib*/
 .Rproj.user
+.Rhistory
 
 *.docx
 packrat/src/
@@ -7,3 +8,9 @@ packrat/
 
 *.pdf
 *output.txt
+
+manuscript/
+out/
+
+*.Rdata
+
