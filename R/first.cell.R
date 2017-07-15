@@ -224,13 +224,13 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             # # require("mgcv")
             # # require("base")
 
-            s=mgcv:::s
+            s=mgcv::s
             error.test <- try(mgcv::gam(y ~ s(x),data=input_m),silent =TRUE)
-            if("try-error" %in% class(error.test)){print("no gam applied due to low number of rows")
+            if("try-error" %in% class(error.test)){print("No GAM applied due to low number of rows")
                   data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
                   data_years <-data_years[order(data_years$XCAL),]
             }else{
-                  s=mgcv:::s
+                  s=mgcv::s
                   Model                  <-mgcv::gam(y ~ s(x),data=input_m)
                   x                      <-c(0:max(data_year[,"XCAL"],na.rm=TRUE))
                   predict                <-mgcv::predict.gam(Model,newdata=data.frame(x))
@@ -291,7 +291,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   y                      <-data_model[,"YCAL"]
                   input_m                  <-data.frame(cbind(x,y))
                   colnames(input_m)        <-c("x","y")
-                  s=mgcv:::s
+                  s=mgcv::s
                   Model                  <-mgcv::gam(y ~ s(x),data=input_m)
                   x                      <-c(1:(max(data_model[,"XCAL"],na.rm=TRUE)))
                   predict                <-mgcv::predict.gam(Model,newdata=data.frame(x))

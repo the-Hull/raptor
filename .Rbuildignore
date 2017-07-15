@@ -1,6 +1,7 @@
 ^packrat/
 ^\.Rprofile$
 ^.*\.Rproj$
+^.*\.Rhistory$
 ^\.Rproj\.user$
 ^manuscript
 ^out/
@@ -11,3 +12,6 @@
 ^deprecated
 ^out/
 ^checklog.txt
+^.*\.cran-comments.md$
+^.*\.docx$
+^cran-comments.md$

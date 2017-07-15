@@ -336,18 +336,10 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
             backup<-data_year
             data_year<-backup
 
-            # list.of.packages <- c("mgcv","gam","base")
-            # new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-            # if(length(new.packages)) install.packages(new.packages)
-            # require("gam")
-            # require("mgcv")
-            # require("base")
+
 
             #FINAL GAMM FIT FOR THE CELL POSITION (WITH PADDING OF 0.5 micron)----
-            #error.test <- try(gam(y ~ s(x),data=input_m),silent =TRUE)
-            #if("try-error" %in% class(error.test)){print("no gam applied due to low number of rows")
-            #  data_years <-data_year[which(is.na(data_year[,"ROW"])==FALSE),]
-            #  data_years <-data_years[order(data_years$XCAL),]
+
 
             for (r in c(1:max(data_year[,"ROW"],na.rm=TRUE))){
                   data_select<-data_year[which(data_year[,"ROW"]==r),]
@@ -360,7 +352,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                         y_new                  <-(c(y,(y-0.5),(y+0.5)))#padding the cells
                         input_m                  <-data.frame(cbind(y_new,x_new))
                         colnames(input_m)        <-c("y","x")
-                        s=mgcv:::s
+                        s=mgcv::s
                         Model                  <-mgcv::gam(x ~ s(y),data=input_m)
                         y                      <-c(min(data_select[,"YCAL"],na.rm=TRUE):max(data_select[,"YCAL"],na.rm=TRUE))
                         predict                <-mgcv::predict.gam(Model,newdata=data.frame(y))
