@@ -57,8 +57,11 @@ R session.)
 To begin explore the package's usage, navigate to *Examples* the documentation of   "**?is.raptor()**":
 
 > #validating example data
+
 > input<-example.data(species="LOT_PICEA")
+
 > input<-is.raptor(input, str=TRUE)
+
 > input
 
 
