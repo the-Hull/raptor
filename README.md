@@ -46,7 +46,7 @@ a function's name preceded by a question mark, i.e.:
 
 Simple examples that illustrate the each functions usage are provided at the bottom
 of each documentation file along; the functions can be tested and explored using the 
-complimentary example data sets (cf. manuscript or execute **?anatomy.data in an 
+complimentary example data sets (cf. manuscript or execute "**?anatomy.data**" in an 
 R session.)
 
 -------------
