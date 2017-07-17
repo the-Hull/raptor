@@ -25,9 +25,11 @@ This function uses an \code{\link{is.raptor}} file (preferably obtained from \co
 The first row of cells is detected by using a local search algorithm, where the first cell is indicated by a green box when make.plot = \code{\link{TRUE}}, and the last by a red box. Values within the graph indicate the row numbers that have been detected. The output adds a column to the input data which indicates the first row of cells. The frac.small argument allows the user to filter out unrealistically small cells.
 }
 \examples{
+\dontrun{
 #first row detection example
 input<-is.raptor(example.data(species="LOT_PICEA"), str = FALSE)
 input<-input[which(input[,"YEAR"]>2006 & input[,"YEAR"]<2011),]
 aligned<-align(input,list=c(0.04,0.04,0,0))
 first<-first.cell(aligned, frac.small = 0.5, yrs = FALSE, make.plot = TRUE)
+}
 }

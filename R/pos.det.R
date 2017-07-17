@@ -22,12 +22,14 @@
 #'         prof.co = 6, max.cells = 0.5, list=FALSE, yrs = FALSE,
 #'         aligning = TRUE, make.plot = TRUE)
 #' @examples
+#' \dontrun{
 #' #example of position detection
 #' input<-is.raptor(example.data(species="MOUNT_PINUS"), str = FALSE)
 #' aligned<-align(input, list=c("h", "h", "h", 0.03), make.plot = FALSE)
 #' first<-first.cell(aligned, frac.small = 0.2, yrs = FALSE, make.plot = FALSE)
 #' output<-pos.det(first, swe = 0.7, sle = 3, ec = 1.75, swl = 0.5, sll = 5, lc = 10,
 #'                 prof.co = 1.7, max.cells = 0.7, yrs = FALSE, aligning = FALSE, make.plot = TRUE)
+#' }
 pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,prof.co =6,
                   max.cells = 0.5,list = FALSE,yrs = FALSE, aligning=TRUE,make.plot=TRUE){
 

@@ -14,11 +14,13 @@
 #' @return An \code{\link{is.raptor}} file with an added column describing the first cells.
 #' @usage first.cell(input, frac.small, yrs, make.plot = TRUE)
 #' @examples
+#' \dontrun{
 #' #first row detection example
 #' input<-is.raptor(example.data(species="LOT_PICEA"), str = FALSE)
 #' input<-input[which(input[,"YEAR"]>2006 & input[,"YEAR"]<2011),]
 #' aligned<-align(input,list=c(0.04,0.04,0,0))
 #' first<-first.cell(aligned, frac.small = 0.5, yrs = FALSE, make.plot = TRUE)
+#' }
 first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       #input<-input
       #frac.small<-0.5

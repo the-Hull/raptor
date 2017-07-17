@@ -1,22 +1,9 @@
----
-title: "cran-comments"
-author: "Alexander Hurley"
-date: "14 July 2017"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Test environments
-* local OS X install, R 3.1.2
-* local Windows 10 install, R 3.1.4 beta
+* local OS X install, R 3.1.2 **UPDATE, RP / PF**
+* local Windows 10 install, R development version
 
 ## R CMD check results
-There were no ERRORs or WARNINGs or NOTEs
-
-
-
+* There were no ERRORs or WARNINGs or NOTEs.
 
 ## Downstream dependencies
+* There are currently no downstream dependencies.

@@ -23,6 +23,7 @@ Generating final output graphs and files for the row and position detection. Inp
 Function that aids in graphing the output and writing output tables. The generated \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each radial file. The output table provides the standard output table with three additional columns containing; the "ROW" number and "POSITION" within the row and the "MARKER" column (cf. \code{\link{pos.det}}. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz & DeSoto, 2015) and link the output to xylogenesis data (cf. Rathgeber et al., 2011).
 }
 \examples{
+\dontrun{
 #example to write output
 input<-is.raptor(example.data(species="SIB_LARIX"), str = FALSE)
 aligned<-align(input)
@@ -53,6 +54,7 @@ for(j in c(1:length(row_id))){
 SIB_LARIX[which(SIB_LARIX[,"YEAR"]==unique(SIB_LARIX[,"YEAR"])[i] &
           SIB_LARIX[,"ROW"]==row_id[j]), "ROW"]<-j
 }}
+}
 }
 \references{
 de la Cruz, M., & DeSoto, L. (2015) tgram: Functions to compute and plot tracheidograms. CRAN: https://cran.r-project.org/web/packages/tgram/tgram.pdf.\cr
