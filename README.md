@@ -25,6 +25,7 @@ steps for using the package's functions via examples provided in the package doc
       
       
       file_path must take the following format:
+      
             - for Windows Systems: "X:/Y/Z/RAPTOR_0.0.9.tar.gz"
             - for UNIX-based Systems: "/home/user/RAPTOR_0.0.9.tar.gz"
             
