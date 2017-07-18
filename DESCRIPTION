@@ -5,7 +5,7 @@ Version: 0.0.9
 Date: 25/05/2017 10:00:00
 Authors@R: c(
       person('Richard L. Peters', role =  c('aut', 'cre', 'cph'), email = 'richardlouispeters3@hotmail.com'),
-      person('Alexander Hurley', role =  c('cre')),
+      person('Alexander Hurley', role =  c('ctr')),
       person('Daniel Balanzategui', role =  c('ctr')),
       person('Georg von Arx', role = 'ctr'),
       person('Angela Luisa Prendin', role = 'ctr'), 

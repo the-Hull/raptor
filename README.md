@@ -13,15 +13,15 @@ Performs wood cell anatomical data analyses on spatially explicit xylem (trachei
 ### Important Notes:
 
 This repository contains the pre-release version of RAPTOR for submission to the
-*Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript Peters *et al. (2017; in preparation)*; a bundled version of the package (i.e. for installation) is found in the file **RAPTOR_0.0.9.tar.gz**.
+*Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript Peters *et al. (2017; in preparation)*; a bundled version of the package (i.e. for installation) is found in the file **RAPTOR_0.0.9.tar.gz** (accessible via e.g. *7Zip*).
 This document outlines the package installation process and provides initial 
 steps for using the package's functions via examples provided in the package documentation.
 
 ### Installation:
 
 1. Download the source package from this repository:  [**RAPTOR_0.0.9.tar.gz**](https://github.com/the-Hull/raptor/blob/master/RAPTOR_0.0.9.tar.gz) (Click 'download'); alternatively, download the entire repository in *.zip format using this [link](https://codeload.github.com/the-Hull/raptor/zip/master?token=ALP_Z6J1GbKWPO3MdV9unIsq5lC5L9_cks5ZbOu4wA==), unzip the archive to any location on your computer.
-2. Run the folling command in an R session:
-      **install.packages(file_path, repos = NULL, type="source")**
+2. Run the folling commands in an R session:
+      * **install.packages(file_path, repos = NULL, type="source")**
       
       
       file_path must take the following format:
@@ -29,6 +29,8 @@ steps for using the package's functions via examples provided in the package doc
       
             - for Windows Systems: "X:/Y/Z/RAPTOR_0.0.9.tar.gz"
             - for UNIX-based Systems: "/home/user/RAPTOR_0.0.9.tar.gz"
+            
+      * library(RAPTOR)
             
 ### Usage:
 
@@ -72,8 +74,8 @@ To begin explore the package's usage, navigate to *Examples* the documentation o
 
 
 * Richard L. Peters <richardlouispeters3@hotmail.com> [aut, cre, cph]
-* Alexander Hurley [cre]                                             
 * Daniel Balanzategui [ctr]                                          
+* Alexander G. Hurley [ctr]                                             
 * Georg von Arx [ctr]                                                
 * Angela Luisa Prendin [ctr]                                         
 * Henri E. Cuny [ctr]                                                
