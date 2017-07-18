@@ -1,7 +1,11 @@
 packrat/lib*/
 .Rproj.user
-*.Rhistory
-.Rbuildignore
+Rproj.user$
+Rproj$
+*.Rproj$
+*.Rhistory$
+Rhistory$
+
 
 *.docx
 packrat/src/
@@ -15,4 +19,4 @@ out/
 
 *.Rdata
 
-.Rhistory
+
