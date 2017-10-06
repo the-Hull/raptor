@@ -5,8 +5,8 @@ Version: 0.0.9
 Date: 25/05/2017 10:00:00
 Authors@R: c(
       person('Richard L. Peters', role =  c('aut', 'cre', 'cph'), email = 'richardlouispeters3@hotmail.com'),
-      person('Alexander Hurley', role =  c('ctr')),
       person('Daniel Balanzategui', role =  c('ctr')),
+      person('Alexander Hurley', role =  c('ctr')),
       person('Georg von Arx', role = 'ctr'),
       person('Angela Luisa Prendin', role = 'ctr'), 
       person('Henri E. Cuny', role = 'ctr'),
@@ -28,6 +28,6 @@ LazyData: true
 Imports: mgcv, stats, utils, graphics, grDevices
 Repository: CRAN
 References:       von Arx, G., & Carrer, M. (2014) ROXAS - A new tool to build centuries-long tracheid-lumen chronologies 
-                  in conifers. Dendrochronologia 32, 290-293.
+                  in conifers. Dendrochronologia 32, 290-293. [https://doi.org/10.1016/j.dendro.2013.12.001].
 RoxygenNote: 6.0.1
 Suggests: testthat

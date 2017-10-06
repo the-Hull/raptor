@@ -12,7 +12,7 @@ Performs wood cell anatomical data analyses on spatially explicit xylem (trachei
 
 ### Important Notes:
 
-This repository contains the pre-release version of RAPTOR for submission to the
+This repository contains the prerelease version of RAPTOR for submission to the
 *Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript Peters *et al. (2017; in preparation)*; a bundled version of the package (i.e. for installation) is found in the file **RAPTOR_0.0.9.tar.gz** (accessible via e.g. *7Zip*).
 This document outlines the package installation process and provides initial 
 steps for using the package's functions via examples provided in the package documentation.
