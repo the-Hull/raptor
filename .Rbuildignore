@@ -6,15 +6,15 @@
 ^manuscript
 ^out/
 ^.*\.gitignore$
-^.*\.README.md$
-README.md$
-NEWS.md$
+^.*\.README\.md$
+README\.md$
+NEWS\.md$
 
 ^tests/
 ^deprecated
-^checklog.txt
-^.*\.cran-comments.md$
+^checklog\.txt
+^.*\.cran-comments\.md$
 ^.*\.docx$
-^cran-comments.md$
-^.*tar.gz$
+^cran-comments\.md$
+^.*tar\.gz$
 ^\.travis\.yml$
