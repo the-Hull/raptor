@@ -5,14 +5,14 @@ RAPTOR
 
 ### Description:
 
-Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) datasets derived from wood anatomical thin sections. The package includes functions for the visualisation, alignment and detection of continuous tracheid radial file (defines as rows) and tracheid position within an annual ring of coniferous species. This package is designed to use elaborate cell output, like provided with ROXAS (von Arx and Carrer, *2014*). The package has been validated for *Picea abies*, *Larix Siberica*, *Pinus cembra* and *Pinus sylvestris*.
+Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) data sets derived from wood anatomical thin sections. The package includes functions for the visualization, alignment and detection of continuous tracheid radial file (defines as rows) and tracheid position within an annual ring of coniferous species. This package is designed to use elaborate cell output, like provided with ROXAS (von Arx and Carrer, *2014*). The package has been validated for *Picea abies*, *Larix Siberica*, *Pinus cembra* and *Pinus sylvestris*.
 
 
 -------------
 
 ### Important Notes:
 
-This repository contains the prerelease version of RAPTOR for submission to the
+This repository contains the release version of RAPTOR for submission to the
 *Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript Peters *et al. (2017; in preparation)*; a bundled version of the package (i.e. for installation) is found in the file **RAPTOR_0.0.9.tar.gz** (accessible via e.g. *7Zip*).
 This document outlines the package installation process and provides initial 
 steps for using the package's functions via examples provided in the package documentation.
@@ -20,7 +20,7 @@ steps for using the package's functions via examples provided in the package doc
 ### Installation:
 
 1. Download the source package from this repository:  [**RAPTOR_0.0.9.tar.gz**](https://github.com/the-Hull/raptor/blob/master/RAPTOR_0.0.9.tar.gz) (Click 'download'); alternatively, download the entire repository in *.zip format using this [link](https://codeload.github.com/the-Hull/raptor/zip/master?token=ALP_Z6J1GbKWPO3MdV9unIsq5lC5L9_cks5ZbOu4wA==), unzip the archive to any location on your computer.
-2. Run the folling commands in an R session:
+2. Run the following commands in an R session:
       * **install.packages(file_path, repos = NULL, type="source")**
       
       
