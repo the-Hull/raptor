@@ -19,17 +19,14 @@
 #' input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
 #' input<-align(input, year=2007, list=FALSE,interact=FALSE, make.plot=TRUE)
 align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
-      # input<-read.table("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Manuscript 08-05-2017\\Nieuwe map\\example.data.txt",header=TRUE,sep="\t")
-      # input<-is.raptor(example.data(species="LOT_PICEA"), str=FALSE)
-      #year<-2008
-      #list<-c("v","v","v","h")
-      #interact=FALSE
-      #make.plot=FALSE
-      #input <- prep(example.data(roxas = TRUE))
-      #input<-prep(read.table(files[file],header=TRUE,sep="\t"))
 
-      opar <- graphics::par(no.readonly=T)
-      on.exit(graphics::par(opar))
+
+
+      if(make.plot == TRUE){
+            opar <- graphics::par(no.readonly=T)
+            on.exit(graphics::par(opar))}
+      else { }
+
 
       if(missing(year)){year<-FALSE}
       if(missing(interact)){interact<-FALSE}
@@ -47,7 +44,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                   }}
 
             for(i in c(1:length(year))){
-                  #i<-1
+
                   iso<-input[which(input[,"YEAR"]==year[i]),]
                   iso[,"XCAL"]<-iso[,"XCAL"]-(min(iso[,"XCAL"],na.rm=TRUE))+1
                   iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
@@ -66,7 +63,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                         option<-readline("SELECT - align cells to vertical line [v] / horizontal line [h] / slope [x.xx] / end [x] : ")
                         output<-matrix(nrow=length(iso[,"XCAL"]),ncol=2)
                         colnames(output)<-c("X_CAL","Y_CAL")
-                        #still need to tranfors it to a horizontal line
+
                         if(option!="x"&option!="v"&option!="h"& is.na(suppressWarnings(as.numeric(option)))==TRUE){
                               message('Option is not available')
                               next}
@@ -146,7 +143,7 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
 
             if(list[1]==FALSE){
                   for(i in c(1:length(year))){
-                        #i<-1
+
                         iso<-input[which(input[,"YEAR"]==year[i]),]
                         iso[,"XCAL"]<-iso[,"XCAL"]-(min(iso[,"XCAL"],na.rm=TRUE))+1
                         iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1
@@ -205,10 +202,10 @@ align<-function(input,year=FALSE,list=FALSE,interact=TRUE,make.plot=TRUE){
                         input[which(input[,"YEAR"]==year[i]),"YCAL"]<-output[,"Y_CAL"]
                   }
             }else{
-                  #if(is.numeric(list)!=TRUE)stop('list is not numeric')
+
                   if(length(list)!=length(year))stop('length of list is not equal to years in data.frame')
                   for(i in c(1:length(year))){
-                        #i<-1
+
                         iso<-input[which(input[,"YEAR"]==year[i]),]
                         iso[,"XCAL"]<-iso[,"XCAL"]-(min(iso[,"XCAL"],na.rm=TRUE))+1
                         iso[,"YCAL"]<-iso[,"YCAL"]-(min(iso[,"YCAL"],na.rm=TRUE))+1

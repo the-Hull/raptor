@@ -1,5 +1,14 @@
 ## Overview
-This is a first submission to CRAN with an initial release version of RAPTOR.
+This is a resubmission to CRAN with an updated version of RAPTOR.
+
+## Resubmission
+* Changed title to title case and omitted superfluous "..in R"
+* Changed date format to ISO 8601
+* In Description, added auto link to DOI for reference in "Description" field; removed 
+      "References" field
+* Removed any instance of changing or writing directly to working/home directory
+      with requirements of providing character string
+
 
 ## Test environments
 * local OS X install, R version 3.4.2

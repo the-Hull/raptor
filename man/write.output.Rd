@@ -4,12 +4,12 @@
 \alias{write.output}
 \title{Output generation and visualization}
 \usage{
-write.output(input, location = c("./"), flip = FALSE)
+write.output(input, location, flip = FALSE)
 }
 \arguments{
 \item{input}{a \code{\link{data.frame}} produced by \code{\link{pos.det}}.}
 
-\item{location}{an optional character string containing the location where the output .pdf and .txt file should be stored. See \code{\link{setwd}} for formatting. Location should provide \code{\link{as.character}}.}
+\item{location}{an optional character string containing the location where the output .pdf and .txt file should be stored. If not supplied, the function returns the computed output, which can be stored in an object.}
 
 \item{flip}{logical flag indicating in which direction to plot the cells, i.e. with earlywood at the bottom (default; flip = \code{\link{FALSE}}) or at the top (flip = \code{\link{TRUE}}).}
 }

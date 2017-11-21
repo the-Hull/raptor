@@ -33,8 +33,10 @@
 pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,prof.co =6,
                   max.cells = 0.5,list = FALSE,yrs = FALSE, aligning=TRUE,make.plot=TRUE){
 
-      opar <- graphics::par(no.readonly=T)
-      on.exit(graphics::par(opar))
+      if(make.plot == TRUE){
+            opar <- graphics::par(no.readonly=T)
+            on.exit(graphics::par(opar))}
+      else { }
 
       #input<-first
       #swe = 1.2
@@ -72,12 +74,10 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
             if(is.numeric(prof.co)==FALSE)stop('prof.co is not numeric')
             profile_cutoff<-prof.co
       }
-      #if(missing(gam.wd)==TRUE){
+
       gam_width<-0.5
-      #}else{
-      #  if(is.numeric(gam.wd)==FALSE)stop('gam.wd is not numeric')
-      #  gam_width<-gam.wd
-      #}
+
+
       if(missing(lc)==TRUE){latewood_cutoff<-10}else{
             if(is.numeric(lc)==FALSE)stop('lc is not numeric')
             latewood_cutoff<-lc
@@ -112,7 +112,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
       input[,"POSITION"]<-NA
       input[,"MARKER"]<-NA
       for(u in c(1:length(yrs))){
-            #u<-1
+
             year<-yrs[u]
             data_year<-input[which(input[,"YEAR"]==year),]
             data_year[,"XCAL"]<-data_year[,"XCAL"]-(min(data_year[,"XCAL"]))+1
@@ -197,7 +197,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                               x_cor<-c((x-length),(x+length),(x+length),(x-length))
                               y_cor<-c((y+length),(y+length),(y-length),(y-length))
                               graphics::polygon(x_cor,y_cor,col="grey")
-                              #text(x,y,data_year[i,"ROW"])
+
                         }
                   }
             }
@@ -243,7 +243,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                                     break
                               }else{
                                     for (z in c(1:nrow(selected_cells))){
-                                          #z<-2
+
                                           bx<-selected_cells[z,"XCAL"]
                                           by<-selected_cells[z,"YCAL"]
                                           selected_cells[z,"LENGTH"]<-(sqrt(2*((sqrt((bx-ax)^2)))^2+(sqrt((by-ay)^2))^2))
@@ -359,10 +359,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                         y                      <-c(min(data_select[,"YCAL"],na.rm=TRUE):max(data_select[,"YCAL"],na.rm=TRUE))
                         predict                <-mgcv::predict.gam(Model,newdata=data.frame(y))
                         mean_width             <-mean(data_select[,"SQRLENGTH"],na.rm=TRUE)
-                        #if(make.plot==TRUE){#lines((predict),y,lty=1)
-                        #  lines((as.numeric(predict)+mean_width*gam_width),y,lty=2)
-                        #  lines((as.numeric(predict)-mean_width*gam_width),y,lty=2)
-                        #}
+
                         data_na                <-data_year[which(is.na(data_year[,"ROW"])==TRUE),]
                         y                      <-data_na[,"YCAL"]
                         value                  <-mgcv::predict.gam(Model,newdata=data.frame(y))
@@ -380,7 +377,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
             #mistake when little rows are present
             row_code<-sort(unique(data_year[,"ROW",]))
             for(j in c(1:length(row_code))){
-                  #j<-1
+
                   selected_data                  <-data_year[which(data_year[,"ROW"]==row_code[j]),]
                   selected_data                  <-selected_data[order(selected_data$YCAL),]
                   selected_data[,"DISTANCE"]     <-NA
@@ -388,7 +385,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                   for(k in c(1:nrow(selected_data))){
                         one<-selected_data[k,]
                         two<-selected_data[(k+1),]
-                        #if(nrow(two)==0){
+
                         if(is.na(two$CID)){
                               data_year[which(data_year$CID==one$CID),"MARKER"]<-5
                               MARK5<-data_year[which(data_year$MARKER==5),]
@@ -404,7 +401,7 @@ pos.det<-function(input,swe = 0.5,sle = 3,ec = 1.75,swl = 0.25,sll = 5,lc = 5,pr
                   }
                   selected_data[,"TIMES"]<-NA
                   for(k in c(2:nrow(selected_data))){
-                        #k<-2
+
                         one<-selected_data[k,"DISTANCE"]
                         two<-selected_data[(k+1),"DISTANCE"]
                         if(length(two)==0){

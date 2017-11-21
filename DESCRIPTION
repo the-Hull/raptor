@@ -1,8 +1,8 @@
 Package: RAPTOR
 Type: Package
-Title: Row And Position Tracheid Organizer in R
-Version: 0.0.9
-Date: 25/05/2017 10:00:00
+Title: Row and Position Tracheid Organizer
+Version: 1.0.0
+Date: 2017-05-25 
 Authors@R: c(
       person('Richard L. Peters', role =  c('aut', 'cre', 'cph'), email = 'richardlouispeters3@hotmail.com'),
       person('Daniel Balanzategui', role =  c('ctr')),
@@ -19,7 +19,7 @@ Description:      Performs wood cell anatomical data analyses on spatially expli
                   derived from thin sections of woody tissue. The package includes functions for visualisation, 
                   detection and alignment of continuous tracheid radial file (defined as rows) and individual tracheid position 
                   within an annual ring of coniferous species. This package is designed to be used with elaborate cell output, 
-                  e.g. as provided with ROXAS (von Arx & Carrer, 2014). The package has been validated for Picea abies, 
+                  e.g. as provided with ROXAS (von Arx & Carrer, 2014 <https://doi.org/10.1016/j.dendro.2013.12.001>). The package has been validated for Picea abies, 
                   Larix Siberica, Pinus cembra and Pinus sylvestris.
 License: GPL (>= 2)
 NeedsCompilation: no
@@ -27,7 +27,5 @@ Encoding: UTF-8
 LazyData: true
 Imports: mgcv, stats, utils, graphics, grDevices
 Repository: CRAN
-References:       von Arx, G., & Carrer, M. (2014) ROXAS - A new tool to build centuries-long tracheid-lumen chronologies 
-                  in conifers. Dendrochronologia 32, 290-293. [https://doi.org/10.1016/j.dendro.2013.12.001].
 RoxygenNote: 6.0.1
 Suggests: testthat

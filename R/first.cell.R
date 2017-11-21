@@ -22,13 +22,12 @@
 #' first<-first.cell(aligned, frac.small = 0.5, yrs = FALSE, make.plot = TRUE)
 #' }
 first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
-      #input<-input
-      #frac.small<-0.5
-      #yrs<-FALSE
-      #make.plot<-TRUE
 
-      opar <- graphics::par(no.readonly=T)
-      on.exit(graphics::par(opar))
+
+      if(make.plot == TRUE){
+            opar <- graphics::par(no.readonly=T)
+            on.exit(graphics::par(opar))}
+      else { }
 
       if(missing(yrs)){yrs<-unique(input[,"YEAR"])}
       if(missing(frac.small)){frac.small<-0.5}
@@ -42,7 +41,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
       fraction_smallest<-frac.small
       data<-input
       for(u in c(1:length(yrs))){
-            #u<-7
+
             year<-yrs[u]
             data_year<-data[which(data[,"YEAR"]==year),]
             sample<-unique(data_year[,"ID"])
@@ -112,7 +111,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   }else{
                         selected_last_cells[,"LENGTH_LAST"] <-NA
                         for(s in c(1:nrow(selected_last_cells))){
-                              #s<-1
+
                               x1<-data_last[1,"XCAL"]
                               y1<-data_last[1,"YCAL"]
                               x2<-selected_last_cells[s,"XCAL"]
@@ -157,7 +156,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         if(nrow(isolate)<10){
                               isolate<-isolate
                         }else{
-                              isolate<-isolate #[c(1:10),]
+                              isolate<-isolate
                         }
                         isolate[,"DISTANCE"]<-NA
                         xorig<-data_select[,"XCAL"]
@@ -219,12 +218,6 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             input_m                  <-data.frame(cbind(x,y))
             colnames(input_m)        <-c("x","y")
 
-            # list.of.packages <- c("mgcv","gam","base")
-            # new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-            # if(length(new.packages)) install.packages(new.packages)
-            # # require("gam")
-            # # require("mgcv")
-            # # require("base")
 
             s=mgcv::s
             error.test <- try(mgcv::gam(y ~ s(x),data=input_m),silent =TRUE)
@@ -279,7 +272,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                         data_year[which(data_year[,"CID"]==data_years[p,"CID"]),"ROW"]<-p
                   }
                   for (q in c(1:nrow(data_year))){
-                        #q<-1
+
                         data_one<-data_year[which(data_year[,"ROW"]==q),]
                         length<-data_one[1,"SQRLENGTH"]/2
                         x     <-data_one[1,"XCAL"]
@@ -305,7 +298,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
                   data_year[which(data_year[,"CID"]%in% removed_CID),"ROW"]<-NA
                   row_code<-sort(unique(data_year[,"ROW",]))
                   for(r in c(1:length(row_code))){
-                        #r<-1
+
                         data_year[which(data_year["ROW"]==row_code[r]),"ROW"]<-r
                   }
 
@@ -314,7 +307,7 @@ first.cell<-function(input,frac.small,yrs,make.plot=TRUE){
             if(nrow(graph)==0){print("no cells detected")
                   break}
             for(c in c(1:nrow(graph))){
-                  #c<-1
+
                   length<-graph[c,"SQRLENGTH"]/2
                   x     <-graph[c,"XCAL"]
                   y     <-graph[c,"YCAL"]

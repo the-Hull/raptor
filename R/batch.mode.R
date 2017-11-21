@@ -1,8 +1,8 @@
 #' @title Automatic rows and position detection
 #'
 #' @description Batch.mode applies all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used within this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably adjusted with \code{\link{align}}.
-#' @param location a character string containing the location of input files and where the outputs (.pdf and .txt files) should be stored. See \code{\link{setwd}} for formatting.
-#' @param files a vector of files for the analyses (default = all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.
+#' @param location a character string containing the location of input files and where the outputs (.pdf and .txt files) should be stored.
+#' @param files a vector of files for the analyses (defaults to all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.
 #' @param interact a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. See \code{\link{align}} for rotation options. If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).
 #' @param make.plot logical flag indicating whether to make a plot (default =  \code{\link{FALSE}}).
 #' @param aligning logical flag indicating whether a second alignment has to be performed based upon the cells detected within \code{\link{first.cell}} (default = \code{\link{TRUE}}).
@@ -23,12 +23,12 @@
 #' @export
 #' @return Plots the detected radial files and writes output according the the
 #' \code{\link{write.output}} format.
-#' @usage batch.mode(location = c("."), files = FALSE,
+#' @usage batch.mode(location, files = FALSE,
 #'            interact = TRUE, make.plot = TRUE,
 #'            aligning = TRUE, frac.small=0.5, swe=0.5, sle=3,
 #'            ec=3, swl=0.5, sll=5, lc=10, prof.co=6, max.cells=0.5,
 #'            list = FALSE, flip = FALSE)
-batch.mode<-function(location=c("."),
+batch.mode<-function(location,
                      files=FALSE,
                      interact=TRUE,
                      make.plot=TRUE,
@@ -44,23 +44,7 @@ batch.mode<-function(location=c("."),
                      max.cells=0.5,
                      list=FALSE,
                      flip=FALSE){
-      #test
-      #location = c("D:\\Documents\\WSL\\07_work_documents\\2_results_excel\\Chapter 2 - Anatomical analysis\\RAPTOR\\Test-Georg")
-      #files = c("17_3_15_A_a_Output_Cells.txt")
-      #swe = 0.5
-      #sle = 3
-      #ec = 1.75
-      #swl = 0.25
-      #sll = 5
-      #lc = 5
-      #frac.small<-0.5
-      #prof.co =  6
-      #max.cells = 0.5
-      #aligning = TRUE
-      #interact<-FALSE
-      #make.plot<-TRUE
-      #list<-FALSE
-      ###
+
 
       if(missing(flip)){flip<-FALSE}
       if(flip!=TRUE&flip!=FALSE)stop('flip need to be TRUE/FALSE')
@@ -78,146 +62,147 @@ batch.mode<-function(location=c("."),
       if(missing(max.cells)){max.cells<-0.5}
       if(missing(list)){list<-FALSE}
 
-      setwd(location)
-      if(missing(files)){
-            left                <- function(string, char){
-                  substr(string, 1,char)}
-            right               <- function (string, char){
-                  substr(string,nchar(string)-(char-1),nchar(string))
-            }
-            files<-list.files(path = location)[which(right(list.files(path = location),3)=="txt")]
-      }else{
-            for(h in c(1:length(files))){
-                  if(length(which(list.files(path = location)==files[h]))==0)stop(paste(files[h],' is not present in setwd()',sep=""))
-            }
-      }
+      if(!is.null(location) & !is.character(location)){
+            stop("Please provide a character string containing a path to an output folder.")
+      } else {
 
-      a.<-interact
-      b.<-make.plot
-      c.<-list
-      d.<-frac.small
-      e.<-aligning
-      f.<-swe
-      g.<-sle
-      h.<-ec
-      i.<-swl
-      j.<-sll
-      k.<-lc
-      l.<-prof.co
-      m.<-max.cells
+            if(missing(files)){
 
-      for(file in c(1:length(files))){
-            file<-1
-            interact<-a.
+                  files<-list.files(path = location, pattern = "*.txt")
+            }else{
+                  for(h in c(1:length(files))){
+                        if(length(which(list.files(path = location)==files[h]))==0)stop(paste(files[h],' is not present in setwd()',sep=""))
+                  }
+            }
+
             a.<-interact
-            make.plot<-b.
             b.<-make.plot
-            list<-c.
             c.<-list
-            frac.small<-d.
             d.<-frac.small
-            aligning<-e.
             e.<-aligning
-            swe<-f.
             f.<-swe
-            sle<-g.
             g.<-sle
-            ec<-h.
             h.<-ec
-            swl<-i.
             i.<-swl
-            sll<-j.
             j.<-sll
-            lc<-k.
             k.<-lc
-            prof.co<-l.
             l.<-prof.co
-            max.cells<-m.
             m.<-max.cells
 
-            input<-RAPTOR::is.raptor(read.table(files[file],header=TRUE,sep="\t"))
+            for(file in c(1:length(files))){
+                  file<-1
+                  interact<-a.
+                  a.<-interact
+                  make.plot<-b.
+                  b.<-make.plot
+                  list<-c.
+                  c.<-list
+                  frac.small<-d.
+                  d.<-frac.small
+                  aligning<-e.
+                  e.<-aligning
+                  swe<-f.
+                  f.<-swe
+                  sle<-g.
+                  g.<-sle
+                  ec<-h.
+                  h.<-ec
+                  swl<-i.
+                  i.<-swl
+                  sll<-j.
+                  j.<-sll
+                  lc<-k.
+                  k.<-lc
+                  prof.co<-l.
+                  l.<-prof.co
+                  max.cells<-m.
+                  m.<-max.cells
 
-            if(a.==TRUE){c.<-FALSE}
-            if(missing(list)){c.<-FALSE}
-            if(interact==FALSE & list!=FALSE){
-                  c.<-list[which(list[,1]==unique(input[,"ID"])),2]}
+                  input<-RAPTOR::is.raptor(read.table(files[file],header=TRUE,sep="\t"))
 
-            sample<-unique(input[,"ID"])
-            if(b.==TRUE&a.==FALSE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
-            output1<-RAPTOR::align(input,interact=a.,make.plot=b.,list=c.,year=FALSE)
-            if(b.==TRUE&a.==TRUE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
-            output2<-RAPTOR::first.cell(output1, frac.small = d., yrs = FALSE, make.plot = b.)
-            output3<-RAPTOR::pos.det(output2, swe = f., sle = g., ec = h., swl = i., sll = j., lc = k.,
-                             prof.co = l., max.cells = m., yrs = FALSE , aligning = e. , make.plot = b.)
+                  if(a.==TRUE){c.<-FALSE}
+                  if(missing(list)){c.<-FALSE}
+                  if(interact==FALSE & list!=FALSE){
+                        c.<-list[which(list[,1]==unique(input[,"ID"])),2]}
 
-            years<-unique(output3[,"YEAR"])
-            for(u in c(1:length(years)) ){
-                  data_year<-output3[which(output3[,"YEAR"]==years[u]),]
-                  year<-years[u]
-                  if(b.==TRUE){
+                  sample<-unique(input[,"ID"])
+                  if(b.==TRUE&a.==FALSE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
+                  output1<-RAPTOR::align(input,interact=a.,make.plot=b.,list=c.,year=FALSE)
+                  if(b.==TRUE&a.==TRUE){pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
+                  output2<-RAPTOR::first.cell(output1, frac.small = d., yrs = FALSE, make.plot = b.)
+                  output3<-RAPTOR::pos.det(output2, swe = f., sle = g., ec = h., swl = i., sll = j., lc = k.,
+                                           prof.co = l., max.cells = m., yrs = FALSE , aligning = e. , make.plot = b.)
 
-                        if(flip==FALSE){
-                              graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
-                                   ylim=c(0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01,max(data_year[,"YCAL"],na.rm=TRUE)),
-                                   main=paste(sample," - ",as.character(year)," - Rows: ",max(data_year[,"ROW"],na.rm=TRUE),sep=""),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2,col="white")}
-                        if(flip==TRUE){
-                              graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
-                                   ylim=c(max(data_year[,"YCAL"],na.rm=TRUE),0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01),
-                                   main=paste(sample," - ",as.character(year)," - Rows: ",max(data_year[,"ROW"],na.rm=TRUE),sep=""),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2,col="white")
+                  years<-unique(output3[,"YEAR"])
+                  for(u in c(1:length(years)) ){
+                        data_year<-output3[which(output3[,"YEAR"]==years[u]),]
+                        year<-years[u]
+                        if(b.==TRUE){
+
+                              if(flip==FALSE){
+                                    graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
+                                                   ylim=c(0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01,max(data_year[,"YCAL"],na.rm=TRUE)),
+                                                   main=paste(sample," - ",as.character(year)," - Rows: ",max(data_year[,"ROW"],na.rm=TRUE),sep=""),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2,col="white")}
+                              if(flip==TRUE){
+                                    graphics::plot(data_year[,"XCAL"],data_year[,"YCAL"],ylab="Rel. Y-coordinates (micron)",
+                                                   ylim=c(max(data_year[,"YCAL"],na.rm=TRUE),0-max(data_year[,"YCAL"],na.rm=TRUE)*0.01),
+                                                   main=paste(sample," - ",as.character(year)," - Rows: ",max(data_year[,"ROW"],na.rm=TRUE),sep=""),xlab="Rel. X-coordinates (micron)",pch=16,cex=0.2,col="white")
+                              }
+                        }
+                        data_year[,"SQRLENGTH"] <-sqrt(data_year[,"CA"])
+                        nrcells<-nrow(data_year)
+                        rows<-max(unique(data_year[,"ROW"])[which(is.na(unique(data_year[,"ROW"]))==FALSE)])
+                        col_code<-rep(c("#FFA500","#FF3300","#C71585","#191970","#20B2AA","#00CC33","#006633"),ceiling(rows/7))
+
+                        for(i in c(1:nrcells)){
+                              length<-data_year[i,"SQRLENGTH"]/2
+                              x     <-data_year[i,"XCAL"]
+                              y     <-data_year[i,"YCAL"]
+                              x_cor<-c((x-length),(x+length),(x+length),(x-length))
+                              y_cor<-c((y+length),(y+length),(y-length),(y-length))
+
+                              if(b.==TRUE){
+                                    if(is.na(data_year[i,"ROW"])==TRUE){
+                                          graphics::polygon(x_cor,y_cor)
+                                    }else{
+                                          graphics::polygon(x_cor,y_cor,col=col_code[data_year[i,"ROW"]])
+                                    }
+                                    if(is.na(data_year[i,"ROW"])==FALSE){
+                                          label_point<-data_year[i,"POSITION"]
+                                          graphics::text(x,y,label=label_point,col='black',cex=0.5)
+                                    }else{
+                                          next
+                                    }
+                              }
+                        }
+                        first_cells<-data_year[which(data_year[,"POSITION"]==1),]
+                        for(i in c(1:nrow(first_cells))){
+                              x<-first_cells[i,"XCAL"]
+                              y<-first_cells[i,"YCAL"]
+                              length<-first_cells[i,"SQRLENGTH"]/1.2
+                              label_point<-first_cells[i,"ROW"]
+                              if(b.==TRUE){
+                                    graphics::text(x,y-length,label=label_point,col='black',cex=0.8,font=2)}
+                        }
+                        a<-which(colnames(data_year)=="SQRLENGTH")
+                        data_year<-data_year[,-a]
+                        name<-paste(sample,"-",as.character(year),sep="")
+                        assign(name,data_year)
+                  }
+
+                  if(length(years)==1){
+                        output_all_years<-get(paste(sample,"-",as.character(years[1]),sep=""))
+                  }else{
+                        output_all_years<-get(paste(sample,"-",as.character(years[1]),sep=""))
+                        for(t in c(2:(length(years)-1))){
+                              output_all_years<-rbind(output_all_years,get(paste(sample,"-",as.character(years[t]),sep="")))
                         }
                   }
-                  data_year[,"SQRLENGTH"] <-sqrt(data_year[,"CA"])
-                  nrcells<-nrow(data_year)
-                  rows<-max(unique(data_year[,"ROW"])[which(is.na(unique(data_year[,"ROW"]))==FALSE)])
-                  col_code<-rep(c("#FFA500","#FF3300","#C71585","#191970","#20B2AA","#00CC33","#006633"),ceiling(rows/7))
-
-                  for(i in c(1:nrcells)){
-                        length<-data_year[i,"SQRLENGTH"]/2
-                        x     <-data_year[i,"XCAL"]
-                        y     <-data_year[i,"YCAL"]
-                        x_cor<-c((x-length),(x+length),(x+length),(x-length))
-                        y_cor<-c((y+length),(y+length),(y-length),(y-length))
-
-                        if(b.==TRUE){
-                              if(is.na(data_year[i,"ROW"])==TRUE){
-                                    graphics::polygon(x_cor,y_cor)
-                              }else{
-                                    graphics::polygon(x_cor,y_cor,col=col_code[data_year[i,"ROW"]])
-                              }
-                              if(is.na(data_year[i,"ROW"])==FALSE){
-                                    label_point<-data_year[i,"POSITION"]
-                                    graphics::text(x,y,label=label_point,col='black',cex=0.5)
-                              }else{
-                                    next
-                              }
-                        }
-                  }
-                  first_cells<-data_year[which(data_year[,"POSITION"]==1),]
-                  for(i in c(1:nrow(first_cells))){
-                        x<-first_cells[i,"XCAL"]
-                        y<-first_cells[i,"YCAL"]
-                        length<-first_cells[i,"SQRLENGTH"]/1.2
-                        label_point<-first_cells[i,"ROW"]
-                        if(b.==TRUE){
-                              graphics::text(x,y-length,label=label_point,col='black',cex=0.8,font=2)}
-                  }
-                  a<-which(colnames(data_year)=="SQRLENGTH")
-                  data_year<-data_year[,-a]
-                  name<-paste(sample,"-",as.character(year),sep="")
-                  assign(name,data_year)
-            }
-
-            if(length(years)==1){
-                  output_all_years<-get(paste(sample,"-",as.character(years[1]),sep=""))
-            }else{
-                  output_all_years<-get(paste(sample,"-",as.character(years[1]),sep=""))
-                  for(t in c(2:(length(years)-1))){
-                        output_all_years<-rbind(output_all_years,get(paste(sample,"-",as.character(years[t]),sep="")))
+                  if(is.character(location)==TRUE){
+                        write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
+                        if(b.==TRUE){dev.off()}
                   }
             }
-            if(is.character(location)==TRUE){
-                  write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
-                  if(b.==TRUE){dev.off()}
-            }
+
       }
 }

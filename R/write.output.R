@@ -2,12 +2,12 @@
 #'
 #' @description Generating final output graphs and files for the row and position detection. Input data should be provided as produced by \code{\link{pos.det}}.
 #' @param input a \code{\link{data.frame}} produced by \code{\link{pos.det}}.
-#' @param location an optional character string containing the location where the output .pdf and .txt file should be stored. See \code{\link{setwd}} for formatting. Location should provide \code{\link{as.character}}.
+#' @param location an optional character string containing the location where the output .pdf and .txt file should be stored. If not supplied, the function returns the computed output, which can be stored in an object.
 #' @param flip logical flag indicating in which direction to plot the cells, i.e. with earlywood at the bottom (default; flip = \code{\link{FALSE}}) or at the top (flip = \code{\link{TRUE}}).
 #' @details Function that aids in graphing the output and writing output tables. The generated \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each radial file. The output table provides the standard output table with three additional columns containing; the "ROW" number and "POSITION" within the row and the "MARKER" column (cf. \code{\link{pos.det}}. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz & DeSoto, 2015) and link the output to xylogenesis data (cf. Rathgeber et al., 2011).
 #' @export
 #' @return Plots the detected radial files and writes output according to the \code{\link{is.raptor}} format.
-#' @usage write.output(input, location = c("./"), flip = FALSE)
+#' @usage write.output(input, location, flip = FALSE)
 #' @references de la Cruz, M., & DeSoto, L. (2015) tgram: Functions to compute and plot tracheidograms. CRAN: https://cran.r-project.org/web/packages/tgram/tgram.pdf.\cr
 #' \cr
 #' Rathgeber, C.B.K., Longuetaud, F., Mothe, F., Cuny, H., & Le Moguedec, G. (2011) Phenology of wood formation: Data processing, analysis and visualisation using R (package CAVIAR). Dendrochronologia 29, 139-149.
@@ -44,28 +44,30 @@
 #'           SIB_LARIX[,"ROW"]==row_id[j]), "ROW"]<-j
 #' }}
 #' }
-write.output<-function(input,location=c("./"),flip=FALSE){
+write.output<-function(input,location,flip=FALSE){
 
-      opar <- graphics::par(no.readonly=T)
-      on.exit(graphics::par(opar))
 
-      time_start <- Sys.time()
+
       outlist <- list()
 
-      #input<-output
       if(missing(flip)){flip<-FALSE}
       if(flip!=TRUE&flip!=FALSE)stop('flip need to be TRUE/FALSE')
 
-      if(missing(location)){location<-FALSE}
+      if(missing(location)){location<- FALSE}
       sample<-unique(input[,"ID"])
-      if(location!=FALSE){
-            setwd(location)
-            pdf(file=paste(sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")}
+
+      if(missing(location) == FALSE && is.character(location)){
+            pdf(file=paste(location,"/",sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")
+      } else if((location != FALSE && !is.character(location)) ){
+            stop("Please provide a character string containing a path to an output folder.")
+      } else if(location == FALSE){
+
+      }
 
       years<-unique(input[,"YEAR"])
       for(u in c(1:length(years)) ){
-            #u<-1
-            data_year<-input[which(input[,"YEAR"]==years[u]),]
+
+                        data_year<-input[which(input[,"YEAR"]==years[u]),]
             year<-years[u]
 
             if(flip==FALSE){
@@ -82,8 +84,6 @@ write.output<-function(input,location=c("./"),flip=FALSE){
 
             nrcells<-nrow(data_year)
             rows<-max(unique(data_year[,"ROW"])[which(is.na(unique(data_year[,"ROW"]))==FALSE)])
-            #col_code<-rep(c("orange","blue","red","green","purple"),ceiling(rows/5))
-            #col_code<-rep(c("#FFA500 ","#FF3300","#C71585","#191970 ","#20B2AA ","#00CC33","#006633"),ceiling(rows/7))
             col_code<-rep(c("#FFA500","#FF3300","#C71585","#191970","#20B2AA","#00CC33","#006633"),ceiling(rows/7))
             for(i in c(1:nrcells)){
                   length<-data_year[i,"SQRLENGTH"]/2
@@ -126,9 +126,13 @@ write.output<-function(input,location=c("./"),flip=FALSE){
                   output_all_years<-rbind(output_all_years,get(paste(sample,"-",as.character(years[t]),sep="")))
             }
       }
-      if(location!=FALSE){
+
+      if(!is.null(location)){
             write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
-            dev.off()}
-      return(output_all_years)
-      print(Sys.time() - time_start)
+            invisible(dev.off())
+      } else {
+
+            return(output_all_years)
+      }
+
 }

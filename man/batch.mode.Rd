@@ -4,16 +4,16 @@
 \alias{batch.mode}
 \title{Automatic rows and position detection}
 \usage{
-batch.mode(location = c("."), files = FALSE,
+batch.mode(location, files = FALSE,
            interact = TRUE, make.plot = TRUE,
            aligning = TRUE, frac.small=0.5, swe=0.5, sle=3,
            ec=3, swl=0.5, sll=5, lc=10, prof.co=6, max.cells=0.5,
            list = FALSE, flip = FALSE)
 }
 \arguments{
-\item{location}{a character string containing the location of input files and where the outputs (.pdf and .txt files) should be stored. See \code{\link{setwd}} for formatting.}
+\item{location}{a character string containing the location of input files and where the outputs (.pdf and .txt files) should be stored.}
 
-\item{files}{a vector of files for the analyses (default = all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.}
+\item{files}{a vector of files for the analyses (defaults to all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.}
 
 \item{interact}{a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. See \code{\link{align}} for rotation options. If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).}
 
