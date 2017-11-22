@@ -31,3 +31,7 @@ out/
 .Rhistory
 *.Rhistory
 raptor.Rproj
+.travis.yml
+.Rprofile
+checklog.txt
+raptor.Rproj
