@@ -127,12 +127,16 @@ write.output<-function(input,location,flip=FALSE){
             }
       }
 
-      if(!is.null(location)){
-            write.table(output_all_years,file=paste(sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
+      if(location != FALSE){
+            location <- sub("\\/*$","", location)
+            write.table(output_all_years,file=paste(location,"/",sample,"_output.txt",sep=""),row.names=FALSE,sep="\t")
             invisible(dev.off())
+
       } else {
 
             return(output_all_years)
+            invisible(dev.off())
+
       }
 
 }
