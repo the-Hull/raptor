@@ -5,7 +5,15 @@ Rproj$
 *.Rproj$
 *.Rhistory$
 Rhistory$
-
+*.Rbuildignore
+*.Rhistory
+*.Rprofile
+*.travis.yml
+.Rhistory
+.Rbuildignore
+.Rprofile
+.travis.yml
+checklog.txt
 
 *.docx
 packrat/src/
