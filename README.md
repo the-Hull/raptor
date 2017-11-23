@@ -13,7 +13,7 @@ Performs wood cell anatomical data analyses on spatially explicit xylem (trachei
 ### Important Notes:
 
 This repository contains the release version of RAPTOR for submission to the
-*Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript [Peters et al. (2017)](https://doi.org/10.1016/j.dendro.2017.10.003); a bundled version of the package (i.e. for installation) is found in the file **RAPTOR_1.0.0.tar.gz** (accessible via e.g. *7Zip*).
+*Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript [Peters et al. (2017)](https://authors.elsevier.com/c/1W5pl3-~MPTEVq). A bundled version of the package (i.e. for installation) is found in the file **RAPTOR_1.0.0.tar.gz** (accessible via e.g. *7Zip*).
 This document outlines the package installation process and provides initial 
 steps for using the package's functions via examples provided in the package documentation.
 
@@ -34,7 +34,7 @@ steps for using the package's functions via examples provided in the package doc
             
 ### Usage:
 
-The package's functions are to be executed sequentially (cf. manuscript):
+The package's functions are to be executed sequentially (cf. [manuscript](https://authors.elsevier.com/c/1W5pl3-~MPTEVq)):
 
 1. **is.raptor()**
 2. **graph.cells()**
@@ -42,8 +42,8 @@ The package's functions are to be executed sequentially (cf. manuscript):
 4. **first.cell()**
 5. **pos.det()**
 6. **write.output()**
-7. (**batch.mode()** is a convenient 'wrapper' function streamlining steps 1 through 6)
-8. (**anatomy.data** calls complimentary example data sets)
+7. **batch.mode()** is a convenient 'wrapper' function streamlining steps 1 through 6
+8. **anatomy.data** calls complimentary example data sets
 
 Each function is complimented by detailed documentation, which can be accessed by calling
 a function's name preceded by a question mark, i.e.:
@@ -52,11 +52,11 @@ a function's name preceded by a question mark, i.e.:
 
 
 Simple examples that illustrate each functions usage are provided at the bottom
-of each documentation file along; the functions can be tested and explored using the 
-complimentary example data sets (cf. manuscript or execute "**?anatomy.data**" in an 
+of each documentation file. The functions can be tested and explored using the 
+complimentary example data sets (cf. [manuscript](https://authors.elsevier.com/c/1W5pl3-~MPTEVq) or execute "**?anatomy.data**" in an 
 R session.)
 
-To begin explore the package's usage, navigate to *Examples* the documentation of   "**?is.raptor()**":
+To begin exploring the package, navigate to *Examples* in the documentation of   "**?is.raptor()**":
 
 > #validating example data
 
