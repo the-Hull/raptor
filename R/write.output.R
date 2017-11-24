@@ -18,7 +18,7 @@
 #' aligned<-align(input)
 #' first<-first.cell(aligned, frac.small = 0.5, yrs = FALSE, make.plot = FALSE)
 #' output<-pos.det(first, swe = 0.3, sle = 3, ec = 1.5, swl = 0.5, sll = 5, lc = 15,
-#'                 prof.co =4, max.cells = 0.5, yrs = FALSE, aligning = FALSE, make.plot = FALSE)
+#'                 prof.co = 4, max.cells = 0.5, yrs = FALSE, aligning = FALSE, make.plot = FALSE)
 #' sib_larix<-write.output(output)
 #'
 #'\dontrun{
@@ -135,7 +135,7 @@ write.output<-function(input,location,flip=FALSE){
 
       } else {
 
-            invisible(dev.off())
+            # invisible(dev.off())
             return(output_all_years)
 
       }

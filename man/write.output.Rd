@@ -23,15 +23,16 @@ Generating final output graphs and files for the row and position detection. Inp
 Function that aids in graphing the output and writing output tables. The generated \code{\link{plot}} provides an overview of the detected cells, rows, and the position of the cells within each radial file. The output table provides the standard output table with three additional columns containing; the "ROW" number and "POSITION" within the row and the "MARKER" column (cf. \code{\link{pos.det}}. This output can provide crucial information that can be used with other packages to generate tracheidograms (cf. de la Cruz & DeSoto, 2015) and link the output to xylogenesis data (cf. Rathgeber et al., 2011).
 }
 \examples{
-\dontrun{
+
 #example to write output
 input<-is.raptor(example.data(species="SIB_LARIX"), str = FALSE)
 aligned<-align(input)
 first<-first.cell(aligned, frac.small = 0.5, yrs = FALSE, make.plot = FALSE)
 output<-pos.det(first, swe = 0.3, sle = 3, ec = 1.5, swl = 0.5, sll = 5, lc = 15,
-                prof.co =4, max.cells = 0.5, yrs = FALSE, aligning = FALSE, make.plot = FALSE)
+                prof.co = 4, max.cells = 0.5, yrs = FALSE, aligning = FALSE, make.plot = FALSE)
 sib_larix<-write.output(output)
 
+\dontrun{
 #removing rows which are unsuitable
 corrections<-data.frame(year=c(2010,2010,2010,2009,2009,2009,2009,2008,2008,
                         2008,2008,2008,2008,2007,2007,2007),
