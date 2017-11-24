@@ -12,7 +12,7 @@
 #' \cr
 #' Rathgeber, C.B.K., Longuetaud, F., Mothe, F., Cuny, H., & Le Moguedec, G. (2011) Phenology of wood formation: Data processing, analysis and visualisation using R (package CAVIAR). Dendrochronologia 29, 139-149.
 #' @examples
-#' \dontrun{
+#'
 #' #example to write output
 #' input<-is.raptor(example.data(species="SIB_LARIX"), str = FALSE)
 #' aligned<-align(input)
@@ -21,6 +21,7 @@
 #'                 prof.co =4, max.cells = 0.5, yrs = FALSE, aligning = FALSE, make.plot = FALSE)
 #' sib_larix<-write.output(output)
 #'
+#'\dontrun{
 #' #removing rows which are unsuitable
 #' corrections<-data.frame(year=c(2010,2010,2010,2009,2009,2009,2009,2008,2008,
 #'                         2008,2008,2008,2008,2007,2007,2007),
@@ -50,24 +51,24 @@ write.output<-function(input,location,flip=FALSE){
 
       outlist <- list()
 
-      if(missing(flip)){flip<-FALSE}
-      if(flip!=TRUE&flip!=FALSE)stop('flip need to be TRUE/FALSE')
+
+      if(!is.logical(flip))stop('flip needs to be TRUE/FALSE')
 
       if(missing(location)){location<- FALSE}
+
       sample<-unique(input[,"ID"])
 
-      if(missing(location) == FALSE && is.character(location)){
+      if(location != FALSE && is.character(location)){
             pdf(file=paste(location,"/",sample,".pdf",sep=""),height=210/25.4,width=297/25.4,paper="A4r")
       } else if((location != FALSE && !is.character(location)) ){
             stop("Please provide a character string containing a path to an output folder.")
-      } else if(location == FALSE){
-
       }
+
 
       years<-unique(input[,"YEAR"])
       for(u in c(1:length(years)) ){
 
-                        data_year<-input[which(input[,"YEAR"]==years[u]),]
+            data_year<-input[which(input[,"YEAR"]==years[u]),]
             year<-years[u]
 
             if(flip==FALSE){
@@ -134,8 +135,8 @@ write.output<-function(input,location,flip=FALSE){
 
       } else {
 
-            return(output_all_years)
             invisible(dev.off())
+            return(output_all_years)
 
       }
 
