@@ -135,7 +135,6 @@ write.output<-function(input,location,flip=FALSE){
 
       } else {
 
-            # invisible(dev.off())
             return(output_all_years)
 
       }
