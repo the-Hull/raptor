@@ -12,7 +12,7 @@
 #' \cr
 #' Rathgeber, C.B.K., Longuetaud, F., Mothe, F., Cuny, H., & Le Moguedec, G. (2011) Phenology of wood formation: Data processing, analysis and visualisation using R (package CAVIAR). Dendrochronologia 29, 139-149.
 #' @examples
-#'
+#'\dontrun{
 #' #example to write output
 #' input<-is.raptor(example.data(species="SIB_LARIX"), str = FALSE)
 #' aligned<-align(input)
@@ -21,7 +21,6 @@
 #'                 prof.co = 4, max.cells = 0.5, yrs = FALSE, aligning = FALSE, make.plot = FALSE)
 #' sib_larix<-write.output(output)
 #'
-#'\dontrun{
 #' #removing rows which are unsuitable
 #' corrections<-data.frame(year=c(2010,2010,2010,2009,2009,2009,2009,2008,2008,
 #'                         2008,2008,2008,2008,2007,2007,2007),
