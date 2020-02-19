@@ -1,7 +1,7 @@
 # RAPTOR v1.0.0
 
-Updated minor issues introduced through new `R` versions, and fixed issues in the package description and function
-documentation of `batch.mode.R`.
+Updated minor issues introduced through new `R` versions,  fixed issues in the package description and function
+documentation of `batch.mode.R`, and set-up pkgdown website. 
 
 
 # RAPTOR v1.0.0
