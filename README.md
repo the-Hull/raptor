@@ -19,7 +19,7 @@ Performs wood cell anatomical data analyses on spatially explicit xylem (trachei
 ### Important Notes:
 
 This repository contains the release version of RAPTOR for submission to the
-*Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript [Peters et al. (2017)](https://authors.elsevier.com/c/1W5pl3-~MPTEVq). 
+*Comprehensive R Archive and Network* (CRAN) and accompanies the manuscript [Peters et al. (2018)](https://doi.org/10.1016/j.dendro.2017.10.003). 
 This document outlines the package installation process and provides initial 
 steps for using the package's functions via examples provided in the package documentation.
 
@@ -101,4 +101,12 @@ input
 Please note that the 'RAPTOR' project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
+
+
+### Citation
+
+Please cite this work as:
+
+
+> Peters, R.L., Balanzategui, D., Hurley, A.G., von Arx, G., Prendin, A.L., Cuny, H.E., Björklund, J., Frank, D.C. and Fonti, P., 2018. RAPTOR: Row and position tracheid organizer in R. Dendrochronologia, 47, pp.10-16.
 
