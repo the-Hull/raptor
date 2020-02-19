@@ -1,7 +1,6 @@
 # RAPTOR <img src="man/figures/raptor_logo.png" align="right" width = "150"/>
 
 <!-- badges: start -->
-[![Lifecycle: mature](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build status](https://travis-ci.org/the-Hull/RAPTOR.svg?branch=master)](https://travis-ci.org/the-Hull/RAPTOR)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![CRAN status](https://www.r-pkg.org/badges/version/RAPTOR)](https://CRAN.R-project.org/package=RAPTOR)
