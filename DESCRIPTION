@@ -29,3 +29,4 @@ Imports: mgcv, stats, utils, graphics, grDevices
 Repository: CRAN
 RoxygenNote: 6.1.1
 Suggests: testthat
+URL: https://the-hull.github.io/RAPTOR, https://github.com/the-hull/RAPTOR
