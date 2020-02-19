@@ -27,6 +27,6 @@ Encoding: UTF-8
 LazyData: true
 Imports: mgcv, stats, utils, graphics, grDevices
 Repository: CRAN
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests: testthat
 URL: https://the-hull.github.io/raptor/, https://github.com/the-hull/RAPTOR

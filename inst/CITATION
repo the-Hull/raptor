@@ -1,16 +1,23 @@
 citHeader("To cite RAPTOR in publications use:")
 
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype = "article",
   title    = "RAPTOR: Row and position tracheid organizer in R",
-  author   = "Peters, Richard L and Balanzategui, Daniel and Hurley, Alexander G and von Arx, Georg and Prendin, Angela Luisa and Cuny, Henri E and Bj{\"o}rklund, Jesper and Frank, David C and Fonti, Patrick",
+  author   = c(          person("Richard", "Peters"),
+		                 person("Daniel", "Balanzategui"),
+					           person("Alexander Gideon", "Hurley"),
+					           person("Georg", "von Arx"),
+					           person("Angela Luisa", "Prendin"),
+					           person("Henri", "Cuny"),
+					           person("Jesper", 'Bj{\\"o}rklund'),
+					           person("David", "Frank"),
+					           person("Patrick", "Fonti")),
   journal  = "Dendrochronologia",
   year     = "2018",
   volume   = "47",
   pages    = "10-16",
   doi = "10.1016/j.dendro.2017.10.003",
   url      = "https://doi.org/10.1016/j.dendro.2017.10.003",
-  textVersion = paste(
-
-  )
+  textVersion = "Peters, R.L., Balanzategui, D., Hurley, A.G., von Arx, G., Prendin, A.L., Cuny, H.E., Björklund, J., Frank, D.C. and Fonti, P., 2018. RAPTOR: Row and position tracheid organizer in R. Dendrochronologia, 47, pp.10-16."
 )
+

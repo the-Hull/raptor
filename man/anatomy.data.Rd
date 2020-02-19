@@ -15,6 +15,8 @@
 [ ,7] \strong{CWTALL} = Mean thickness of all cell walls (micron) \emph{<numeric>}}
 \usage{
 anatomy.data
+
+anatomy.data
 }
 \description{
 This example dataset includes ROXAS output files (cf. von Arx & Carrer, 2014) with lumen area and cell wall thickness measurements from;
