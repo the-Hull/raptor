@@ -25,7 +25,7 @@ iv) Scots pine (\emph{Pinus sylvestris}) from the eastern lowlands, Germany (200
 }
 \examples{
 #viewing anatomy data
-anatomy.data
+head(anatomy.data)
 }
 \references{
 von Arx, G., & Carrer, M. (2014) ROXAS - A new tool to build centuries-long tracheid-lumen chronologies in conifers. Dendrochronologia 32, 290-293.

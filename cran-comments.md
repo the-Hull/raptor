@@ -3,7 +3,7 @@ This is a package update in response to a kind reminder of CRAN volunteers to fi
 
 ## Resubmission
 * updated package documentation to fix warnings
-*
+
 
 
 ## Test environments
