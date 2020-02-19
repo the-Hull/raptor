@@ -1,6 +1,15 @@
 #' @title Automatic rows and position detection
 #'
-#' @description Batch.mode applies all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used within this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably adjusted with \code{\link{align}}.
+#' @description Batch.mode applies all functionalities described in \code{\link{is.raptor}},
+#'  \code{\link{align}},
+#'   \code{\link{first.cell}},
+#'    \code{\link{pos.det}} and
+#'    \code{\link{write.output}}.
+#'   Multiple input datasets (sample specific) can be provided in a folder and automatically
+#'   used within this function. Input data should be checked for all requirements described
+#'   in \code{\link{is.raptor}} and preferably adjusted with \code{\link{align}}.
+#'   See \code{\link{pos.det}} for a detailed description of arguments.
+#'
 #' @param location a character string containing the location of input files and where the outputs (.pdf and .txt files) should be stored.
 #' @param files a vector of files for the analyses (defaults to all files present in the folder). Text files should agree with all criteria presented in \code{\link{is.raptor}}.
 #' @param interact a logical flag. If \code{\link{TRUE}}, the user will have the options to manually assign the degree of rotation for each annual ring. See \code{\link{align}} for rotation options. If \code{\link{FALSE}}, the rotation is optimized automatically using a simple linear regression through all points along the horizontal axis (default = \code{\link{FALSE}}).
@@ -17,7 +26,6 @@
 #' @param prof.co threshold ratio between the distance to the previous and consecutive cell to determine if the row (or radial file) should be excluded (default = 6).
 #' @param max.cells threshold proportion of the maximum number of cells to determine if the radial file has to be excluded (default = 0.6).
 #' @param flip logical flag indicating whether to plot the data with earlywood downwards (default; flip = \code{\link{FALSE}}) or upwards (flip = \code{\link{TRUE}}).
-#' @param ... see \code{\link{pos.det}} for arguments.
 #' @details This function aids in applying all described functions on a large dataset composed of multiple files, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a .pdf file. Additionally, output text files are written. All output files are exported into the directory specified in the location argument.
 #' @import graphics
 #' @export

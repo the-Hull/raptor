@@ -1,8 +1,8 @@
 Package: RAPTOR
 Type: Package
 Title: Row and Position Tracheid Organizer
-Version: 1.0.0
-Date: 2017-11-23 
+Version: 1.0.1
+Date: 2020-02-19 
 Authors@R: c(
       person('Richard L. Peters', role =  c('aut', 'cre', 'cph'), email = 'richardlouispeters3@hotmail.com'),
       person('Daniel Balanzategui', role =  c('ctr')),
@@ -14,8 +14,8 @@ Authors@R: c(
       person('David C. Frank', role = 'ctr'),
       person('Patrick Fonti', role = c('ths','ctr','fnd')))
 Maintainer: Richard L. Peters <richardlouispeters3@hotmail.com>
-Depends: R (>= 3.4.2)
-Description:      Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) datasets 
+Depends: R (>= 3.4.0)
+Description: Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) datasets 
                   derived from thin sections of woody tissue. The package includes functions for visualisation, 
                   detection and alignment of continuous tracheid radial file (defined as rows) and individual tracheid position 
                   within an annual ring of coniferous species. This package is designed to be used with elaborate cell output, 
@@ -27,5 +27,5 @@ Encoding: UTF-8
 LazyData: true
 Imports: mgcv, stats, utils, graphics, grDevices
 Repository: CRAN
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests: testthat

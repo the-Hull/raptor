@@ -10,9 +10,8 @@ Rhistory$
 *.Rprofile
 *.travis.yml
 .Rhistory
-.Rbuildignore
+
 .Rprofile
-.travis.yml
 checklog.txt
 
 *.docx
