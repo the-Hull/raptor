@@ -42,15 +42,21 @@ batch.mode(location, files = FALSE,
 \item{list}{a \code{\link{data.frame}} with the individual "ID" and in sequence the slopes as described in \code{\link{pos.det}}. Cannot be activated when interact = \code{\link{TRUE}}.}
 
 \item{flip}{logical flag indicating whether to plot the data with earlywood downwards (default; flip = \code{\link{FALSE}}) or upwards (flip = \code{\link{TRUE}}).}
-
-\item{...}{see \code{\link{pos.det}} for arguments.}
 }
 \value{
 Plots the detected radial files and writes output according the the
 \code{\link{write.output}} format.
 }
 \description{
-Batch.mode applies all functionalities described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}}. Multiple input datasets (sample specific) can be provided in a folder and automatically used within this function. Input data should be checked for all requirements described in \code{\link{is.raptor}} and preferably adjusted with \code{\link{align}}.
+Batch.mode applies all functionalities described in \code{\link{is.raptor}},
+ \code{\link{align}},
+  \code{\link{first.cell}},
+   \code{\link{pos.det}} and
+   \code{\link{write.output}}.
+  Multiple input datasets (sample specific) can be provided in a folder and automatically
+  used within this function. Input data should be checked for all requirements described
+  in \code{\link{is.raptor}} and preferably adjusted with \code{\link{align}}.
+  See \code{\link{pos.det}} for a detailed description of arguments.
 }
 \details{
 This function aids in applying all described functions on a large dataset composed of multiple files, including multiple individuals and years. It will generate output graphs as described in \code{\link{is.raptor}}, \code{\link{align}}, \code{\link{first.cell}}, \code{\link{pos.det}} and \code{\link{write.output}} in a .pdf file. Additionally, output text files are written. All output files are exported into the directory specified in the location argument.
