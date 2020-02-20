@@ -37,7 +37,7 @@ The stable CRAN veresion can be installed using
 
 ```r
 
-install.packages("the-Hull/RAPTOR")
+install.packages("RAPTOR")
 
 library(RAPTOR)
 
