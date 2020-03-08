@@ -13,7 +13,7 @@ Authors@R: c(
       person('Jesper Bjoerklund', role = 'ctr'),
       person('David C. Frank', role = 'ctr'),
       person('Patrick Fonti', role = c('ths','ctr','fnd')))
-Maintainer: Richard L. Peters <richardlouispeters3@hotmail.com>
+Maintainer: Richard L. Peters <agl.hurley@gmail.com>
 Depends: R (>= 3.4.0)
 Description: Performs wood cell anatomical data analyses on spatially explicit xylem (tracheids) datasets 
                   derived from thin sections of woody tissue. The package includes functions for visualisation, 

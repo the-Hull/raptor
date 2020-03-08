@@ -32,11 +32,3 @@ head(anatomy.data)
 \references{
 von Arx, G., & Carrer, M. (2014) ROXAS - A new tool to build centuries-long tracheid-lumen chronologies in conifers. Dendrochronologia 32, 290-293.
 }
-\keyword{anatomy,}
-\keyword{area,}
-\keyword{cell}
-\keyword{dataset,}
-\keyword{lumean}
-\keyword{thickness}
-\keyword{wall}
-\keyword{wood}

@@ -22,5 +22,5 @@
 #' @examples
 #' #viewing anatomy data
 #' head(anatomy.data)
-#' @keywords dataset, wood anatomy, lumean area, cell wall thickness
+
 NULL
