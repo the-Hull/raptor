@@ -34,7 +34,7 @@ library(RAPTOR)
 
 ```
 
-The stable CRAN veresion can be installed using
+The stable CRAN version can be installed using
 
 ```r
 
@@ -46,7 +46,7 @@ library(RAPTOR)
             
 ### Usage:
 
-The package's functions are to be executed sequentially (cf. [manuscript](https://authors.elsevier.com/c/1W5pl3-~MPTEVq)):
+The package's functions are to be executed sequentially (cf. [manuscript](https://www.sciencedirect.com/science/article/pii/S1125786517301236)):
 
 1. **is.raptor()**
 2. **graph.cells()**
