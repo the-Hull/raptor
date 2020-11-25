@@ -120,7 +120,7 @@
     <p>Provides a re-aligned <code><a href='is.raptor.html'>is.raptor</a></code> file, where new x- and y-coordinates (XCAL and YCAL values, respectively) are calculated according to a specified rotation. Appropriate alignment is achieved when the first row of earlywood cells are positioned along an approximately horizontal axis and the radial files of tracheids are positioned along a vertical axis.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>align</span>(<span class='no'>input</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>list</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>interact</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>make.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>align</span><span class='op'>(</span><span class='va'>input</span>, year <span class='op'>=</span> <span class='cn'>FALSE</span>, list <span class='op'>=</span> <span class='cn'>FALSE</span>, interact <span class='op'>=</span> <span class='cn'>TRUE</span>, make.plot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,8 +156,9 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#rotating example data</span>
-<span class='no'>input</span><span class='kw'>&lt;-</span><span class='fu'><a href='is.raptor.html'>is.raptor</a></span>(<span class='fu'><a href='example.data.html'>example.data</a></span>(<span class='kw'>species</span><span class='kw'>=</span><span class='st'>"LOT_PICEA"</span>), <span class='kw'>str</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>input</span><span class='kw'>&lt;-</span><span class='fu'>align</span>(<span class='no'>input</span>, <span class='kw'>year</span><span class='kw'>=</span><span class='fl'>2007</span>, <span class='kw'>list</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>interact</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>make.plot</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='img'><img src='align-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='va'>input</span><span class='op'>&lt;-</span><span class='fu'><a href='is.raptor.html'>is.raptor</a></span><span class='op'>(</span><span class='fu'><a href='example.data.html'>example.data</a></span><span class='op'>(</span>species<span class='op'>=</span><span class='st'>"LOT_PICEA"</span><span class='op'>)</span>, str<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>input</span><span class='op'>&lt;-</span><span class='fu'>align</span><span class='op'>(</span><span class='va'>input</span>, year<span class='op'>=</span><span class='fl'>2007</span>, list<span class='op'>=</span><span class='cn'>FALSE</span>,interact<span class='op'>=</span><span class='cn'>FALSE</span>, make.plot<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='img'><img src='align-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -173,7 +174,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
